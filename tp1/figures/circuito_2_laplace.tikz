@@ -1,0 +1,13 @@
+\begin{tikzpicture}[transform shape]
+	% Paths, nodes and wires:
+	\draw (-2, 1) to[sinusoidal voltage source, l={$V_{in}$}] (-2, -1);
+	\draw (2, 2) -- (1, 2);
+	\draw (-0.75, 2) -| (-2, 1);
+	\draw (-2, -1) -| (-2, -2) -- (2, -2);
+	\node[ground] at (0, -2){};
+	\draw (-0.75, 2) to[generic, l={$\small 100\ k$}] (1, 2);
+	\draw (2, 2) to[generic, l={$\frac{1}{3.18\ \mu\ *\ s}$}] (2, -0);
+	\draw (2, -0) to[generic, l={$\small 31.83\ m\ *\ s$}] (2, -2);
+	\node[circ, xscale=0.1, yscale=0.1](N1) at (2, 2){} node[anchor=south] at (N1.text){$V_{out}$};
+	\node[circ, xscale=0.1, yscale=0.1](N2) at (2, -0){} node[anchor=west] at (N2.text){$V_1$};
+\end{tikzpicture}

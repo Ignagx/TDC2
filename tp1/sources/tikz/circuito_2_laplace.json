@@ -1,0 +1,178 @@
+{
+    "version": "0.1",
+    "tikzSettings": {},
+    "components": [
+        {
+            "type": "path",
+            "points": [
+                {
+                    "x": -75.591,
+                    "y": -37.795
+                },
+                {
+                    "x": -75.591,
+                    "y": 37.795
+                }
+            ],
+            "label": {
+                "value": "V_{in}"
+            },
+            "id": "sinusoidal voltage source"
+        },
+        {
+            "type": "wire",
+            "points": [
+                {
+                    "x": 75.591,
+                    "y": -75.591
+                },
+                {
+                    "x": 37.795,
+                    "y": -75.591
+                }
+            ],
+            "stroke": {
+                "width": "0.4pt"
+            },
+            "directions": [
+                "-|"
+            ]
+        },
+        {
+            "type": "wire",
+            "points": [
+                {
+                    "x": -28.346,
+                    "y": -75.591
+                },
+                {
+                    "x": -75.591,
+                    "y": -37.795
+                }
+            ],
+            "stroke": {
+                "width": "0.4pt"
+            },
+            "directions": [
+                "-|"
+            ]
+        },
+        {
+            "type": "wire",
+            "points": [
+                {
+                    "x": -75.591,
+                    "y": 37.795
+                },
+                {
+                    "x": -75.591,
+                    "y": 75.591
+                },
+                {
+                    "x": 75.591,
+                    "y": 75.591
+                }
+            ],
+            "stroke": {
+                "width": "0.4pt"
+            },
+            "directions": [
+                "-|",
+                "-|"
+            ]
+        },
+        {
+            "type": "node",
+            "position": {
+                "x": 0,
+                "y": 75.591
+            },
+            "id": "ground"
+        },
+        {
+            "type": "path",
+            "points": [
+                {
+                    "x": -28.346,
+                    "y": -75.591
+                },
+                {
+                    "x": 37.795,
+                    "y": -75.591
+                }
+            ],
+            "label": {
+                "value": "\\small 100\\ k"
+            },
+            "id": "generic"
+        },
+        {
+            "type": "path",
+            "points": [
+                {
+                    "x": 75.591,
+                    "y": -75.591
+                },
+                {
+                    "x": 75.591,
+                    "y": 0
+                }
+            ],
+            "label": {
+                "value": "\\frac{1}{3.18\\ \\mu\\ *\\ s}"
+            },
+            "id": "generic"
+        },
+        {
+            "type": "path",
+            "points": [
+                {
+                    "x": 75.591,
+                    "y": 0
+                },
+                {
+                    "x": 75.591,
+                    "y": 75.591
+                }
+            ],
+            "label": {
+                "value": "\\small 31.83\\ m\\ *\\ s"
+            },
+            "id": "generic"
+        },
+        {
+            "type": "node",
+            "label": {
+                "value": "V_{out}",
+                "anchor": "south",
+                "position": "default"
+            },
+            "position": {
+                "x": 75.591,
+                "y": -75.591
+            },
+            "scale": {
+                "x": 0.1,
+                "y": 0.1
+            },
+            "id": "circ"
+        },
+        {
+            "type": "node",
+            "label": {
+                "value": "V_1",
+                "anchor": "west",
+                "position": "default"
+            },
+            "position": {
+                "x": 75.591,
+                "y": 0
+            },
+            "scale": {
+                "x": 0.1,
+                "y": 0.1
+            },
+            "id": "circ"
+        }
+    ]
+}
