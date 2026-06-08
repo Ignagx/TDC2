@@ -9,10 +9,10 @@
 	\draw (0, 1.75) -| (0, 1);
 	\node[circ](N1) at (0, 1.75){} node[anchor=south] at (N1.text){$V_1$};
 	\node[circ] at (0, -1.75){};
-	\draw (-2.5, 1.75) to[generic, l={$\small 100\ k$}] (-0.5, 1.75);
-	\draw (0.5, 1.75) to[generic, l={$\small 182\ k$}] (2.5, 1.75);
-	\draw (3, 1) to[generic, l={$\frac{1}{33p\ *\ s}$}] (3, -1);
-	\draw (0, 1) to[generic, l={$\frac{1}{91p\ *\ s}$}] (0, -1);
+	\draw (-2.5, 1.75) to[generic, l={$\small \num{100d3}$}] (-0.5, 1.75);
+	\draw (0.5, 1.75) to[generic, l={$\small \num{182d3}$}] (2.5, 1.75);
+	\draw (3, 1) to[generic, l={$\frac{1}{\num{33d-12} \cdot s}$}] (3, -1);
+	\draw (0, 1) to[generic, l={$\frac{1}{\num{91d-12} \cdot s}$}] (0, -1);
 	\node[circ, xscale=0.1, yscale=0.1](N2) at (3, 1.75){} node[anchor=south] at (N2.text){$V_{out}$};
 	\node[ground] at (0, -1.75){};
 \end{tikzpicture}

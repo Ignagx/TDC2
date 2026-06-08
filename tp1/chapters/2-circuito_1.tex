@@ -1,9 +1,80 @@
 \chapter{Circuito 1}
 \label{chap:circuito_1}
 
-\begin{figure}[!ht]                                                                                                                                                                       
-  \centering                                                                                                            
-  \input{figures/circuito_1.tikz}                                                                                       
-  \caption{Esquematico del circuito 1.}                                                                                
-  \label{plot:circuito_1}                                                                                                   
+Se muestra en la Figura \ref{plot:circuito_1} el circuito sobre el que se trabajará, que constituye un filtro pasa bajo
+de segundo orden. Los valores de los componentes son:
+
+\begin{itemize}
+  \item $R_1: \SI{100}{\kilo\ohm}$
+  \item $R_2: \SI{182}{\kilo\ohm}$
+  \item $C_1: \SI{91}{\pico\farad}$
+  \item $C_2: \SI{33}{\pico\farad}$
+\end{itemize}
+
+\begin{figure}[!ht]
+  \centering
+  \input{figures/circuito_1.tikz}
+  \caption{Esquematico del circuito 1.}
+  \label{plot:circuito_1}
 \end{figure}
+
+\section{Analisis}
+\label{sec:analisis_circ_1}
+
+Para el analisis se transforma el circuito a su equivalente en laplace como se ve en la Figura
+\ref{plot:circuito_1_laplace} y se aplica el metodo sistematico nodal, el cual nos da las matrices de la ecuacion
+\ref{eq:circuito_1_matrices}.
+
+
+\begin{figure}[!ht]
+  \centering
+  \input{figures/circuito_1_laplace.tikz}
+  \caption{Equivalente en laplace del circuito 1.}
+  \label{plot:circuito_1_laplace}
+\end{figure}
+
+
+\begin{equation}
+  Y =
+\begin{bmatrix}
+  Y_{R_1} + Y_{R_2} + Y_{C_1} & -Y_{R_2} \\
+  -Y_{R_2} & Y_{R_2} + Y_{C_2}
+\end{bmatrix}
+\qquad
+I =
+\begin{bmatrix}
+  \frac{V_{in}(s)}{R_1} \\
+0
+\end{bmatrix}
+  \label{eq:circuito_1_matrices}
+\end{equation}
+
+Donde:
+\begin{itemize}
+  \item $Y_{R_1} = \num{10d-6}$
+  \item $Y_{R_2} = \num{5.49d-6}$
+  \item $Y_{C_1} = \num{91d-12} \cdot s$
+  \item $Y_{C_2} = \num{33d-12} \cdot s$
+\end{itemize}
+
+Al resolver la ecuación para obtener las tensiones nodales, se tiene que
+
+\begin{equation}
+V = Y^{-1} \cdot I
+\end{equation}
+
+En particular, la tensión en el nodo de salida \(V_{out}\) corresponde a la primera fila del vector \(V\), resultando:
+
+$$
+  V_{out}(s) = \frac{V_{in}(s) \cdot Y_{R_1} \cdot Y_{R_2}}{Y_{C_1} \cdot Y_{C_2} + Y_{C_1} \cdot Y_{R_1} + Y_{C_1} \cdot Y_{R_2} + Y_{R_1} \cdot Y_{R_2}}
+$$
+
+Dividiendo por $V_{in}(s)$, reemplazando los valores de las admitancias por los especificados anteriormente y
+resolviendo algebraicamente, se llega finalmente la funcion de transferencia vista en la ecuacion \ref{eq:fdt-circuito-1}
+
+\begin{align}
+  H(s) &= \frac{\num{1.83d10}}{s^2 + 533134 \cdot s + \num{1.83d10}}\\
+  H(s) &= \frac{\num{1.83d10}}{(s + 496214.48)\cdot(s + 36919.52)}
+  \label{eq:fdt-circuito-1}
+\end{align}
+
