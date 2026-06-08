@@ -1,0 +1,12 @@
+\begin{tikzpicture}[transform shape]
+	% Paths, nodes and wires:
+	\draw (-2, 1) to[sinusoidal voltage source, l={$V_{in}$}] (-2, -1);
+	\draw (-0.75, 2) to[american resistor, l={$R_1$}] (1, 2);
+	\draw (2, -0) to[american inductor, l={$L_1$}] (2, -2);
+	\draw (2, 2) to[capacitor, l={$C_1$}] (2, -0);
+	\draw (2, 2) -- (1, 2);
+	\draw (-0.75, 2) -| (-2, 1);
+	\draw (-2, -1) -| (-2, -2) -- (2, -2);
+	\node[ground] at (0, -2){};
+	\node[circ, xscale=0.1, yscale=0.1](N1) at (2, 2){} node[anchor=west] at (N1.text){$+  \ \ V_{out}$};
+\end{tikzpicture}

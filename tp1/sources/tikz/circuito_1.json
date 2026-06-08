@@ -1,0 +1,240 @@
+{
+    "version": "0.1",
+    "tikzSettings": {},
+    "components": [
+        {
+            "type": "path",
+            "points": [
+                {
+                    "x": -113.386,
+                    "y": 37.795
+                },
+                {
+                    "x": -113.386,
+                    "y": -37.795
+                }
+            ],
+            "label": {
+                "value": "V_{in}"
+            },
+            "id": "sinusoidal voltage source"
+        },
+        {
+            "type": "path",
+            "points": [
+                {
+                    "x": -94.488,
+                    "y": -66.142
+                },
+                {
+                    "x": -18.898,
+                    "y": -66.142
+                }
+            ],
+            "label": {
+                "value": "R_1"
+            },
+            "id": "american resistor"
+        },
+        {
+            "type": "path",
+            "points": [
+                {
+                    "x": 0,
+                    "y": -37.795
+                },
+                {
+                    "x": 0,
+                    "y": 37.795
+                }
+            ],
+            "label": {
+                "value": "C_1",
+                "otherSide": true
+            },
+            "id": "capacitor"
+        },
+        {
+            "type": "path",
+            "points": [
+                {
+                    "x": 18.898,
+                    "y": -66.142
+                },
+                {
+                    "x": 94.489,
+                    "y": -66.142
+                }
+            ],
+            "label": {
+                "value": "R_2"
+            },
+            "id": "american resistor"
+        },
+        {
+            "type": "path",
+            "points": [
+                {
+                    "x": 113.386,
+                    "y": -37.795
+                },
+                {
+                    "x": 113.386,
+                    "y": 37.795
+                }
+            ],
+            "label": {
+                "value": "C_2",
+                "otherSide": true
+            },
+            "voltage": {
+                "label": "V_{out}",
+                "dist": 0,
+                "shift": 1.1,
+                "pos": "^",
+                "style": "american"
+            },
+            "id": "capacitor"
+        },
+        {
+            "type": "wire",
+            "points": [
+                {
+                    "x": -113.386,
+                    "y": -37.795
+                },
+                {
+                    "x": -113.386,
+                    "y": -66.142
+                },
+                {
+                    "x": -94.488,
+                    "y": -66.142
+                }
+            ],
+            "stroke": {
+                "width": "0.4pt"
+            },
+            "directions": [
+                "-|",
+                "-|"
+            ]
+        },
+        {
+            "type": "wire",
+            "points": [
+                {
+                    "x": -18.898,
+                    "y": -66.142
+                },
+                {
+                    "x": 18.898,
+                    "y": -66.142
+                }
+            ],
+            "stroke": {
+                "width": "0.4pt"
+            },
+            "directions": [
+                "-|"
+            ]
+        },
+        {
+            "type": "wire",
+            "points": [
+                {
+                    "x": 94.488,
+                    "y": -66.142
+                },
+                {
+                    "x": 113.386,
+                    "y": -37.795
+                }
+            ],
+            "stroke": {
+                "width": "0.4pt"
+            },
+            "directions": [
+                "-|"
+            ]
+        },
+        {
+            "type": "wire",
+            "points": [
+                {
+                    "x": 113.386,
+                    "y": 37.795
+                },
+                {
+                    "x": -113.386,
+                    "y": 66.142
+                },
+                {
+                    "x": -113.386,
+                    "y": 37.795
+                }
+            ],
+            "stroke": {
+                "width": "0.4pt"
+            },
+            "directions": [
+                "|-",
+                "-|"
+            ]
+        },
+        {
+            "type": "wire",
+            "points": [
+                {
+                    "x": 0,
+                    "y": 37.795
+                },
+                {
+                    "x": 0,
+                    "y": 66.142
+                }
+            ],
+            "stroke": {
+                "width": "0.4pt"
+            },
+            "directions": [
+                "-|"
+            ]
+        },
+        {
+            "type": "wire",
+            "points": [
+                {
+                    "x": 0,
+                    "y": -66.142
+                },
+                {
+                    "x": 0,
+                    "y": -37.795
+                }
+            ],
+            "stroke": {
+                "width": "0.4pt"
+            },
+            "directions": [
+                "-|"
+            ]
+        },
+        {
+            "type": "node",
+            "position": {
+                "x": 0,
+                "y": -66.142
+            },
+            "id": "circ"
+        },
+        {
+            "type": "node",
+            "position": {
+                "x": 0,
+                "y": 66.142
+            },
+            "id": "circ"
+        }
+    ]
+}
