@@ -18,7 +18,7 @@ de segundo orden. Los valores de los componentes son:
   \label{plot:circuito_1}
 \end{figure}
 
-\section{Analisis}
+\section{Analisis y Simulacion}
 \label{sec:analisis_circ_1}
 
 Para el analisis se transforma el circuito a su equivalente en laplace como se ve en la Figura
@@ -70,11 +70,110 @@ $$
 $$
 
 Dividiendo por $V_{in}(s)$, reemplazando los valores de las admitancias por los especificados anteriormente y
-resolviendo algebraicamente, se llega finalmente la funcion de transferencia vista en la ecuacion \ref{eq:fdt-circuito-1}
+resolviendo algebraicamente, se llega finalmente la Funcion de Transferencia (FDT) vista en la ecuacion \ref{eq:fdt-circuito-1}.
+Se pueden ver sus polos en el plano complejo en la Figura \ref{img:polos-plano-circuito-1}, donde se compara los polos
+obtenidos operando algebraicamente y los obtenidos usando una herramienta de calculo. Estos polos nos indican que el
+sistema es estable y no posee propiedades oscilatorias, ya que se encuentran del lado izquierdo del plano sobre el eje
+real.
 
 \begin{align}
+  \label{eq:fdt-circuito-1}
   H(s) &= \frac{\num{1.83d10}}{s^2 + 533134 \cdot s + \num{1.83d10}}\\
   H(s) &= \frac{\num{1.83d10}}{(s + 496214.48)\cdot(s + 36919.52)}
-  \label{eq:fdt-circuito-1}
+  \label{eq:fdt-circuito-1-simplify}
 \end{align}
 
+
+\begin{figure}[!ht]
+  \hspace*{-0.05\textwidth}
+  \begin{minipage}{0.45\textwidth}
+    \input{figures/plot_poles_circuito_1.tex}
+  \end{minipage}
+  \begin{minipage}{0.45\textwidth}
+    \centering
+    \includegraphics[width=1.5\textwidth]{images/polos_fdt_1.png}
+  \end{minipage}
+  \caption{Polos en el plano complejo de la FDT.}
+  \label{img:polos-plano-circuito-1}
+\end{figure}
+
+Se procede ahora a anlizar la FDT en el dominio de la frecuencia, por lo que descompondremos $s = \sigma + j\omega$ y
+solo analizaremos la funcion para $j\omega$, quedando
+
+\begin{align}
+  H(j\omega) &= \frac{\num{1.83d10}}{(j\omega)^2 + 533134 \cdot j\omega + \num{1.83d10}}\\
+  H(j\omega) &= \frac{\num{1.83d10}}{-\omega^2 + 533134 \cdot j\omega + \num{1.83d10}}
+  \label{eq:fdt-dominio-freq-circuito-1}
+\end{align}
+
+Si se analiza la ecuacion \ref{eq:fdt-dominio-freq-circuito-1}, podemos demostrar preliminarmente si se obtuvo correctamente
+la FDT o si hubo algun error de calculo, para lo cual analizaremos los limites donde $\omega$ tiende a cero y al infinito.
+
+\begin{equation}
+  \lim_{\omega \to 0}
+  \frac{\num{1.83d10}}
+  {-\omega^2 + 533134 \cdot j\omega + \num{1.83d10}}
+  \qquad
+  y
+  \qquad
+  \lim_{\omega \to \infty}
+  \frac{\num{1.83d10}}
+  {-\omega^2 + 533134 \cdot j\omega + \num{1.83d10}}
+\end{equation}
+
+Empleando técnicas basicas de limites, nos da que cuando $\omega \to 0 \Rightarrow H(j\omega) \to 1$ y $\omega \to \infty \Rightarrow H(j\omega) \to 0$,
+que cabe perfectamente dentro de lo esperado en un filtro pasa bajo. 
+
+Por otro lugar, se estudia tambien el diagrama polar, el cual se obtiene separando en parte real e imaginaria la $H(j\omega)$.
+Para esto se multiplica y divide por el conjugado del denominador, obteniendo:
+
+\begin{align}
+  Re &= \num{1.83d10} \cdot (\frac{-\omega^2 + \num{1.83d10}}{\omega^4 + \num{2.47d11} \cdot \omega^2 + \num{3.35d20}})\\
+  Img &= \num{1.83d10} \cdot (- \frac{533144 \cdot j\omega}{\omega^4 + \num{2.47d11} \cdot \omega^2 + \num{3.35d20}})
+\end{align}
+
+\begin{figure}[!ht]
+  \hspace*{-0.05\textwidth}
+  \begin{minipage}[t]{0.45\textwidth}
+    \input{figures/plot_polar_circuito_1.tex}
+  \end{minipage}
+  \hspace{0.05\textwidth}
+  \begin{minipage}[t]{0.45\textwidth}
+    \centering
+    \includegraphics[width=1.2\textwidth,height=7cm]{images/polar_1.png}
+  \end{minipage}
+  \caption{Diagrama polar de la FDT.}
+  \label{plot:polar_circuito_1}
+\end{figure}
+
+En la Figura \ref{plot:polar_circuito_1} se presentan dos diagramas polares correspondientes a la Función de
+Transferencia (FDT) del sistema, uno  operando algebraicamente y el otro obtenido utilizando una herramienta de
+calculo. Este gráfico representa la magnitud y la fase de la respuesta en frecuencia en el plano complejo, trazando la
+parte imaginaria en función de la parte real a medida que la frecuencia angular ($\omega$) varía desde cero hasta el
+infinito.
+
+Al analizar la trayectoria del trazado, se pueden destacar las siguientes características típicas de un filtro pasa
+bajo:
+
+\begin{itemize}
+    \item \textbf{Comportamiento a baja frecuencia ($\omega \to 0$):} La curva inicia su recorrido sobre el eje real positivo (en este caso, en las coordenadas aproximadas de $1 + j0$). Esto indica que, para frecuencias muy bajas o corriente continua (DC), el filtro presenta una ganancia unitaria (o máxima) y un desfase nulo, permitiendo el paso de la señal sin atenuación.
+
+    \item \textbf{Frecuencias intermedias (Banda de transición):} A medida que la frecuencia $\omega$ aumenta, la trayectoria se adentra en el cuarto cuadrante. Geométricamente, la distancia desde el origen a cualquier punto de la curva representa la magnitud de la ganancia, la cual disminuye progresivamente. Simultáneamente, el ángulo formado respecto al eje real positivo se vuelve cada vez más negativo, evidenciando el incremento del atraso de fase (fase de retardo) que introduce el sistema.
+
+    \item \textbf{Comportamiento a alta frecuencia ($\omega \to \infty$):} Para frecuencias muy elevadas, la curva converge asintóticamente hacia el origen de coordenadas ($0 + j0$). Esto demuestra la naturaleza integradora y atenuadora del filtro pasa bajo, el cual bloquea eficazmente las señales de alta frecuencia, reduciendo su ganancia a cero.
+\end{itemize}
+
+
+\begin{figure}[!ht]
+  \centering
+  \input{figures/plot_asymptotic_gain_circuito_1.tex}
+  \caption{Diagrama polar de la FDT.}
+  \label{plot:polar_circuito_1}
+\end{figure}
+
+\begin{figure}[!ht]
+  \centering
+  \input{figures/plot_asymptotic_phase_circuito_1.tex}
+  \caption{Diagrama polar de la FDT.}
+  \label{plot:polar_circuito_1}
+\end{figure}

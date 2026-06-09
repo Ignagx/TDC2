@@ -1,0 +1,25 @@
+\begin{tikzpicture}
+  \begin{axis}[
+    width=1\textwidth,
+    height=1\textwidth,
+    xlabel={Parte Real},
+    ylabel={Parte Img},
+    grid=both,
+    xmin=-0.1, xmax=1.1,
+    ymin=-0.6, ymax=0.05,
+    ytick distance = 0.1,
+    axis lines=box,
+  ]
+\addplot[
+    blue,
+    thick,
+    domain=0:1e7,
+    samples=1000,
+    smooth,
+]
+(
+    {1.83e10*((-x^2 + 1.83e10)/(x^4 + 2.47e11*x^2 + 3.35e20))},
+    {1.83e10*((-533144*x)/(x^4 + 2.47e11*x^2 + 3.35e20))}
+);
+  \end{axis}
+\end{tikzpicture}

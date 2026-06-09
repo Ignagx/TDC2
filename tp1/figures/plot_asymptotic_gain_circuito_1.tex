@@ -1,0 +1,51 @@
+\begin{tikzpicture}
+\begin{semilogxaxis}[
+    title={Diagrama de Bode de Magnitud (Asintótico)},
+    xlabel={Frecuencia $\omega$ (rad/s)},
+    ylabel={Magnitud (dB)},
+    grid=both,
+    grid style={line width=.1pt, draw=gray!30},
+    major grid style={line width=.2pt, draw=gray!60},
+    xmin=1e3, xmax=1e7, % Rango de frecuencias (10^3 a 10^7)
+    ymin=-80, ymax=20,  % Rango de magnitud en dB
+    width=12cm,
+    height=8cm,
+    legend style={
+    nodes={scale=0.7, transform shape} % Escala todo al 80%
+}
+]
+
+% Trazado asintótico exacto conectado por coordenadas
+% P1: Frecuencia inicial a 0 dB
+% P2: Frecuencia del primer polo (36919.52 rad/s) a 0 dB
+% P3: Frecuencia del segundo polo (496214.48 rad/s). 
+%     Calculado: -20 * log10(496214.48 / 36919.52) = -22.57 dB
+% P4: Frecuencia final (1e7). 
+%     Calculado: -22.57 - 40 * log10(1e7 / 496214.48) = -74.74 dB
+
+\addplot[thick, blue] coordinates {
+    (1e3, 0)
+    (36919.52, 0)
+    (496214.48, -22.57)
+    (1e7, -74.74)
+};
+\addlegendentry{Teórico (Asintótico)}
+
+% Marcadores y etiquetas para los polos (opcional, para mayor claridad)
+\addplot[mark=*, mark size=1.5pt, red, forget plot] coordinates {(36919.52, 0)};
+\node[anchor=south west, font=\small, text=black] at (axis cs:36919.52, 0) {$\omega_{p1} = 36.9$ k};
+
+\addplot[mark=*, mark size=1.5pt, red, forget plot] coordinates {(496214.48, -22.57)};
+\node[anchor=south west, font=\small, text=black] at (axis cs:496214.48, -22.57) {$\omega_{p2} = 496.2$ k};
+
+\addplot[thick, dashed, orange] table [
+    skip first n=1, % Para saltar la fila "Freq. V(vout)"
+    x expr=\thisrowno{0} * 2 * pi, % Convertimos Hz a rad/s
+    y index=1 % Tomamos los decibelios directamente
+] {sources/bode.txt};
+\addlegendentry{Simulación}
+
+%d
+\end{semilogxaxis}
+\end{tikzpicture}
+

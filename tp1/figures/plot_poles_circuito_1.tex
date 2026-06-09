@@ -1,0 +1,42 @@
+\begin{tikzpicture}
+  \begin{axis}[
+    width=1\textwidth,
+    height=0.8\textwidth,
+    xlabel={Eje Real},
+    ylabel={Eje Imaginario},
+    grid=both,
+    xmin=-550000, xmax=50000,
+    ymin=-0.04, ymax=0.04,
+  ]
+  % Thick x-axis (y=0)
+\addplot[
+    black,
+    line width=0.8pt,
+    forget plot
+] coordinates {
+    (-550000,0)
+    (50000,0)
+};
+
+% Thick y-axis (x=0)
+\addplot[
+    black,
+    line width=0.7pt,
+    forget plot
+] coordinates {
+    (0,-0.04)
+    (0,0.04)
+};
+
+    \addplot[
+      scatter,
+      only marks,
+      mark=x,
+      mark size=6pt,
+      line width=1pt,
+    ]coordinates{
+      (-496214.48,0)
+      (-36919.52,0)
+    };
+  \end{axis}
+\end{tikzpicture}

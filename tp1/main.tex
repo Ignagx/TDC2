@@ -1,4 +1,3 @@
-
 \documentclass[]{informeutn}
 \usepackage{siunitx}
 \usepgfplotslibrary{groupplots}
@@ -14,8 +13,9 @@
 
 % We will externalize the figures
 \usetikzlibrary{external, calc}
-\tikzexternalize
+%\tikzexternalize
 \tikzset{external/optimize command away=\includepdf}
+\pgfplotsset{compat=1.18}
 
 \lstdefinestyle{ltspice}{
   backgroundcolor=\color{gray!10},

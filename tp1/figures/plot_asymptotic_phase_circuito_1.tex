@@ -1,0 +1,51 @@
+\begin{tikzpicture}
+\begin{semilogxaxis}[
+    xlabel={Frecuencia $\omega$ (rad/s)},
+    ylabel={Fase (grados)},
+    grid=both,
+    grid style={line width=.1pt, draw=gray!30},
+    major grid style={line width=.2pt, draw=gray!60},
+    xmin=1e3, xmax=1e8, % Amplié un poco el rango para ver el final en -180°
+    ymin=-200, ymax=20,
+    ytick={0, -45, -90, -135, -180}, % Marcas típicas de fase
+    width=12cm,
+    height=8cm,
+    legend style={
+    nodes={scale=0.7, transform shape} % Escala todo al 80%
+}
+]
+
+% Trazado asintótico exacto de fase
+% (1e3, 0) -> Inicio plano
+% (3691.95, 0) -> 0.1*wp1: Empieza a caer el primer polo
+% (49621.45, -50.78) -> 0.1*wp2: Empieza a caer el segundo polo (se suma a la caída del primero)
+% (369195.2, -129.22) -> 10*wp1: El primer polo se clava en -90° (solo sigue cayendo el segundo)
+% (4962144.8, -180) -> 10*wp2: Ambos polos terminan de caer.
+% (1e8, -180) -> Final plano
+
+\addplot[thick, blue] coordinates {
+    (1e3, 0)
+    (3691.95, 0)
+    (49621.45, -50.78)
+    (369195.2, -129.22)
+    (4962144.8, -180)
+    (1e8, -180)
+};
+\addlegendentry{Teórico (Asintótico)}
+
+% Marcas para indicar dónde empieza el efecto de cada polo
+\addplot[mark=|, mark size=3pt, red, forget plot] coordinates {(3691.95, 0)};
+\node[anchor=south west, font=\small, text=black] at (axis cs:3691.95, 0) {$0.1\omega_{p1}$};
+
+\addplot[mark=|, mark size=3pt, red, forget plot] coordinates {(49621.45, -50.78)};
+\node[anchor=south west, font=\small, text=black] at (axis cs:49621.45, -50.78) {$0.1\omega_{p2}$};
+
+\addplot[thick, dashed, orange] table [
+    skip first n=1,
+    x expr=\thisrowno{0} * 2 * pi, % Convertimos Hz a rad/s
+    y index=2 % Tomamos los grados directamente
+] {sources/bode.txt};
+\addlegendentry{Simulación}
+
+\end{semilogxaxis}
+\end{tikzpicture}
