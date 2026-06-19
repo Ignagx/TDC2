@@ -64,11 +64,19 @@ Dividiendo numerador y denominador por el coeficiente principal del denominador 
 
 Los polos se ubican en $s = -40$ rad/s y $s = -160$ rad/s. Ambos polos son reales y negativos, indicando que el sistema es estable.
 
+\begin{figure}[H]
+  \centering
+  \input{figures/plot_poles_circuito_3.tex}
+  \caption{Polos en el plano complejo de la FDT.}
+  \label{plot:poles_circuito_3}
+\end{figure}
+
 Se procede ahora a analizar la FDT en el dominio de la frecuencia reemplazando $s = j\omega$:
-\begin{equation}
+\begin{align}
+  H(j\omega) &= -\frac{3200 \cdot j\omega}{(j\omega)^2 + 200 \cdot j\omega + 6400} \\
+             &= \frac{-3200 \cdot j\omega}{-\omega^2 + 200 \cdot j\omega + 6400}
   \label{eq:fdt-dominio-freq-circuito-3}
-  H(j\omega) = -\frac{3200 \cdot j\omega}{(j\omega)^2 + 200 \cdot j\omega + 6400} = \frac{-3200 \cdot j\omega}{-\omega^2 + 200 \cdot j\omega + 6400}
-\end{equation}
+\end{align}
 
 Para evaluar los límites de la función de transferencia:
 \begin{equation}
@@ -87,6 +95,7 @@ Para el diagrama polar, se separa $H(j\omega)$ en sus componentes real e imagina
 % TODO: El usuario insertará la imagen sacada de LTSpice para el diagrama polar. Se deja el espacio comentado.
 \begin{figure}[H]
   \centering
+  \input{figures/plot_polar_circuito_3.tex}
   % \includegraphics[width=0.9\columnwidth]{images/polar_3.png}
   \caption{Diagrama polar de la FDT (Ideal).}
   \label{plot:polar_circuito_3_ideal}
@@ -110,63 +119,63 @@ Para el diagrama polar, se separa $H(j\omega)$ en sus componentes real e imagina
 % ---------------------------------------------------------------------------------------------------------
 % SECCIÓN DE CIRCUITO REAL (COMENTADA COMO FUE SOLICITADO)
 % ---------------------------------------------------------------------------------------------------------
-\subsection{Análisis y Simulación (Real)}
-\label{sec:analisis_circ_3_real}
-
-Los valores reales utilizados para el circuito son:
-\begin{itemize}
-  \item $R_1: \SI{100}{\kilo\ohm}$
-  \item $R_2: \SI{390}{\kilo\ohm} + \SI{10}{\kilo\ohm} = \SI{400}{\kilo\ohm}$
-  \item $C_1: \SI{1.2}{\micro\farad}$
-  \item $C_2: \SI{15}{\nano\farad}$
-\end{itemize}
-
-Reemplazando estos valores en la expresión genérica de la ecuación \ref{eq:fdt-circuito-3-generica}, se obtiene:
-\begin{align}
-  H_{real}(s) &= -\frac{0.48 s}{(1 + 0.12 s)(1 + 0.006 s)}\\
-  H_{real}(s) &= -\frac{0.48 s}{\num{7.2d-4} s^2 + 0.126 s + 1}
-\end{align}
-
-Dividiendo numerador y denominador por $\num{7.2d-4}$:
-\begin{align}
-  H_{real}(s) &= -\frac{666.67 s}{s^2 + 175 s + 1388.89}\\
-  H_{real}(s) &= -\frac{666.67 s}{(s + 8.333)(s + 166.667)}
-\end{align}
-
-En este caso, los polos reales se ubican en $s = -8.333$ rad/s y $s = -166.667$ rad/s.
-Evaluando $H_{real}(s)$ en $s = j\omega$:
-\begin{equation}
-  H_{real}(j\omega) = \frac{-666.67 \cdot j\omega}{-\omega^2 + 175 \cdot j\omega + 1388.89}
-\end{equation}
-
-Separando la función de transferencia real en sus partes real e imaginaria para el diagrama polar:
-\begin{align}
-  Re_{real}(\omega) &= - \frac{116666.7 \cdot \omega^2}{\omega^4 + 27847.22 \cdot \omega^2 + 1929012.35}\\
-  Img_{real}(\omega) &= - \frac{666.67 \cdot \omega \cdot (1388.89 - \omega^2)}{\omega^4 + 27847.22 \cdot \omega^2 + 1929012.35}
-\end{align}
-
+% \subsection{Análisis y Simulación (Real)}
+% \label{sec:analisis_circ_3_real}
+% 
+% Los valores reales utilizados para el circuito son:
+% \begin{itemize}
+%   \item $R_1: \SI{100}{\kilo\ohm}$
+%   \item $R_2: \SI{390}{\kilo\ohm} + \SI{10}{\kilo\ohm} = \SI{400}{\kilo\ohm}$
+%   \item $C_1: \SI{1.2}{\micro\farad}$
+%   \item $C_2: \SI{15}{\nano\farad}$
+% \end{itemize}
+% 
+% Reemplazando estos valores en la expresión genérica de la ecuación \ref{eq:fdt-circuito-3-generica}, se obtiene:
+% \begin{align}
+%   H_{real}(s) &= -\frac{0.48 s}{(1 + 0.12 s)(1 + 0.006 s)}\\
+%   H_{real}(s) &= -\frac{0.48 s}{\num{7.2d-4} s^2 + 0.126 s + 1}
+% \end{align}
+% 
+% Dividiendo numerador y denominador por $\num{7.2d-4}$:
+% \begin{align}
+%   H_{real}(s) &= -\frac{666.67 s}{s^2 + 175 s + 1388.89}\\
+%   H_{real}(s) &= -\frac{666.67 s}{(s + 8.333)(s + 166.667)}
+% \end{align}
+% 
+% En este caso, los polos reales se ubican en $s = -8.333$ rad/s y $s = -166.667$ rad/s.
+% Evaluando $H_{real}(s)$ en $s = j\omega$:
+% \begin{equation}
+%   H_{real}(j\omega) = \frac{-666.67 \cdot j\omega}{-\omega^2 + 175 \cdot j\omega + 1388.89}
+% \end{equation}
+% 
+% Separando la función de transferencia real en sus partes real e imaginaria para el diagrama polar:
+% \begin{align}
+%   Re_{real}(\omega) &= - \frac{116666.7 \cdot \omega^2}{\omega^4 + 27847.22 \cdot \omega^2 + 1929012.35}\\
+%   Img_{real}(\omega) &= - \frac{666.67 \cdot \omega \cdot (1388.89 - \omega^2)}{\omega^4 + 27847.22 \cdot \omega^2 + 1929012.35}
+% \end{align}
+% 
 % TODO: Diagrama polar con valores reales sacado de LTSpice
-\begin{figure}[H]
-  \centering
-  % \includegraphics[width=0.9\columnwidth]{images/polar_3_real.png}
-  \caption{Diagrama polar de la FDT (Valores Reales).}
-  \label{plot:polar_circuito_3_real}
-\end{figure}
-
-\begin{figure}[H]
-  \centering
-  \input{figures/plot_asymptotic_gain_circuito_3_real.tex}
-  \caption{Diagrama de Bode de Magnitud (Valores Reales).}
-  \label{plot:bode_mag_circuito_3_real}
-\end{figure}
-
-\begin{figure}[H]
-  \centering
-  \input{figures/plot_asymptotic_phase_circuito_3_real.tex}
-  \caption{Diagrama de Bode de Fase (Valores Reales).}
-  \label{plot:bode_phase_circuito_3_real}
-\end{figure}
-
+% \begin{figure}[H]
+%   \centering
+%   % \includegraphics[width=0.9\columnwidth]{images/polar_3_real.png}
+%   \caption{Diagrama polar de la FDT (Valores Reales).}
+%   \label{plot:polar_circuito_3_real}
+% \end{figure}
+% 
+% \begin{figure}[H]
+%   \centering
+%   \input{figures/plot_asymptotic_gain_circuito_3_real.tex}
+%   \caption{Diagrama de Bode de Magnitud (Valores Reales).}
+%   \label{plot:bode_mag_circuito_3_real}
+% \end{figure}
+% 
+% \begin{figure}[H]
+%   \centering
+%   \input{figures/plot_asymptotic_phase_circuito_3_real.tex}
+%   \caption{Diagrama de Bode de Fase (Valores Reales).}
+%   \label{plot:bode_phase_circuito_3_real}
+% \end{figure}
+% 
 \subsection{Mediciones de Laboratorio}
 \label{sec:mediciones_circ_3}
 

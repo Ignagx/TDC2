@@ -1,0 +1,24 @@
+\begin{tikzpicture}
+  \begin{axis}[
+    width=0.9\columnwidth,
+    height=5cm,
+    xlabel={Parte Real},
+    ylabel={Parte Img},
+    grid=both,
+    xmin=-18, xmax=2,
+    ymin=-10, ymax=10,
+  ]
+  
+  \addplot [
+    domain=0:5,
+    samples=200,
+    variable=\t,
+    color=blue,
+    thick,
+  ] (
+    { - (640000 * (10^\t)^2) / ((10^\t)^4 + 27200 * (10^\t)^2 + 40960000) },
+    { - (3200 * (10^\t) * (6400 - (10^\t)^2)) / ((10^\t)^4 + 27200 * (10^\t)^2 + 40960000) }
+  );
+
+  \end{axis}
+\end{tikzpicture}
