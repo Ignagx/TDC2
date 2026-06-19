@@ -85,14 +85,11 @@ real.
 
 
 \begin{figure}[H]
-  \hspace*{-0.05\textwidth}
-  \begin{minipage}{0.45\textwidth}
-    \input{figures/plot_poles_circuito_1.tex}
-  \end{minipage}
-  \begin{minipage}{0.45\textwidth}
-    \centering
-    \includegraphics[width=1.5\textwidth]{images/polos_fdt_1.png}
-  \end{minipage}
+  \centering
+  \input{figures/plot_poles_circuito_1.tex}
+  
+  \vspace{0.5cm}
+  \includegraphics[width=0.9\columnwidth]{images/polos_fdt_1.png}
   \caption{Polos en el plano complejo de la FDT.}
   \label{img:polos-plano-circuito-1}
 \end{figure}
@@ -109,17 +106,10 @@ solo analizaremos la funcion para $j\omega$, quedando
 Si se analiza la ecuacion \ref{eq:fdt-dominio-freq-circuito-1}, podemos demostrar preliminarmente si se obtuvo correctamente
 la FDT o si hubo algun error de calculo, para lo cual analizaremos los limites donde $\omega$ tiende a cero y al infinito.
 
-\begin{equation}
-  \lim_{\omega \to 0}
-  \frac{\num{1.83d10}}
-  {-\omega^2 + 533134 \cdot j\omega + \num{1.83d10}}
-  \qquad
-  y
-  \qquad
-  \lim_{\omega \to \infty}
-  \frac{\num{1.83d10}}
-  {-\omega^2 + 533134 \cdot j\omega + \num{1.83d10}}
-\end{equation}
+\begin{align}
+  \lim_{\omega \to 0} \frac{\num{1.83d10}}{-\omega^2 + 533134 \cdot j\omega + \num{1.83d10}} &= 1 \\
+  \lim_{\omega \to \infty} \frac{\num{1.83d10}}{-\omega^2 + 533134 \cdot j\omega + \num{1.83d10}} &= 0
+\end{align}
 
 Empleando técnicas basicas de limites, nos da que cuando $\omega \to 0 \Rightarrow H(j\omega) \to 1$ y $\omega \to \infty \Rightarrow H(j\omega) \to 0$,
 que cabe perfectamente dentro de lo esperado en un filtro pasa bajo. 
@@ -128,22 +118,18 @@ Por otro lugar, se estudia tambien el diagrama polar, el cual se obtiene separan
 Para esto se multiplica y divide por el conjugado del denominador, obteniendo:
 
 \begin{align}
-  Re &= \num{1.83d10} \cdot (\frac{-\omega^2 + \num{1.83d10}}{\omega^4 + \num{2.47d11} \cdot \omega^2 + \num{3.35d20}})\\
-  Img &= \num{1.83d10} \cdot (- \frac{533144 \cdot j\omega}{\omega^4 + \num{2.47d11} \cdot \omega^2 + \num{3.35d20}})
+  Re(\omega) &= \resizebox{0.65\columnwidth}{!}{$\displaystyle \num{1.83d10} \cdot \left(\frac{-\omega^2 + \num{1.83d10}}{\omega^4 + \num{2.47d11} \omega^2 + \num{3.35d20}}\right)$} \\
+  Img(\omega) &= \resizebox{0.65\columnwidth}{!}{$\displaystyle \num{1.83d10} \cdot \left(- \frac{533144 \cdot j\omega}{\omega^4 + \num{2.47d11} \omega^2 + \num{3.35d20}}\right)$}
 \end{align}
 
 \begin{figure}[H]
-  \hspace*{-0.05\textwidth}
-  \begin{minipage}[t]{0.45\textwidth}
-    \input{figures/plot_polar_circuito_1.tex}
-  \end{minipage}
-  \hspace{0.05\textwidth}
-  \begin{minipage}[t]{0.45\textwidth}
-    \centering
-    \includegraphics[width=1.2\textwidth,height=7cm]{images/polar_1.png}
-  \end{minipage}
+  \centering
+  \input{figures/plot_polar_circuito_1.tex}
+  
+  \vspace{0.5cm}
+  \includegraphics[width=0.9\columnwidth,height=6cm,keepaspectratio]{images/polar_1.png}
   \caption{Diagrama polar de la FDT.}
-  \label{plot:polar_circuito_1}
+  \label{plot:polar_circuito_1_combined}
 \end{figure}
 
 En la Figura \ref{plot:polar_circuito_1} se presentan dos diagramas polares correspondientes a la Función de
@@ -167,13 +153,13 @@ bajo:
 \begin{figure}[H]
   \centering
   \input{figures/plot_asymptotic_gain_circuito_1.tex}
-  \caption{Diagrama polar de la FDT.}
-  \label{plot:polar_circuito_1}
+  \caption{Diagrama de Bode de Magnitud.}
+  \label{plot:bode_mag_circuito_1}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \input{figures/plot_asymptotic_phase_circuito_1.tex}
-  \caption{Diagrama polar de la FDT.}
-  \label{plot:polar_circuito_1}
+  \caption{Diagrama de Bode de Fase.}
+  \label{plot:bode_phase_circuito_1}
 \end{figure}
