@@ -1,9 +1,124 @@
 \section{Circuito 2}
 \label{chap:circuito_2}
 
-\begin{figure}[H]                                                                                                                                                                       
-  \centering                                                                                                            
-  \input{figures/circuito_2.tikz}                                                                                       
-  \caption{Esquematico del circuito 2.}                                                                                
-  \label{plot:circuito_2}                                                                                                   
+Se muestra en la Figura \ref{plot:circuito_2} el circuito sobre el que se trabajará, que constituye un filtro elimina banda o notch de segundo orden. Los valores de los componentes son:
+
+\begin{itemize}
+  \item $R_1: \SI{100}{\kilo\ohm}$
+  \item $C_1: \SI{3.18}{\micro\farad}$
+  \item $L_1: \SI{31.83}{\milli\henry}$
+\end{itemize}
+
+\begin{figure}[H]
+  \centering
+  \input{figures/circuito_2.tikz}
+  \caption{Esquematico del circuito 2.}
+  \label{plot:circuito_2}
+\end{figure}
+
+\subsection{Analisis y Simulacion}
+\label{sec:analisis_circ_2}
+
+Para el analisis se transforma el circuito a su equivalente en laplace como se ve en la Figura \ref{plot:circuito_2_laplace}.
+
+\begin{figure}[H]
+  \centering
+  \input{figures/circuito_2_laplace.tikz}
+  \caption{Equivalente en laplace del circuito 2.}
+  \label{plot:circuito_2_laplace}
+\end{figure}
+
+Considerando la salida en circuito abierto, se puede aplicar la formula del divisor de tension sobre la rama formada por la serie del capacitor $C_1$ y el inductor $L_1$:
+
+\begin{equation}
+  V_{out}(s) = V_{in}(s) \cdot \frac{Z_{C_1}(s) + Z_{L_1}(s)}{R_1 + Z_{C_1}(s) + Z_{L_1}(s)}
+\end{equation}
+
+donde las impedancias de los componentes son $Z_{C_1}(s) = \frac{1}{s C_1}$ y $Z_{L_1}(s) = s L_1$. Sustituyendo y operando algebraicamente, obtenemos la Funcion de Transferencia (FDT):
+
+\begin{equation}
+  H(s) = \frac{s^2 L_1 C_1 + 1}{s^2 L_1 C_1 + s R_1 C_1 + 1}
+\end{equation}
+
+Dividiendo el numerador y denominador por el producto $L_1 C_1$, se llega a la forma normalizada estandar de un filtro notch:
+
+\begin{equation}
+  H(s) = \frac{s^2 + \frac{1}{L_1 C_1}}{s^2 + s \frac{R_1}{L_1} + \frac{1}{L_1 C_1}}
+  \label{eq:fdt-circuito-2-simb}
+\end{equation}
+
+Reemplazando por los valores especificados de los componentes:
+\begin{itemize}
+  \item $L_1 C_1 = \num{31.83d-3} \times \num{3.18d-6} \approx \num{1.0122d-7} \text{ s}^2$
+  \item $R_1 C_1 = \num{100d3} \times \num{3.18d-6} = \num{0.318} \text{ s}$
+  \item $\omega_0^2 = \frac{1}{L_1 C_1} \approx \num{9.88d6} \text{ rad}^2/\text{s}^2$
+  \item $\frac{R_1}{L_1} \approx \num{3.14d6} \text{ rad/s}$
+\end{itemize}
+
+De esta forma, se llega finalmente a la ecuacion de la FDT vista en \ref{eq:fdt-circuito-2}:
+
+\begin{equation}
+  H(s) = \frac{s^2 + \num{9.88d6}}{s^2 + \num{3.14d6} \cdot s + \num{9.88d6}}
+  \label{eq:fdt-circuito-2}
+\end{equation}
+
+Los polos del sistema son las raices de la ecuacion caracteristica del denominador:
+
+\begin{equation}
+  s^2 + \num{3.14d6} \cdot s + \num{9.88d6} = 0
+\end{equation}
+
+Debido a que el termino lineal de amortiguamiento ($\num{3.14d6}$) es extremadamente superior al termino cuadratico medio, el discriminante es marcadamente positivo, lo que nos da dos polos reales, negativos y bien diferenciados (sistema fuertemente sobreamortiguado):
+
+\begin{equation}
+  p_1 \approx -\frac{1}{R_1 C_1} = -\num{3.14} \text{ rad/s}
+\end{equation}
+\begin{equation}
+  p_2 \approx -\frac{R_1}{L_1} = -\num{3.14d6} \text{ rad/s}
+\end{equation}
+
+Se muestran estos polos graficados en el plano complejo en la Figura \ref{img:polos-plano-circuito-2}. Ambos polos se ubican sobre el eje real izquierdo, lo que garantiza la estabilidad del circuito.
+
+\begin{figure}[H]
+  \centering
+  \input{figures/plot_poles_circuito_2.tex}
+  \caption{Polos en el plano complejo de la FDT del circuito 2.}
+  \label{img:polos-plano-circuito-2}
+\end{figure}
+
+Se procede ahora a analizar la FDT en el dominio de la frecuencia reemplazando $s = j\omega$, resultando:
+
+\begin{equation}
+  H(j\omega) = \frac{1 - \omega^2 L_1 C_1}{1 - \omega^2 L_1 C_1 + j\omega R_1 C_1}
+\end{equation}
+
+Para comprobar preliminarmente la validez de la FDT, evaluamos su comportamiento en los extremos de frecuencia:
+
+\begin{align}
+  \lim_{\omega \to 0} \frac{1 - \omega^2 L_1 C_1}{1 - \omega^2 L_1 C_1 + j\omega R_1 C_1} &= 1 \\
+  \lim_{\omega \to \infty} \frac{1 - \omega^2 L_1 C_1}{1 - \omega^2 L_1 C_1 + j\omega R_1 C_1} &= 1
+\end{align}
+
+Esto muestra que las senales de muy baja y muy alta frecuencia pasan sin atenuacion, mientras que a la frecuencia central $\omega_0 = \frac{1}{\sqrt{L_1 C_1}} \approx \num{3143} \text{ rad/s}$ ($f_0 \approx \SI{500}{\hertz}$), la ganancia se anula por completo ($H(j\omega_0) = 0$), confirmando el comportamiento ideal de un filtro notch.
+
+A fin de obtener el diagrama polar de la FDT, separamos la funcion en su parte real e imaginaria multiplicando y dividiendo por el conjugado del denominador:
+
+\begin{align}
+  Re(\omega) &= \frac{(1 - \omega^2 L_1 C_1)^2}{(1 - \omega^2 L_1 C_1)^2 + (\omega R_1 C_1)^2} \\
+  Img(\omega) &= \frac{-\omega R_1 C_1 (1 - \omega^2 L_1 C_1)}{(1 - \omega^2 L_1 C_1)^2 + (\omega R_1 C_1)^2}
+\end{align}
+
+Estas ecuaciones describen geometricamente una circunferencia desplazada en el plano complejo, que cumple con la relacion algebraica:
+
+\begin{equation}
+  \left(Re(\omega) - \frac{1}{2}\right)^2 + Img(\omega)^2 = \left(\frac{1}{2}\right)^2
+\end{equation}
+
+La Figura \ref{plot:polar_circuito_2} muestra el diagrama polar obtenido de la FDT ideal.
+
+\begin{figure}[H]
+  \centering
+  \input{figures/plot_polar_circuito_2.tex}
+  \caption{Diagrama polar de la FDT del circuito 2 (ideal).}
+  \label{plot:polar_circuito_2}
 \end{figure}

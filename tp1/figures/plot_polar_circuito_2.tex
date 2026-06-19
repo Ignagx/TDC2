@@ -1,0 +1,25 @@
+\begin{tikzpicture}
+  \begin{axis}[
+    width=0.9\columnwidth,
+    height=5.5cm,
+    xlabel={Parte Real},
+    ylabel={Parte Img},
+    grid=both,
+    xmin=-0.1, xmax=1.1,
+    ymin=-0.6, ymax=0.6,
+    ytick={-0.6,-0.4,-0.2,0,0.2,0.4,0.6},
+    xtick={0,0.2,0.4,0.6,0.8,1.0},
+    axis lines=box,
+  ]
+  \addplot[
+      blue,
+      thick,
+      domain=0:360,
+      samples=200,
+  ]
+  (
+      {0.5 + 0.5*cos(x)},
+      {0.5*sin(x)}
+  );
+  \end{axis}
+\end{tikzpicture}
