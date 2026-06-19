@@ -1,2 +1,10 @@
 \section{Conclusiones}
 \label{chap:conclusiones}
+
+\subsection{Circuito 3: Filtro Pasa-Banda con Op-Amp}
+A partir de la implementación física y medición del tercer circuito analizado, se extraen las siguientes observaciones:
+\begin{itemize}
+    \item \textbf{Filtro Activo Pasa-Banda:} Se comprobó experimentalmente la selectividad del circuito para la frecuencia central calculada de $503.29\text{ Hz}$. El comportamiento en bajas y altas frecuencias respetó las pendientes asintóticas de $\pm 20\text{ dB/dec}$ pronosticadas en el desarrollo analítico.
+    \item \textbf{Tolerancia de componentes reales:} La necesidad de utilizar combinaciones en serie ($10k\Omega + 10k\Omega$ y $390k\Omega + 10k\Omega$) para alcanzar los valores nominales de $20k\Omega$ y $400k\Omega$ generó un desempeño muy cercano al ideal, demostrando que con resistencias de precisión estándar es posible sintonizar adecuadamente un filtro pasa-banda, tolerando un mínimo desplazamiento del pico de resonancia $f_0$.
+    \item \textbf{Medición e instrumentación:} La FFT capturada en el osciloscopio proporcionó un primer acercamiento confiable de la forma de la campana, permitiendo aislar la frecuencia de corte. Además, el análisis por puntos contrastado simultáneamente con el script desarrollado en Octave simplificó drásticamente el proceso de validación teórica en vivo.
+\end{itemize}

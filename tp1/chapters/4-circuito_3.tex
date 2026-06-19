@@ -176,8 +176,20 @@ Para el diagrama polar, se separa $H(j\omega)$ en sus componentes real e imagina
 %   \label{plot:bode_phase_circuito_3_real}
 % \end{figure}
 % 
+% TODO: Al igual que en la reconstrucción del Bode medido, se podrá
+% armar la curva teórica con los componentes reales usando
+% \addplot coordinates {...} o exportando los datos de Octave/LTSpice
+% y agregándolos como una gráfica superpuesta en el futuro.
 \subsection{Mediciones de Laboratorio}
 \label{sec:mediciones_circ_3}
+
+Para la implementación física del circuito, los valores nominales de las resistencias fueron obtenidos combinando componentes comerciales:
+\begin{itemize}
+    \item La resistencia de $20k\Omega$ se construyó conectando dos resistencias de $10k\Omega$ en serie.
+    \item La resistencia de $400k\Omega$ se logró conectando en serie una resistencia de $390k\Omega$ y una de $10k\Omega$.
+    \item Los capacitores se implementaron con los valores comerciales más próximos disponibles: $C_1 = 1.2\mu F$ y $C_2 = 15nF$.
+    \item El circuito activo fue montado en protoboard utilizando el amplificador operacional JFET dual \textbf{TL082}.
+\end{itemize}
 
 % TODO: Insertar aquí la foto de la FFT con el barrido de frecuencia en el laboratorio
 \begin{figure}[H]
@@ -186,3 +198,54 @@ Para el diagrama polar, se separa $H(j\omega)$ en sus componentes real e imagina
   \caption{FFT y barrido de frecuencia medido en el laboratorio.}
   \label{img:fft_circuito_3}
 \end{figure}
+
+% -------------------------------------------------------------------------
+% TODO: Reconstrucción del Diagrama de Bode a partir de las mediciones
+% Cuando me pases los puntos de frecuencia (Hz), Magnitud (dB) y Fase (grados),
+% los agregamos en las coordenadas de abajo y descomentamos este bloque para
+% generar el gráfico de la curva medida.
+% -------------------------------------------------------------------------
+% \begin{figure}[H]
+%   \centering
+%   \begin{tikzpicture}
+%     \begin{semilogxaxis}[
+%       width=0.9\columnwidth,
+%       height=4.5cm,
+%       grid=both,
+%       xlabel={Frecuencia [Hz]},
+%       ylabel={Magnitud [dB]},
+%       title={Bode Reconstruido (Magnitud)}
+%     ]
+%     \addplot[color=blue, mark=*] coordinates {
+%       % (frecuencia1, magnitud1)
+%       % (frecuencia2, magnitud2)
+%       % ...
+%       (100, -3)
+%       (1000, -20)
+%     };
+%     \end{semilogxaxis}
+%   \end{tikzpicture}
+%
+%   \vspace{0.5cm}
+%
+%   \begin{tikzpicture}
+%     \begin{semilogxaxis}[
+%       width=0.9\columnwidth,
+%       height=4.5cm,
+%       grid=both,
+%       xlabel={Frecuencia [Hz]},
+%       ylabel={Fase [$^\circ$]},
+%       title={Bode Reconstruido (Fase)}
+%     ]
+%     \addplot[color=red, mark=square*] coordinates {
+%       % (frecuencia1, fase1)
+%       % (frecuencia2, fase2)
+%       % ...
+%       (100, 45)
+%       (1000, 90)
+%     };
+%     \end{semilogxaxis}
+%   \end{tikzpicture}
+%   \caption{Diagrama de Bode reconstruido a partir de puntos de medición.}
+%   \label{plot:bode_reconstruido_circ_3}
+% \end{figure}
