@@ -29,13 +29,13 @@
 \addplot[mark=*, mark size=1.5pt, red, forget plot] coordinates {(160, 26.02)};
 \node[anchor=south west, font=\small, text=black] at (axis cs:160, 26.02) {$\omega_{p2} = 160$};
 
-% TODO: Descomentar e indicar el path correcto al archivo exportado de LTSpice
-% \addplot[thick, dashed, orange] table [
-%     skip first n=1,
-%     x expr=\thisrowno{0} * 2 * pi,
-%     y index=1
-% ] {sources/bode_3.txt};
-% \addlegendentry{Simulación LTSpice}
+% Datos de LTSpice
+\addplot[thick, dashed, orange] table [
+    skip first n=1,
+    x expr=\thisrowno{0} * 2 * pi,
+    y index=1
+] {sources/circuito3_cleaned.txt};
+\addlegendentry{Simulación LTSpice}
 
 \end{semilogxaxis}
 \end{tikzpicture}
