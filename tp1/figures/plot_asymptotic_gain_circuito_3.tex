@@ -1,0 +1,41 @@
+\begin{tikzpicture}
+\begin{semilogxaxis}[
+    title={Diagrama de Bode de Magnitud},
+    xlabel={Frecuencia $\omega$ (rad/s)},
+    ylabel={Magnitud (dB)},
+    grid=both,
+    grid style={line width=.1pt, draw=gray!30},
+    major grid style={line width=.2pt, draw=gray!60},
+    xmin=1e0, xmax=1e5,
+    ymin=-40, ymax=40,
+    width=\columnwidth,
+    height=8cm,
+    legend style={
+    nodes={scale=0.7, transform shape}
+}
+]
+
+\addplot[thick, blue] coordinates {
+    (1, -6.02)
+    (40, 26.02)
+    (160, 26.02)
+    (1e5, -29.90)
+};
+\addlegendentry{Teórico (Asintótico)}
+
+\addplot[mark=*, mark size=1.5pt, red, forget plot] coordinates {(40, 26.02)};
+\node[anchor=south east, font=\small, text=black] at (axis cs:40, 26.02) {$\omega_{p1} = 40$};
+
+\addplot[mark=*, mark size=1.5pt, red, forget plot] coordinates {(160, 26.02)};
+\node[anchor=south west, font=\small, text=black] at (axis cs:160, 26.02) {$\omega_{p2} = 160$};
+
+% TODO: Descomentar e indicar el path correcto al archivo exportado de LTSpice
+% \addplot[thick, dashed, orange] table [
+%     skip first n=1,
+%     x expr=\thisrowno{0} * 2 * pi,
+%     y index=1
+% ] {sources/bode_3.txt};
+% \addlegendentry{Simulación LTSpice}
+
+\end{semilogxaxis}
+\end{tikzpicture}

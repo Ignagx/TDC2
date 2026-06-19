@@ -1,0 +1,43 @@
+\begin{tikzpicture}
+\begin{semilogxaxis}[
+    xlabel={Frecuencia $\omega$ (rad/s)},
+    ylabel={Fase (grados)},
+    grid=both,
+    grid style={line width=.1pt, draw=gray!30},
+    major grid style={line width=.2pt, draw=gray!60},
+    xmin=1e0, xmax=1e5,
+    ymin=-300, ymax=0,
+    ytick={0, -90, -180, -270},
+    width=\columnwidth,
+    height=8cm,
+    legend style={
+    nodes={scale=0.7, transform shape}
+}
+]
+
+\addplot[thick, blue] coordinates {
+    (1, -90)
+    (4, -90)
+    (16, -117.09)
+    (400, -242.90)
+    (1600, -270)
+    (1e5, -270)
+};
+\addlegendentry{Teórico (Asintótico)}
+
+\addplot[mark=|, mark size=3pt, red, forget plot] coordinates {(4, -90)};
+\node[anchor=south west, font=\small, text=black] at (axis cs:4, -90) {$0.1\omega_{p1}$};
+
+\addplot[mark=|, mark size=3pt, red, forget plot] coordinates {(16, -117.09)};
+\node[anchor=south west, font=\small, text=black] at (axis cs:16, -117.09) {$0.1\omega_{p2}$};
+
+% TODO: Descomentar e indicar el path correcto al archivo exportado de LTSpice
+% \addplot[thick, dashed, orange] table [
+%     skip first n=1,
+%     x expr=\thisrowno{0} * 2 * pi,
+%     y index=2
+% ] {sources/bode_3.txt};
+% \addlegendentry{Simulación LTSpice}
+
+\end{semilogxaxis}
+\end{tikzpicture}
