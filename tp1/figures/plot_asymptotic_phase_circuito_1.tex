@@ -6,7 +6,7 @@
     grid style={line width=.1pt, draw=gray!30},
     major grid style={line width=.2pt, draw=gray!60},
     xmin=1e3, xmax=1e8, % Amplié un poco el rango para ver el final en -180°
-    ymin=-200, ymax=20,
+    ymin=-200, ymax=45,
     ytick={0, -45, -90, -135, -180}, % Marcas típicas de fase
     width=0.9\columnwidth,
     height=4.5cm,
@@ -31,7 +31,6 @@
     (4962144.8, -180)
     (1e8, -180)
 };
-\addlegendentry{Teórico (Asintótico)}
 
 % Marcas para indicar dónde empieza el efecto de cada polo
 \addplot[mark=|, mark size=3pt, red, forget plot] coordinates {(3691.95, 0)};
@@ -45,7 +44,6 @@
     x expr=\thisrowno{0} * 2 * pi, % Convertimos Hz a rad/s
     y index=2 % Tomamos los grados directamente
 ] {sources/bode.txt};
-\addlegendentry{Simulación}
 
 \end{semilogxaxis}
 \end{tikzpicture}

@@ -1,8 +1,9 @@
 \section{Circuito 1}
 \label{chap:circuito_1}
 
-Se muestra en la Figura \ref{plot:circuito_1} el circuito sobre el que se trabajará, que constituye un filtro pasa bajo
-de segundo orden. Los valores de los componentes son:
+Se muestra en la Figura \ref{plot:circuito_1} el circuito sobre el que se trabajará y en la Figura
+\ref{img:circuito_1ltspice} visto desde el simulador LTSpice, que constituye un filtro pasa bajo de segundo orden. Los
+valores de los componentes son:
 
 \begin{itemize}
   \item $R_1: \SI{100}{\kilo\ohm}$
@@ -16,6 +17,13 @@ de segundo orden. Los valores de los componentes son:
   \input{figures/circuito_1.tikz}
   \caption{Esquematico del circuito 1.}
   \label{plot:circuito_1}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\columnwidth,height=6cm,keepaspectratio]{images/circuito_1ltspice.png}
+  \caption{Esquematico del circuito 1 visto desde LTSpice.}
+  \label{img:circuito_1ltspice}
 \end{figure}
 
 \subsection{Analisis y Simulacion}
@@ -71,8 +79,7 @@ $$
 
 Dividiendo por $V_{in}(s)$, reemplazando los valores de las admitancias por los especificados anteriormente y
 resolviendo algebraicamente, se llega finalmente la Funcion de Transferencia (FDT) vista en la ecuacion \ref{eq:fdt-circuito-1}.
-Se pueden ver sus polos en el plano complejo en la Figura \ref{img:polos-plano-circuito-1}, donde se compara los polos
-obtenidos operando algebraicamente y los obtenidos usando una herramienta de calculo. Estos polos nos indican que el
+Se pueden ver sus polos en el plano complejo en la Figura \ref{img:polos-plano-circuito-1}. Estos polos nos indican que el
 sistema es estable y no posee propiedades oscilatorias, ya que se encuentran del lado izquierdo del plano sobre el eje
 real.
 
@@ -87,12 +94,13 @@ real.
 \begin{figure}[H]
   \centering
   \input{figures/plot_poles_circuito_1.tex}
-  
-  \vspace{0.5cm}
-  \includegraphics[width=0.9\columnwidth]{images/polos_fdt_1.png}
   \caption{Polos en el plano complejo de la FDT.}
   \label{img:polos-plano-circuito-1}
 \end{figure}
+
+Para la simulación se aplica el comando \textbf{.ac dec 10 0.01 20meg} que hará un barrido en frecuencia de la fuente V1, de $0.01\ \si{\hertz}$ a 
+$20\ \si{\mega\hertz}$. Los resultados de la simulacion se irán comparando a lo largo del desarrollo del analisis.\\
+
 
 Se procede ahora a anlizar la FDT en el dominio de la frecuencia, por lo que descompondremos $s = \sigma + j\omega$ y
 solo analizaremos la funcion para $j\omega$, quedando
@@ -125,15 +133,12 @@ Para esto se multiplica y divide por el conjugado del denominador, obteniendo:
 \begin{figure}[H]
   \centering
   \input{figures/plot_polar_circuito_1.tex}
-  
-  \vspace{0.5cm}
-  \includegraphics[width=0.9\columnwidth,height=6cm,keepaspectratio]{images/polar_1.png}
   \caption{Diagrama polar de la FDT.}
   \label{plot:polar_circuito_1_combined}
 \end{figure}
 
 En la Figura \ref{plot:polar_circuito_1_combined} se presentan dos diagramas polares correspondientes a la Función de
-Transferencia (FDT) del sistema, uno  operando algebraicamente y el otro obtenido utilizando una herramienta de
+Transferencia del sistema, uno  operando algebraicamente y el otro obtenido utilizando una herramienta de
 calculo. Este gráfico representa la magnitud y la fase de la respuesta en frecuencia en el plano complejo, trazando la
 parte imaginaria en función de la parte real a medida que la frecuencia angular ($\omega$) varía desde cero hasta el
 infinito.
@@ -142,12 +147,33 @@ Al analizar la trayectoria del trazado, se pueden destacar las siguientes caract
 bajo:
 
 \begin{itemize}
-    \item \textbf{Comportamiento a baja frecuencia ($\omega \to 0$):} La curva inicia su recorrido sobre el eje real positivo (en este caso, en las coordenadas aproximadas de $1 + j0$). Esto indica que, para frecuencias muy bajas o corriente continua (DC), el filtro presenta una ganancia unitaria (o máxima) y un desfase nulo, permitiendo el paso de la señal sin atenuación.
+    \item \textbf{Comportamiento a baja frecuencia ($\omega \to 0$):} La curva inicia su recorrido sobre el eje real
+      positivo (en este caso, en las coordenadas aproximadas de $1 + j0$). Esto indica que, para frecuencias muy bajas
+      o corriente continua (DC), el filtro presenta una ganancia unitaria (o máxima) y un desfase nulo, permitiendo el
+      paso de la señal sin atenuación.
 
-    \item \textbf{Frecuencias intermedias (Banda de transición):} A medida que la frecuencia $\omega$ aumenta, la trayectoria se adentra en el cuarto cuadrante. Geométricamente, la distancia desde el origen a cualquier punto de la curva representa la magnitud de la ganancia, la cual disminuye progresivamente. Simultáneamente, el ángulo formado respecto al eje real positivo se vuelve cada vez más negativo, evidenciando el incremento del atraso de fase (fase de retardo) que introduce el sistema.
+    \item \textbf{Frecuencias intermedias (Banda de transición):} A medida que la frecuencia $\omega$ aumenta, la trayectoria
+      se adentra en el cuarto cuadrante. Geométricamente, la distancia desde el origen a cualquier punto de la curva
+      representa la magnitud de la ganancia, la cual disminuye progresivamente. Simultáneamente, el ángulo formado respecto
+      al eje real positivo se vuelve cada vez más negativo, evidenciando el incremento del atraso de fase (fase de retardo
+      ) que introduce el sistema.
 
-    \item \textbf{Comportamiento a alta frecuencia ($\omega \to \infty$):} Para frecuencias muy elevadas, la curva converge asintóticamente hacia el origen de coordenadas ($0 + j0$). Esto demuestra la naturaleza integradora y atenuadora del filtro pasa bajo, el cual bloquea eficazmente las señales de alta frecuencia, reduciendo su ganancia a cero.
+    \item \textbf{Comportamiento a alta frecuencia ($\omega \to \infty$):} Para frecuencias muy elevadas, la curva converge
+      asintóticamente hacia el origen de coordenadas ($0 + j0$). Esto demuestra la naturaleza integradora y atenuadora
+      del filtro pasa bajo, el cual bloquea eficazmente las señales de alta frecuencia, reduciendo su ganancia a cero.
 \end{itemize}
+
+Los diagramas de bode se aproximan utilizando una tecnica de asintotas a partir de los polos y ceros de nuestra FDT.
+Al no haber ceros, para el diagrama de bode de magnitud se traza una recta en \SI{0}{\decibel} para la constante, y dos
+rectas con pendiente de \SI{-20}{\decibel} por decada en cada polo. Finalmente se construye la resultante, viendose
+comparada por la simulacion en la Figura \ref{plot:bode_mag_circuito_1}.\\
+Para el diagrama de fase, la aproximación asintótica establece que cada polo aporta un desfase que inicia una década
+antes de su frecuencia de corte y finaliza una década después, cayendo con una pendiente de -45° por década. Al tener
+dos polos reales en nuestra FDT y ningún cero, la fase inicial se mantiene en 0° hasta llegar a $0,1\omega_{p1}$. A partir
+de allí comienza a caer por acción del primer polo, y al alcanzar $0,1\omega_{p2}$ se suma el efecto del segundo, llevando
+la pendiente resultante a -90° por década en la región donde ambos actúan. Finalmente, a medida que se superan las frecuencias
+de $10\omega_{p1}$ y $10\omega_{p2}$, ambos polos saturan su contribución máxima de -90° cada uno, haciendo que la gráfica
+asintótica se estabilice de forma constante en -180°, viéndose comparada por la simulación en la Figura \ref{plot:bode_phase_circuito_1}.
 
 
 \begin{figure}[H]
@@ -162,4 +188,22 @@ bajo:
   \input{figures/plot_asymptotic_phase_circuito_1.tex}
   \caption{Diagrama de Bode de Fase.}
   \label{plot:bode_phase_circuito_1}
+\end{figure}
+
+\section{Laboratorio}
+Para la experiencia de laboratorio, se llevó a cabo la implementación física del circuito mediante la fabricación y
+ensamblaje de un PCB de diseño simple. Posteriormente, se procedió a la verificación del funcionamiento conectando la
+placa a un osciloscopio RIGOL para evaluar su comportamiento empírico. Al aplicar la función matemática de la
+Transformada Rápida de Fourier (FFT), con el instrumento configurado en una escala vertical de 10.0 dBVrms/div y una
+base de tiempo horizontal de 25.00 kHz/div, se pudo analizar el espectro de frecuencias de la señal. Las mediciones
+registradas en pantalla validaron nuestro análisis previo, ya que la distribución de los picos armónicos y el perfil
+general del espectro observado se correspondieron de manera satisfactoria con los resultados teóricos esperados para el
+circuito.
+
+
+\begin{figure}[H]
+  \centering
+  \includegraphics{images/bd1.png}
+  \caption{Diagrama de Bode de Magnitud.}
+  \label{plot:bode_mag_circuito_1}
 \end{figure}

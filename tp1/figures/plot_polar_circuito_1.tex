@@ -1,12 +1,18 @@
 \begin{tikzpicture}
   \begin{axis}[
-    width=0.9\columnwidth,
-    height=4.5cm,
+    width=0.89\columnwidth,
+    legend style={
+        at={(0.5, 1.05)}, % x=0.5 (centro horizontal), y=1.05 (por encima del límite superior)
+        anchor = south,
+        scale = 0.9,
+        font=\footnotesize % Reduce el tamaño del texto y los símbolos
+    },
+    height=6cm,
     xlabel={Parte Real},
     ylabel={Parte Img},
     grid=both,
     xmin=-0.1, xmax=1.1,
-    ymin=-0.6, ymax=0.05,
+    ymin=-0.7, ymax=0.05,
     ytick distance = 0.1,
     axis lines=box,
   ]
@@ -21,5 +27,13 @@
     {1.83e10*((-x^2 + 1.83e10)/(x^4 + 2.47e11*x^2 + 3.35e20))},
     {1.83e10*((-533144*x)/(x^4 + 2.47e11*x^2 + 3.35e20))}
 );
+
+\addplot[thick, dashed, orange] table [
+    x=xaxis, % Toma la parte real del archivo
+    y=yaxis  % Toma la parte imaginaria del archivo
+] {sources/nyquist_1.txt};
+
+\addlegendentry{Teórico}
+\addlegendentry{Simulación}
   \end{axis}
 \end{tikzpicture}

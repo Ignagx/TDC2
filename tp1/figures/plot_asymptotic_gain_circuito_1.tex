@@ -1,6 +1,11 @@
 \begin{tikzpicture}
 \begin{semilogxaxis}[
-    title={Diagrama de Bode de Magnitud (Asintótico)},
+    legend style={
+        at={(0.5, 1.05)}, % x=0.5 (centro horizontal), y=1.05 (por encima del límite superior)
+        anchor = south,
+        scale = 0.9,
+        font=\footnotesize % Reduce el tamaño del texto y los símbolos
+    },
     xlabel={Frecuencia $\omega$ (rad/s)},
     ylabel={Magnitud (dB)},
     grid=both,
