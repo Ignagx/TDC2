@@ -136,3 +136,64 @@ La Figura \ref{plot:polar_circuito_2} muestra el diagrama polar obtenido de la F
   \caption{Diagrama de Bode de Fase del circuito 2 (Simulado vs Asintótico).}
   \label{plot:bode_phase_circuito_2}
 \end{figure}
+
+\subsection{Mediciones de Laboratorio}
+\label{sec:mediciones_circ_2}
+
+Para la verificación experimental, se realizó la implementación física del filtro notch utilizando componentes reales cuyos valores medidos fueron:
+\begin{itemize}
+  \item Resistencia: $R = \SI{100}{\kilo\ohm}$
+  \item Inductor: $L = \SI{31.8}{\milli\henry}$
+  \item Capacitor: $C = \SI{3.3}{\micro\farad}$
+\end{itemize}
+
+El capacitor utilizado en el laboratorio ($C = \SI{3.3}{\micro\farad}$) es muy cercano al valor de diseño teórico de $\SI{3.18}{\micro\farad}$. Con estos componentes reales, la frecuencia angular de resonancia teórica $\omega_0$ y la correspondiente frecuencia de corte $f_0$ son:
+\begin{equation}
+  \omega_0 = \frac{1}{\sqrt{L \cdot C}} = \frac{1}{\sqrt{\SI{31.8}{\milli\henry} \cdot \SI{3.3}{\micro\farad}}} \approx \SI{3087.96}{\radian\per\second}
+\end{equation}
+\begin{equation}
+  f_0 = \frac{\omega_0}{2\pi} \approx \SI{491.46}{\hertz}
+\end{equation}
+
+Los polos del sistema real se ubican teóricamente en:
+\begin{align}
+  p_1 &\approx -\frac{1}{R \cdot C} = -\SI{3.03}{\radian\per\second} \quad (f_{p1} \approx \SI{0.48}{\hertz}) \\
+  p_2 &\approx -\frac{R}{L} = -\SI{3.14}{\mega\radian\per\second} \quad (f_{p2} \approx \SI{500.5}{\kilo\hertz})
+\end{align}
+
+Durante el ensayo en el laboratorio, se utilizó un generador de señales para aplicar una tensión senoidal $V_{in}$ a la entrada del filtro. Se midieron las tensiones de entrada y salida con un osciloscopio digital RIGOL. Todas las mediciones de tensión en la Tabla \ref{tab:mediciones_circuito_2} han sido unificadas a valor eficaz ($V_{rms}$) para garantizar la consistencia, realizando la conversión $V_{rms} = V_{pp}/(2\sqrt{2})$ para las frecuencias de \SI{2}{\hertz} y \SI{10}{\hertz} que originalmente se registraron como pico a pico ($V_{pp}$). La atenuación del filtro se expresa directamente como ganancia en decibeles.
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{cccc}
+    \hline
+    \textbf{Frecuencia} & \textbf{Tensión $V_{in}$ ($V_{rms}$)} & \textbf{Tensión $V_{out}$ ($V_{rms}$)} & \textbf{Ganancia [dB]} \\ \hline
+    \SI{2}{\hertz}      & \SI{2.40}{\volt}                      & \SI{678.8}{\milli\volt}                 & \SI{-10.98}{\decibel}  \\
+    \SI{10}{\hertz}     & \SI{2.62}{\volt}                      & \SI{169.7}{\milli\volt}                 & \SI{-23.76}{\decibel}  \\
+    \SI{100}{\hertz}    & \SI{2.5}{\volt}                       & \SI{86}{\milli\volt}                    & \SI{-29.27}{\decibel}  \\
+    \SI{1}{\kilo\hertz} & \SI{2.5}{\volt}                       & \SI{90}{\milli\volt}                    & \SI{-28.87}{\decibel}  \\
+    \SI{10}{\kilo\hertz}& \SI{2.5}{\volt}                       & \SI{10}{\milli\volt}                    & \SI{-47.96}{\decibel}  \\
+    \SI{100}{\kilo\hertz}& \SI{2.5}{\volt}                      & \SI{770}{\milli\volt}                   & \SI{-10.23}{\decibel}  \\
+    \SI{200}{\kilo\hertz}& \SI{2.5}{\volt}                      & \SI{1.19}{\volt}                        & \SI{-6.45}{\decibel}   \\ \hline
+  \end{tabular}
+  \caption{Mediciones experimentales del circuito 2 en el laboratorio (unificadas a valor eficaz).}
+  \label{tab:mediciones_circuito_2}
+\end{table}
+
+\begin{figure}[H]
+  \centering
+  \input{figures/plot_bode_medido_circuito_2.tex}
+  \caption{Comparación entre la simulación de LTSpice del circuito real (con $C = \SI{3.3}{\micro\farad}$ y $R_{ser} = \SI{50}{\ohm}$ para modelar la pérdida del inductor) y las mediciones obtenidas en el laboratorio.}
+  \label{plot:bode_medido_vs_teorico_circuito_2}
+\end{figure}
+
+A partir de las mediciones graficadas en la Figura \ref{plot:bode_medido_vs_teorico_circuito_2}, se observa un buen acuerdo general con la respuesta simulada. A frecuencias muy bajas (\SI{2}{\hertz} y \SI{10}{\hertz}) y altas (\SI{100}{\kilo\hertz} y \SI{200}{\kilo\hertz}), los puntos coinciden notablemente con la simulación. En el rango de \SI{100}{\hertz} a \SI{1}{\kilo\hertz}, los valores medidos presentan una meseta en torno a los \SI{-29}{\decibel}, limitados principalmente por el piso de ruido del instrumental, pero registrando el comportamiento atenuador central esperado.
+
+Para registrar con mayor resolución la respuesta en frecuencia completa del filtro en el entorno de la sintonía, se capturó la pantalla del osciloscopio mostrada en la Figura \ref{img:bode_medido_circuito_2}, la cual grafica la respuesta obtenida mediante la Transformada Rápida de Fourier (FFT). El osciloscopio se configuró con una escala de magnitud vertical de \SI{10.0}{\decibel\text{Vrms}/div} y una escala de frecuencia horizontal de \SI{250.0}{\hertz/div}. Con el inicio del barrido en corriente continua, la fosa del notch se ubicó exactamente a dos divisiones del origen de frecuencias, lo cual corresponde a una frecuencia de sintonía de sintonía de $2 \times \SI{250}{\hertz/div} = \SI{500}{\hertz}$, en excelente concordancia con la frecuencia de resonancia teórica calculada de $\SI{491.46}{\hertz}$. Utilizando los cursores del osciloscopio, se midió un nivel de referencia en la banda de paso de $CurA = \SI{-43.6}{\decibel}$ y el punto mínimo del notch en $CurB = \SI{-74.8}{\decibel}$, registrando una profundidad de notch de $\SI{31.2}{\decibel}$. Este comportamiento práctico valida satisfactoriamente el análisis teórico propuesto para este filtro.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\columnwidth]{images/bd2.png}
+  \caption{Respuesta en frecuencia (FFT) del circuito notch real medida en el laboratorio.}
+  \label{img:bode_medido_circuito_2}
+\end{figure}

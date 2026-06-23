@@ -1,0 +1,46 @@
+\begin{tikzpicture}
+\begin{semilogxaxis}[
+    title={Comparación de Magnitud del Circuito 2 Real},
+    xlabel={Frecuencia $\omega$ (rad/s)},
+    ylabel={Magnitud (dB)},
+    grid=both,
+    grid style={line width=.1pt, draw=gray!30},
+    major grid style={line width=.2pt, draw=gray!60},
+    xmin=1, xmax=2e6,
+    ymin=-80, ymax=5,
+    width=0.9\columnwidth,
+    height=5.5cm,
+    legend style={
+        nodes={scale=0.7, transform shape},
+        at={(0.05,0.05)},
+        anchor=south west
+    }
+]
+
+% Curva de Simulación de LTSpice con Rser = 50 Ohm y C = 3.3 uF
+\addplot[thick, blue] table [
+    skip first n=1,
+    x expr=\thisrowno{0} * 2 * pi,
+    y index=1
+] {sim/circuito_2_50omh.txt};
+\addlegendentry{Simulación (LTSpice, $R_{ser}=50\,\Omega$)}
+
+% Puntos Medidos en Laboratorio
+\addplot[
+    only marks,
+    mark=*,
+    mark size=2.0pt,
+    red
+] coordinates {
+    (12.56637, -10.98)     % 2 Hz
+    (62.83185, -23.76)     % 10 Hz
+    (628.3185, -29.27)     % 100 Hz
+    (6283.185, -28.87)     % 1 kHz
+    (62831.85, -47.96)     % 10 kHz
+    (628318.53, -10.23)    % 100 kHz
+    (1256637.06, -6.45)    % 200 kHz
+};
+\addlegendentry{Mediciones de Laboratorio}
+
+\end{semilogxaxis}
+\end{tikzpicture}
