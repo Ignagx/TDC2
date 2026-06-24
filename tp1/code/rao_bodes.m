@@ -6,6 +6,16 @@ catch
     warning('Paquete "control" no cargado. Puede fallar en Octave.');
 end
 
+% Intentar cargar bodas si no está en el path de búsqueda de Octave
+if exist('bodas', 'file') == 0
+    try
+        addpath(tilde_expand('~/.octave_libs/bodas'));
+    catch
+        % Fallback al path absoluto por si falla tilde_expand
+        addpath('/home/valen/.octave_libs/bodas');
+    end
+end
+
 fprintf('=== Análisis de H(s) Asintótico (Repo: bodas) ===\n\n');
 fprintf('Ingrese los polinomios de la Función H(s).\n');
 fprintf('Ejemplo: para s^2 + 200s + 6400, ingrese [1 200 6400]\n\n');
@@ -23,7 +33,7 @@ try
     fprintf('¡Diagramas de Bode generados!\n');
 catch err
     fprintf('\n[ERROR] No se pudo ejecutar bodas().\n');
-    fprintf('Verifique que "bodas.m" esté en esta carpeta.\n');
+    fprintf('Verifique que "bodas.m" esté en esta carpeta o agregada al PATH de Octave.\n');
     fprintf('Mensaje: %s\n', err.message);
 end
 
