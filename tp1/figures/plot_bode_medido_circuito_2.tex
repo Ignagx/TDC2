@@ -1,8 +1,13 @@
 \begin{tikzpicture}
 \begin{semilogxaxis}[
-    title={Comparación de Magnitud del Circuito 2 Real},
     xlabel={Frecuencia $\omega$ (rad/s)},
     ylabel={Magnitud (dB)},
+    legend style={
+        at={(0.5, 1.05)}, % x=0.5 (centro horizontal), y=1.05 (por encima del límite superior)
+        anchor = south,
+        scale = 0.9,
+        font=\footnotesize % Reduce el tamaño del texto y los símbolos
+    },
     grid=both,
     grid style={line width=.1pt, draw=gray!30},
     major grid style={line width=.2pt, draw=gray!60},
@@ -10,11 +15,11 @@
     ymin=-80, ymax=5,
     width=0.9\columnwidth,
     height=5.5cm,
-    legend style={
-        nodes={scale=0.7, transform shape},
-        at={(0.05,0.05)},
-        anchor=south west
-    }
+    %legend style={
+    %    nodes={scale=0.7, transform shape},
+    %    at={(0.05,0.05)},
+    %    anchor=south west
+    %}
 ]
 
 % Curva de Simulación de LTSpice con Rser = 50 Ohm y C = 3.3 uF

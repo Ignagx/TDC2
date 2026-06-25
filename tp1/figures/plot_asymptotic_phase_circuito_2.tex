@@ -1,6 +1,5 @@
 \begin{tikzpicture}
 \begin{semilogxaxis}[
-    title={Diagrama de Bode de Fase},
     xlabel={Frecuencia $\omega$ (rad/s)},
     ylabel={Fase (grados)},
     grid=both,
@@ -12,7 +11,10 @@
     width=0.9\columnwidth,
     height=5.5cm,
     legend style={
-        nodes={scale=0.7, transform shape}
+        at={(0.5, 1.05)}, % x=0.5 (centro horizontal), y=1.05 (por encima del límite superior)
+        anchor = south,
+        scale = 0.9,
+        font=\footnotesize % Reduce el tamaño del texto y los símbolos
     }
 ]
 
@@ -34,7 +36,7 @@
 \node[anchor=south west, font=\small, text=black] at (axis cs:0.314, 0) {$0.1\omega_{p1}$};
 
 \addplot[mark=|, mark size=3pt, red, forget plot] coordinates {(3.14e7, 0)};
-\node[anchor=south east, font=\small, text=black] at (axis cs:3.14e7, 0) {$10\omega_{p2}$};
+\node[anchor=north east, font=\small, text=black] at (axis cs:3.14e7, 0) {$10\omega_{p2}$};
 
 % Datos de LTSpice
 \addplot[thick, dashed, orange] table [

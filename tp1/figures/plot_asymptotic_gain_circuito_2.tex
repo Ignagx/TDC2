@@ -1,6 +1,5 @@
 \begin{tikzpicture}
 \begin{semilogxaxis}[
-    title={Diagrama de Bode de Magnitud},
     xlabel={Frecuencia $\omega$ (rad/s)},
     ylabel={Magnitud (dB)},
     grid=both,
@@ -11,7 +10,10 @@
     width=0.9\columnwidth,
     height=5.5cm,
     legend style={
-        nodes={scale=0.7, transform shape}
+        at={(0.5, 1.05)}, % x=0.5 (centro horizontal), y=1.05 (por encima del límite superior)
+        anchor = south,
+        scale = 0.9,
+        font=\footnotesize % Reduce el tamaño del texto y los símbolos
     }
 ]
 
@@ -32,7 +34,7 @@
 
 % Marcador de w0
 \addplot[mark=*, mark size=1.5pt, red, forget plot] coordinates {(3143, -60)};
-\node[anchor=north, font=\scriptsize, text=black] at (axis cs:3143, -60) {$\omega_{0} = 3143$};
+\node[anchor=south, font=\scriptsize, text=black] at (axis cs:3143, -50) {$\omega_{0} = 3143$};
 
 % Marcador de wp2
 \draw[dashed, red, thin] (axis cs:3.14e6, 0) -- (axis cs:3.14e6, -60);
