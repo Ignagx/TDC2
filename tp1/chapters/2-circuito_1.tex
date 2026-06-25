@@ -143,25 +143,26 @@ calculo. Este gráfico representa la magnitud y la fase de la respuesta en frecu
 parte imaginaria en función de la parte real a medida que la frecuencia angular ($\omega$) varía desde cero hasta el
 infinito.
 
-Al analizar la trayectoria del trazado, se pueden destacar las siguientes características típicas de un filtro pasa
-bajo:
-
-\begin{itemize}
-    \item \textbf{Comportamiento a baja frecuencia ($\omega \to 0$):} La curva inicia su recorrido sobre el eje real
-      positivo (en este caso, en las coordenadas aproximadas de $1 + j0$). Esto indica que, para frecuencias muy bajas
-      o corriente continua (DC), el filtro presenta una ganancia unitaria (o máxima) y un desfase nulo, permitiendo el
-      paso de la señal sin atenuación.
-
-    \item \textbf{Frecuencias intermedias (Banda de transición):} A medida que la frecuencia $\omega$ aumenta, la trayectoria
-      se adentra en el cuarto cuadrante. Geométricamente, la distancia desde el origen a cualquier punto de la curva
-      representa la magnitud de la ganancia, la cual disminuye progresivamente. Simultáneamente, el ángulo formado respecto
-      al eje real positivo se vuelve cada vez más negativo, evidenciando el incremento del atraso de fase (fase de retardo
-      ) que introduce el sistema.
-
-    \item \textbf{Comportamiento a alta frecuencia ($\omega \to \infty$):} Para frecuencias muy elevadas, la curva converge
-      asintóticamente hacia el origen de coordenadas ($0 + j0$). Esto demuestra la naturaleza integradora y atenuadora
-      del filtro pasa bajo, el cual bloquea eficazmente las señales de alta frecuencia, reduciendo su ganancia a cero.
-\end{itemize}
+%Se pone en la conclusion!!
+%Al analizar la trayectoria del trazado, se pueden destacar las siguientes características típicas de un filtro pasa
+%bajo:
+%
+%\begin{itemize}
+%    \item \textbf{Comportamiento a baja frecuencia ($\omega \to 0$):} La curva inicia su recorrido sobre el eje real
+%      positivo (en este caso, en las coordenadas aproximadas de $1 + j0$). Esto indica que, para frecuencias muy bajas
+%      o corriente continua (DC), el filtro presenta una ganancia unitaria (o máxima) y un desfase nulo, permitiendo el
+%      paso de la señal sin atenuación.
+%
+%    \item \textbf{Frecuencias intermedias (Banda de transición):} A medida que la frecuencia $\omega$ aumenta, la trayectoria
+%      se adentra en el cuarto cuadrante. Geométricamente, la distancia desde el origen a cualquier punto de la curva
+%      representa la magnitud de la ganancia, la cual disminuye progresivamente. Simultáneamente, el ángulo formado respecto
+%      al eje real positivo se vuelve cada vez más negativo, evidenciando el incremento del atraso de fase (fase de retardo
+%      ) que introduce el sistema.
+%
+%    \item \textbf{Comportamiento a alta frecuencia ($\omega \to \infty$):} Para frecuencias muy elevadas, la curva converge
+%      asintóticamente hacia el origen de coordenadas ($0 + j0$). Esto demuestra la naturaleza integradora y atenuadora
+%      del filtro pasa bajo, el cual bloquea eficazmente las señales de alta frecuencia, reduciendo su ganancia a cero.
+%\end{itemize}
 
 Los diagramas de bode se aproximan utilizando una tecnica de asintotas a partir de los polos y ceros de nuestra FDT.
 Al no haber ceros, para el diagrama de bode de magnitud se traza una recta en \SI{0}{\decibel} para la constante, y dos
@@ -192,18 +193,58 @@ asintótica se estabilice de forma constante en -180°, viéndose comparada por 
 
 \section{Laboratorio}
 Para la experiencia de laboratorio, se llevó a cabo la implementación física del circuito mediante la fabricación y
-ensamblaje de un PCB de diseño simple. Posteriormente, se procedió a la verificación del funcionamiento conectando la
-placa a un osciloscopio RIGOL para evaluar su comportamiento empírico. Al aplicar la función matemática de la
-Transformada Rápida de Fourier (FFT), con el instrumento configurado en una escala vertical de 10.0 dBVrms/div y una
-base de tiempo horizontal de 25.00 kHz/div, se pudo analizar el espectro de frecuencias de la señal. Las mediciones
-registradas en pantalla (como se muestra en la Figura \ref{plot:bode_mag_medido_circuito_1}) validaron nuestro análisis previo, ya que la distribución de los picos armónicos y el perfil
-general del espectro observado se correspondieron de manera satisfactoria con los resultados teóricos esperados para el
-circuito.
+ensamblaje de un PCB de diseño simple sin perforaciones. Posteriormente, se procedió a la verificación del funcionamiento conectando la
+placa a un osciloscopio RIGOL para evaluar su comportamiento empírico. 
+Primero se tomaron datos contrastando la entrada con la salida a distintas frecuencias como se ve en las Figuras \ref{plot:circuito_1_medido} y \ref{plot:bode_mag_medido_circuito_1}
+Y luego se aplicó la función matemática de la Transformada Rápida de Fourier (FFT), con el instrumento configurado en una escala vertical de 10.0 dBVrms/div y una
+base de tiempo horizontal de 25.00 kHz/div, se pudo analizar el espectro de frecuencias de la señal.
+%Las mediciones registradas en pantalla (como se muestra en la Figura \ref{plot:bode_mag_medido_circuito_1}) validaron nuestro análisis previo, ya que la distribución de los picos armónicos y el perfil
+%general del espectro observado se correspondieron de manera satisfactoria con los resultados teóricos esperados para el
+%circuito.
+
+
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{cccc}
+    \hline
+    \textbf{Frecuencia} & \textbf{Tensión $V_{in}$ ($V_{rms}$)} & \textbf{Tensión $V_{out}$ ($V_{rms}$)} & \textbf{Ganancia (dB)} \\
+    \hline
+    \SI{2}{\hertz}         & \SI{2.44}{\volt}   & \SI{2.38}{\volt}          & \SI{-0.22}{\decibel} \\
+    \SI{10}{\hertz}        & \SI{2.44}{\volt}   & \SI{2.38}{\volt}          & \SI{-0.22}{\decibel} \\
+    \SI{100}{\hertz}       & \SI{2.44}{\volt}   & \SI{2.38}{\volt}          & \SI{-0.22}{\decibel} \\
+    \SI{1}{\kilo\hertz}    & \SI{2.44}{\volt}   & \SI{2.37}{\volt}          & \SI{-0.25}{\decibel} \\
+    \SI{2.5}{\kilo\hertz}  & \SI{2.44}{\volt}   & \SI{2.33}{\volt}          & \SI{-0.40}{\decibel} \\
+    \SI{5}{\kilo\hertz}    & \SI{2.44}{\volt}   & \SI{2.05}{\volt}          & \SI{-1.52}{\decibel} \\
+    \SI{7.5}{\kilo\hertz}  & \SI{2.44}{\volt}   & \SI{1.74}{\volt}          & \SI{-2.94}{\decibel} \\
+    \SI{10}{\kilo\hertz}   & \SI{2.44}{\volt}   & \SI{1.46}{\volt}          & \SI{-4.46}{\decibel} \\
+    \SI{11.5}{\kilo\hertz} & \SI{2.44}{\volt}   & \SI{1.33}{\volt}          & \SI{-5.27}{\decibel} \\
+    \SI{13}{\kilo\hertz}   & \SI{2.44}{\volt}   & \SI{1.21}{\volt}          & \SI{-6.09}{\decibel} \\
+    \SI{15}{\kilo\hertz}   & \SI{2.44}{\volt}   & \SI{1.06}{\volt}          & \SI{-7.24}{\decibel} \\
+    \SI{20}{\kilo\hertz}   & \SI{2.44}{\volt}   & \SI{788}{\milli\volt}     & \SI{-9.81}{\decibel} \\
+    \SI{25}{\kilo\hertz}   & \SI{2.44}{\volt}   & \SI{614}{\milli\volt}     & \SI{-11.98}{\decibel} \\
+    \SI{30}{\kilo\hertz}   & \SI{2.44}{\volt}   & \SI{500}{\milli\volt}     & \SI{-13.77}{\decibel} \\
+    \SI{50}{\kilo\hertz}   & \SI{2.44}{\volt}   & \SI{250}{\milli\volt}     & \SI{-19.79}{\decibel} \\
+    \SI{70}{\kilo\hertz}   & \SI{2.44}{\volt}   & \SI{139}{\milli\volt}     & \SI{-24.89}{\decibel} \\
+    \SI{100}{\kilo\hertz}  & \SI{2.44}{\volt}   & \SI{100}{\milli\volt}     & \SI{-27.75}{\decibel} \\
+    \SI{200}{\kilo\hertz}  & \SI{2.44}{\volt}   & \SI{80}{\milli\volt}      & \SI{-29.69}{\decibel} \\
+    \hline
+  \end{tabular}
+  \caption{Mediciones experimentales del circuito 1 en el laboratorio.}
+  \label{tab:mediciones_circuito_1}
+\end{table}
 
 
 \begin{figure}[H]
   \centering
-  \includegraphics{images/bd1.png}
+  \input{figures/plot_bode_medido_circuito_1.tex}
+  \caption{Diagrama de Bode de Fase.}
+  \label{plot:circuito_1_medido}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\columnwidth,height=6cm,keepaspectratio]{images/bd1.png}
   \caption{Diagrama de Bode de Magnitud.}
   \label{plot:bode_mag_medido_circuito_1}
 \end{figure}

@@ -1,0 +1,56 @@
+\begin{tikzpicture}
+\begin{semilogxaxis}[
+    xlabel={Frecuencia $\omega$ (rad/s)},
+    ylabel={Magnitud (dB)},
+    grid=both,
+    grid style={line width=.1pt, draw=gray!30},
+    major grid style={line width=.2pt, draw=gray!60},
+    xmin=1, xmax=2e6,
+    ymin=-80, ymax=5,
+    width=0.9\columnwidth,
+    height=5.5cm,
+    legend style={
+        nodes={scale=0.7, transform shape},
+        at={(0.05,0.05)},
+        anchor=south west
+    }
+]
+
+    % Curva de Simulación de LTSpice con Rser = 50 Ohm y C = 3.3 uF
+    \addplot[thick, blue] table [
+        skip first n=1, % Para saltar la fila "Freq. V(vout)"
+        x expr=\thisrowno{0} * 2 * pi, % Convertimos Hz a rad/s
+        y index=1 % Tomamos los decibelios directamente
+    ] {sources/bode.txt};
+    \addlegendentry{Simulacion}
+
+    % Puntos Medidos en Laboratorio
+    \addplot[
+        only marks,
+        mark=*,
+        mark size=2.0pt,
+        red
+    ] coordinates {
+        (12.56637, -0.22)       % 2 Hz
+        (62.83185, -0.22)       % 10 Hz
+        (628.3185, -0.22)       % 100 Hz
+        (6283.185, -0.25)       % 1 kHz
+        (15707.96, -0.40)       % 2.5 kHz
+        (31415.93, -1.52)       % 5 kHz
+        (47123.89, -2.94)       % 7.5 kHz
+        (62831.85, -4.46)       % 10 kHz
+        (72256.63, -5.27)       % 11.5 kHz
+        (81681.41, -6.09)       % 13 kHz
+        (94247.78, -7.24)       % 15 kHz
+        (125663.71, -9.81)      % 20 kHz
+        (157079.63, -11.98)     % 25 kHz
+        (188495.56, -13.77)     % 30 kHz
+        (314159.27, -19.79)     % 50 kHz
+        (439822.97, -24.89)     % 70 kHz
+        (628318.53, -27.75)     % 100 kHz
+        (1256637.06, -29.69)    % 200 kHz
+    };
+    \addlegendentry{Mediciones de Laboratorio}
+
+\end{semilogxaxis}
+\end{tikzpicture}
