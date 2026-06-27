@@ -14,12 +14,7 @@
     xmin=1, xmax=2e6,
     ymin=-80, ymax=5,
     width=0.9\columnwidth,
-    height=5.5cm,
-    %legend style={
-    %    nodes={scale=0.7, transform shape},
-    %    at={(0.05,0.05)},
-    %    anchor=south west
-    %}
+    height=5.5cm
 ]
 
 % Curva de Simulación de LTSpice con Rser = 50 Ohm y C = 3.3 uF
@@ -37,13 +32,22 @@
     mark size=2.0pt,
     red
 ] coordinates {
-    (12.56637, -10.98)     % 2 Hz
-    (62.83185, -23.76)     % 10 Hz
-    (628.3185, -29.27)     % 100 Hz
-    (6283.185, -28.87)     % 1 kHz
-    (62831.85, -47.96)     % 10 kHz
-    (628318.53, -10.23)    % 100 kHz
-    (1256637.06, -6.45)    % 200 kHz
+    (6.283, 0.00)          % 1 Hz
+    (12.566, 0.00)         % 2 Hz
+    (62.832, -0.67)        % 10 Hz
+    (125.664, -2.92)       % 20 Hz
+    (314.159, -7.38)       % 50 Hz
+    (628.318, -13.01)      % 100 Hz
+    (1256.637, -20.59)     % 200 Hz
+    (3141.593, -29.36)     % 500 Hz
+    (6283.185, -22.52)     % 1 kHz
+    (12566.371, -14.89)    % 2 kHz
+    (31415.927, -7.69)     % 5 kHz
+    (62831.853, -3.52)     % 10 kHz
+    (125663.706, -1.58)    % 20 kHz
+    (314159.265, -0.72)    % 50 kHz
+    (628318.531, -0.61)    % 100 kHz
+    (1256637.061, -0.56)   % 200 kHz
 };
 \addlegendentry{Mediciones de Laboratorio}
 

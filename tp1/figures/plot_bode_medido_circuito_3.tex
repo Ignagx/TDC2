@@ -1,0 +1,56 @@
+\begin{tikzpicture}
+\begin{semilogxaxis}[
+    title={Comparación de Magnitud del Circuito 3 Real},
+    xlabel={Frecuencia $\omega$ (rad/s)},
+    ylabel={Magnitud (dB)},
+    grid=both,
+    grid style={line width=.1pt, draw=gray!30},
+    major grid style={line width=.2pt, draw=gray!60},
+    xmin=1e-1, xmax=1e7,
+    ymin=-60, ymax=30,
+    width=0.9\columnwidth,
+    height=5.5cm,
+    legend pos=north east,
+    legend style={
+        nodes={scale=0.7, transform shape}
+    }
+]
+
+% Curva de Simulación de LTSpice con Componentes Reales
+\addplot[thick, blue] table [
+    skip first n=1,
+    x expr=\thisrowno{0} * 2 * pi,
+    y index=3
+] {sources/circuito3_cleaned.txt};
+\addlegendentry{Simulación (LTSpice, Real)}
+
+% Puntos Medidos en Laboratorio
+\addplot[
+    only marks,
+    mark=*,
+    mark size=2.0pt,
+    red
+] coordinates {
+    (6.283, 5.19)          % 1 Hz
+    (12.566, 6.02)         % 2 Hz
+    (31.416, 6.28)         % 5 Hz
+    (50.265, 6.28)         % 8 Hz
+    (62.832, 6.02)         % 10 Hz
+    (94.248, 5.48)         % 15 Hz
+    (125.664, 4.90)        % 20 Hz
+    (157.080, 4.11)        % 25 Hz
+    (188.496, 3.61)        % 30 Hz
+    (282.743, 1.67)        % 45 Hz
+    (376.991, 0.00)        % 60 Hz
+    (439.823, -1.43)       % 70 Hz
+    (565.487, -2.77)       % 90 Hz
+    (753.982, -4.35)       % 120 Hz
+    (1256.637, -8.43)      % 200 Hz
+    (3141.593, -16.39)     % 500 Hz
+    (6283.185, -18.89)     % 1 kHz
+    (6283185.307, -20.83)  % 1 MHz
+};
+\addlegendentry{Mediciones de Laboratorio}
+
+\end{semilogxaxis}
+\end{tikzpicture}

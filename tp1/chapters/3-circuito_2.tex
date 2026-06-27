@@ -161,22 +161,31 @@ Los polos del sistema real se ubican teóricamente en:
   p_2 &\approx -\frac{R}{L} = -\SI{3.14}{\mega\radian\per\second} \quad (f_{p2} \approx \SI{500.5}{\kilo\hertz})
 \end{align}
 
-Durante el ensayo en el laboratorio, se utilizó un generador de señales para aplicar una tensión senoidal $V_{in}$ a la entrada del filtro. Se midieron las tensiones de entrada y salida con un osciloscopio digital RIGOL. Todas las mediciones de tensión en la Tabla \ref{tab:mediciones_circuito_2} han sido unificadas a valor eficaz ($V_{rms}$) para garantizar la consistencia, realizando la conversión $V_{rms} = V_{pp}/(2\sqrt{2})$ para las frecuencias de \SI{2}{\hertz} y \SI{10}{\hertz} que originalmente se registraron como pico a pico ($V_{pp}$). La atenuación del filtro se expresa directamente como ganancia en decibeles.
+Durante el ensayo en el laboratorio, se utilizó un generador de señales para aplicar una tensión senoidal $V_{in}$ a la entrada del filtro. Se midieron las tensiones de entrada y salida con un osciloscopio digital RIGOL. Todas las mediciones de tensión en la Tabla \ref{tab:mediciones_circuito_2} se expresan en valor eficaz ($V_{rms}$). La atenuación del filtro se expresa directamente como ganancia en decibeles.
 
 \begin{table}[H]
   \centering
   \begin{tabular}{cccc}
     \hline
     \textbf{Frecuencia} & \textbf{Tensión $V_{in}$ ($V_{rms}$)} & \textbf{Tensión $V_{out}$ ($V_{rms}$)} & \textbf{Ganancia [dB]} \\ \hline
-    \SI{2}{\hertz}      & \SI{2.40}{\volt}                      & \SI{678.8}{\milli\volt}                 & \SI{-10.98}{\decibel}  \\
-    \SI{10}{\hertz}     & \SI{2.62}{\volt}                      & \SI{169.7}{\milli\volt}                 & \SI{-23.76}{\decibel}  \\
-    \SI{100}{\hertz}    & \SI{2.5}{\volt}                       & \SI{86}{\milli\volt}                    & \SI{-29.27}{\decibel}  \\
-    \SI{1}{\kilo\hertz} & \SI{2.5}{\volt}                       & \SI{90}{\milli\volt}                    & \SI{-28.87}{\decibel}  \\
-    \SI{10}{\kilo\hertz}& \SI{2.5}{\volt}                       & \SI{10}{\milli\volt}                    & \SI{-47.96}{\decibel}  \\
-    \SI{100}{\kilo\hertz}& \SI{2.5}{\volt}                      & \SI{770}{\milli\volt}                   & \SI{-10.23}{\decibel}  \\
-    \SI{200}{\kilo\hertz}& \SI{2.5}{\volt}                      & \SI{1.19}{\volt}                        & \SI{-6.45}{\decibel}   \\ \hline
+    \SI{1}{\hertz}       & \SI{1.75}{\volt}                      & \SI{1.75}{\volt}                       & \SI{0.00}{\decibel}    \\
+    \SI{2}{\hertz}       & \SI{1.75}{\volt}                      & \SI{1.75}{\volt}                       & \SI{0.00}{\decibel}    \\
+    \SI{10}{\hertz}      & \SI{1.75}{\volt}                      & \SI{1.62}{\volt}                       & \SI{-0.67}{\decibel}   \\
+    \SI{20}{\hertz}      & \SI{1.75}{\volt}                      & \SI{1.25}{\volt}                       & \SI{-2.92}{\decibel}   \\
+    \SI{50}{\hertz}      & \SI{1.52}{\volt}                      & \SI{0.65}{\volt}                       & \SI{-7.38}{\decibel}   \\
+    \SI{100}{\hertz}     & \SI{1.52}{\volt}                      & \SI{0.34}{\volt}                       & \SI{-13.01}{\decibel}  \\
+    \SI{200}{\hertz}     & \SI{1.50}{\volt}                      & \SI{0.14}{\volt}                       & \SI{-20.59}{\decibel}  \\
+    \SI{500}{\hertz}     & \SI{1.47}{\volt}                      & \SI{0.05}{\volt}                       & \SI{-29.36}{\decibel}  \\
+    \SI{1}{\kilo\hertz}  & \SI{1.47}{\volt}                      & \SI{0.11}{\volt}                       & \SI{-22.52}{\decibel}  \\
+    \SI{2}{\kilo\hertz}  & \SI{1.50}{\volt}                      & \SI{0.27}{\volt}                       & \SI{-14.89}{\decibel}  \\
+    \SI{5}{\kilo\hertz}  & \SI{1.60}{\volt}                      & \SI{0.66}{\volt}                       & \SI{-7.69}{\decibel}   \\
+    \SI{10}{\kilo\hertz} & \SI{1.68}{\volt}                      & \SI{1.12}{\volt}                       & \SI{-3.52}{\decibel}   \\
+    \SI{20}{\kilo\hertz} & \SI{1.80}{\volt}                      & \SI{1.50}{\volt}                       & \SI{-1.58}{\decibel}   \\
+    \SI{50}{\kilo\hertz} & \SI{1.90}{\volt}                      & \SI{1.75}{\volt}                       & \SI{-0.72}{\decibel}   \\
+    \SI{100}{\kilo\hertz}& \SI{1.93}{\volt}                      & \SI{1.80}{\volt}                       & \SI{-0.61}{\decibel}   \\
+    \SI{200}{\kilo\hertz}& \SI{1.92}{\volt}                      & \SI{1.80}{\volt}                       & \SI{-0.56}{\decibel}   \\ \hline
   \end{tabular}
-  \caption{Mediciones experimentales del circuito 2 en el laboratorio (unificadas a valor eficaz).}
+  \caption{Mediciones experimentales del circuito 2 en el laboratorio (valor eficaz).}
   \label{tab:mediciones_circuito_2}
 \end{table}
 
@@ -187,9 +196,9 @@ Durante el ensayo en el laboratorio, se utilizó un generador de señales para a
   \label{plot:bode_medido_vs_teorico_circuito_2}
 \end{figure}
 
-A partir de las mediciones graficadas en la Figura \ref{plot:bode_medido_vs_teorico_circuito_2}, se observa un buen acuerdo general con la respuesta simulada. A frecuencias muy bajas (\SI{2}{\hertz} y \SI{10}{\hertz}) y altas (\SI{100}{\kilo\hertz} y \SI{200}{\kilo\hertz}), los puntos coinciden notablemente con la simulación. En el rango de \SI{100}{\hertz} a \SI{1}{\kilo\hertz}, los valores medidos presentan una meseta en torno a los \SI{-29}{\decibel}, limitados principalmente por el piso de ruido del instrumental, pero registrando el comportamiento atenuador central esperado.
+A partir de las mediciones graficadas en la Figura \ref{plot:bode_medido_vs_teorico_circuito_2}, se observa un buen acuerdo general con la respuesta simulada. A frecuencias muy bajas (\SI{1}{\hertz} y \SI{2}{\hertz}) la ganancia es prácticamente unitaria (\SI{0}{\decibel}), confirmando que las señales de baja frecuencia pasan sin atenuación. A medida que la frecuencia se aproxima a la zona de rechazo, la atenuación crece progresivamente hasta alcanzar un mínimo de \SI{-29.36}{\decibel} a \SI{500}{\hertz}, coincidiendo con la frecuencia de resonancia teórica de $f_0 \approx \SI{491}{\hertz}$. A frecuencias superiores, la ganancia se recupera gradualmente hasta valores cercanos a \SI{0}{\decibel} en \SI{100}{\kilo\hertz} y \SI{200}{\kilo\hertz}, verificando el comportamiento característico del filtro notch.
 
-Para registrar con mayor resolución la respuesta en frecuencia completa del filtro en el entorno de la sintonía, se capturó la pantalla del osciloscopio mostrada en la Figura \ref{img:bode_medido_circuito_2}, la cual grafica la respuesta obtenida mediante la Transformada Rápida de Fourier (FFT). El osciloscopio se configuró con una escala de magnitud vertical de \SI{10.0}{\decibel\text{Vrms}/div} y una escala de frecuencia horizontal de \SI{250.0}{\hertz/div}. Con el inicio del barrido en corriente continua, la fosa del notch se ubicó exactamente a dos divisiones del origen de frecuencias, lo cual corresponde a una frecuencia de sintonía de sintonía de $2 \times \SI{250}{\hertz/div} = \SI{500}{\hertz}$, en excelente concordancia con la frecuencia de resonancia teórica calculada de $\SI{491.46}{\hertz}$. Utilizando los cursores del osciloscopio, se midió un nivel de referencia en la banda de paso de $CurA = \SI{-43.6}{\decibel}$ y el punto mínimo del notch en $CurB = \SI{-74.8}{\decibel}$, registrando una profundidad de notch de $\SI{31.2}{\decibel}$. Este comportamiento práctico valida satisfactoriamente el análisis teórico propuesto para este filtro.
+Para registrar con mayor resolución la respuesta en frecuencia completa del filtro en el entorno de la sintonía, se capturó la pantalla del osciloscopio mostrada en la Figura \ref{img:bode_medido_circuito_2}, la cual grafica la respuesta obtenida mediante la Transformada Rápida de Fourier (FFT), donde se aprecia claramente la fosa del notch centrada en la frecuencia de resonancia.
 
 \begin{figure}[H]
   \centering

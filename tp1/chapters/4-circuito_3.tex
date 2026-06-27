@@ -116,82 +116,75 @@ Para el diagrama polar, se separa $H(j\omega)$ en sus componentes real e imagina
 \end{figure}
 
 
-% ---------------------------------------------------------------------------------------------------------
-% SECCIÓN DE CIRCUITO REAL (COMENTADA COMO FUE SOLICITADO)
-% ---------------------------------------------------------------------------------------------------------
-% \subsection{Análisis y Simulación (Real)}
-% \label{sec:analisis_circ_3_real}
-% 
-% Los valores reales utilizados para el circuito son:
-% \begin{itemize}
-%   \item $R_1: \SI{100}{\kilo\ohm}$
-%   \item $R_2: \SI{390}{\kilo\ohm} + \SI{10}{\kilo\ohm} = \SI{400}{\kilo\ohm}$
-%   \item $C_1: \SI{1.2}{\micro\farad}$
-%   \item $C_2: \SI{15}{\nano\farad}$
-% \end{itemize}
-% 
-% Reemplazando estos valores en la expresión genérica de la ecuación \ref{eq:fdt-circuito-3-generica}, se obtiene:
-% \begin{align}
-%   H_{real}(s) &= -\frac{0.48 s}{(1 + 0.12 s)(1 + 0.006 s)}\\
-%   H_{real}(s) &= -\frac{0.48 s}{\num{7.2d-4} s^2 + 0.126 s + 1}
-% \end{align}
-% 
-% Dividiendo numerador y denominador por $\num{7.2d-4}$:
-% \begin{align}
-%   H_{real}(s) &= -\frac{666.67 s}{s^2 + 175 s + 1388.89}\\
-%   H_{real}(s) &= -\frac{666.67 s}{(s + 8.333)(s + 166.667)}
-% \end{align}
-% 
-% En este caso, los polos reales se ubican en $s = -8.333$ rad/s y $s = -166.667$ rad/s.
-% Evaluando $H_{real}(s)$ en $s = j\omega$:
-% \begin{equation}
-%   H_{real}(j\omega) = \frac{-666.67 \cdot j\omega}{-\omega^2 + 175 \cdot j\omega + 1388.89}
-% \end{equation}
-% 
-% Separando la función de transferencia real en sus partes real e imaginaria para el diagrama polar:
-% \begin{align}
-%   Re_{real}(\omega) &= - \frac{116666.7 \cdot \omega^2}{\omega^4 + 27847.22 \cdot \omega^2 + 1929012.35}\\
-%   Img_{real}(\omega) &= - \frac{666.67 \cdot \omega \cdot (1388.89 - \omega^2)}{\omega^4 + 27847.22 \cdot \omega^2 + 1929012.35}
-% \end{align}
-% 
-% TODO: Diagrama polar con valores reales sacado de LTSpice
-% \begin{figure}[H]
-%   \centering
-%   % \includegraphics[width=0.9\columnwidth]{images/polar_3_real.png}
-%   \caption{Diagrama polar de la FDT (Valores Reales).}
-%   \label{plot:polar_circuito_3_real}
-% \end{figure}
-% 
-% \begin{figure}[H]
-%   \centering
-%   \input{figures/plot_asymptotic_gain_circuito_3_real.tex}
-%   \caption{Diagrama de Bode de Magnitud (Valores Reales).}
-%   \label{plot:bode_mag_circuito_3_real}
-% \end{figure}
-% 
-% \begin{figure}[H]
-%   \centering
-%   \input{figures/plot_asymptotic_phase_circuito_3_real.tex}
-%   \caption{Diagrama de Bode de Fase (Valores Reales).}
-%   \label{plot:bode_phase_circuito_3_real}
-% \end{figure}
-% 
-% TODO: Al igual que en la reconstrucción del Bode medido, se podrá
-% armar la curva teórica con los componentes reales usando
-% \addplot coordinates {...} o exportando los datos de Octave/LTSpice
-% y agregándolos como una gráfica superpuesta en el futuro.
 \subsection{Mediciones de Laboratorio}
 \label{sec:mediciones_circ_3}
 
-Para la implementación física del circuito, los valores nominales de las resistencias fueron obtenidos combinando componentes comerciales:
+Para la verificación experimental, se realizó la implementación física del filtro pasa banda utilizando componentes reales cuyos valores medidos fueron:
 \begin{itemize}
-    \item La resistencia de $20k\Omega$ se construyó conectando dos resistencias de $10k\Omega$ en serie.
-    \item La resistencia de $400k\Omega$ se logró conectando en serie una resistencia de $390k\Omega$ y una de $10k\Omega$.
-    \item Los capacitores se implementaron con los valores comerciales más próximos disponibles: $C_1 = 1.2\mu F$ y $C_2 = 15nF$.
-    \item El circuito activo fue montado en protoboard utilizando el amplificador operacional JFET dual \textbf{TL082}.
+  \item Resistencia $R_1$: $\SI{20}{\kilo\ohm}$ (construida mediante dos resistencias de $\SI{10}{\kilo\ohm}$ en serie)
+  \item Resistencia $R_2$: $\SI{400}{\kilo\ohm}$ (construida mediante una resistencia de $\SI{390}{\kilo\ohm}$ y una de $\SI{10}{\kilo\ohm}$ en serie)
+  \item Capacitor $C_1$: $\SI{1.2}{\micro\farad}$
+  \item Capacitor $C_2$: $\SI{15}{\nano\farad}$
 \end{itemize}
 
-% TODO: Insertar aquí la foto de la FFT con el barrido de frecuencia en el laboratorio
+El circuito activo fue montado en protoboard utilizando el amplificador operacional JFET dual \textbf{TL082}.
+
+Los capacitores utilizados en el laboratorio ($C_1 = \SI{1.2}{\micro\farad}$ y $C_2 = \SI{15}{\nano\farad}$) son muy cercanos a los valores de diseño teóricos de $\SI{1.25}{\micro\farad}$ y $\SI{15.625}{\nano\farad}$, respectivamente. Con estos componentes reales, la frecuencia angular central teórica $\omega_0$ y la correspondiente frecuencia central de sintonía $f_0$ son:
+\begin{align}
+  \omega_0 &= \frac{1}{\sqrt{R_1 \cdot C_1 \cdot R_2 \cdot C_2}} \\
+           &= \frac{1}{\sqrt{\SI{20}{\kilo\ohm} \cdot \SI{1.2}{\micro\farad} \cdot \SI{400}{\kilo\ohm} \cdot \SI{15}{\nano\farad}}} \approx \SI{83.33}{\radian\per\second}
+\end{align}
+\begin{equation}
+  f_0 = \frac{\omega_0}{2\pi} \approx \SI{13.26}{\hertz}
+\end{equation}
+
+Los polos del sistema real se ubican teóricamente en:
+\begin{align}
+  p_1 &= -\frac{1}{R_1 \cdot C_1} = -\SI{41.67}{\radian\per\second} \quad (f_{p1} \approx \SI{6.63}{\hertz}) \\
+  p_2 &= -\frac{1}{R_2 \cdot C_2} = -\SI{166.67}{\radian\per\second} \quad (f_{p2} \approx \SI{26.53}{\hertz})
+\end{align}
+
+Durante el ensayo en el laboratorio, se utilizó un generador de señales para aplicar una tensión senoidal $V_{in}$ a la entrada del filtro. Se midieron las tensiones de entrada y salida con un osciloscopio digital RIGOL. Las mediciones originales se registraron en valor pico a pico ($V_{pp}$), con $V_{in} = \SI{2.64}{\volt}_{pp}$ constante para todas las frecuencias. Para la Tabla \ref{tab:mediciones_circuito_3}, los valores fueron convertidos a valor eficaz mediante $V_{rms} = V_{pp}/(2\sqrt{2})$. La ganancia del filtro se expresa directamente en decibeles.
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{cccc}
+    \hline
+    \textbf{Frecuencia} & \textbf{Tensión $V_{in}$ ($V_{rms}$)} & \textbf{Tensión $V_{out}$ ($V_{rms}$)} & \textbf{Ganancia [dB]} \\ \hline
+    \SI{1}{\hertz}       & \SI{0.93}{\volt}                      & \SI{1.70}{\volt}                       & \SI{5.19}{\decibel}    \\
+    \SI{2}{\hertz}       & \SI{0.93}{\volt}                      & \SI{1.87}{\volt}                       & \SI{6.02}{\decibel}    \\
+    \SI{5}{\hertz}       & \SI{0.93}{\volt}                      & \SI{1.92}{\volt}                       & \SI{6.28}{\decibel}    \\
+    \SI{8}{\hertz}       & \SI{0.93}{\volt}                      & \SI{1.92}{\volt}                       & \SI{6.28}{\decibel}    \\
+    \SI{10}{\hertz}      & \SI{0.93}{\volt}                      & \SI{1.87}{\volt}                       & \SI{6.02}{\decibel}    \\
+    \SI{15}{\hertz}      & \SI{0.93}{\volt}                      & \SI{1.75}{\volt}                       & \SI{5.48}{\decibel}    \\
+    \SI{20}{\hertz}      & \SI{0.93}{\volt}                      & \SI{1.64}{\volt}                       & \SI{4.90}{\decibel}    \\
+    \SI{25}{\hertz}      & \SI{0.93}{\volt}                      & \SI{1.50}{\volt}                       & \SI{4.11}{\decibel}    \\
+    \SI{30}{\hertz}      & \SI{0.93}{\volt}                      & \SI{1.41}{\volt}                       & \SI{3.61}{\decibel}    \\
+    \SI{45}{\hertz}      & \SI{0.93}{\volt}                      & \SI{1.13}{\volt}                       & \SI{1.67}{\decibel}    \\
+    \SI{60}{\hertz}      & \SI{0.93}{\volt}                      & \SI{0.93}{\volt}                       & \SI{0.00}{\decibel}    \\
+    \SI{70}{\hertz}      & \SI{0.93}{\volt}                      & \SI{0.79}{\volt}                       & \SI{-1.43}{\decibel}   \\
+    \SI{90}{\hertz}      & \SI{0.93}{\volt}                      & \SI{0.68}{\volt}                       & \SI{-2.77}{\decibel}   \\
+    \SI{120}{\hertz}     & \SI{0.93}{\volt}                      & \SI{0.57}{\volt}                       & \SI{-4.35}{\decibel}   \\
+    \SI{200}{\hertz}     & \SI{0.93}{\volt}                      & \SI{0.35}{\volt}                       & \SI{-8.43}{\decibel}   \\
+    \SI{500}{\hertz}     & \SI{0.93}{\volt}                      & \SI{0.14}{\volt}                       & \SI{-16.39}{\decibel}  \\
+    \SI{1}{\kilo\hertz}  & \SI{0.93}{\volt}                      & \SI{0.11}{\volt}                       & \SI{-18.89}{\decibel}  \\
+    \SI{1}{\mega\hertz}  & \SI{0.93}{\volt}                      & \SI{0.08}{\volt}                       & \SI{-20.83}{\decibel}  \\ \hline
+  \end{tabular}
+  \caption{Mediciones experimentales del circuito 3 en el laboratorio (convertidas a valor eficaz).}
+  \label{tab:mediciones_circuito_3}
+\end{table}
+
+\begin{figure}[H]
+  \centering
+  \input{figures/plot_bode_medido_circuito_3.tex}
+  \caption{Comparación entre la simulación de LTSpice del circuito real y las mediciones obtenidas en el laboratorio.}
+  \label{plot:bode_medido_vs_teorico_circuito_3}
+\end{figure}
+
+A partir de las mediciones graficadas en la Figura \ref{plot:bode_medido_vs_teorico_circuito_3}, se observa el comportamiento característico de un filtro pasa banda. La ganancia máxima medida es de \SI{6.28}{\decibel}, alcanzada entre \SI{5}{\hertz} y \SI{8}{\hertz}, lo que ubica la frecuencia central experimental del filtro en dicho rango. A frecuencias superiores, la atenuación crece progresivamente con una pendiente cercana a \SI{-20}{\decibel} por década, registrándose \SI{-18.89}{\decibel} a \SI{1}{\kilo\hertz} y \SI{-20.83}{\decibel} a \SI{1}{\mega\hertz}.
+
+Para registrar con mayor resolución la respuesta en frecuencia completa del filtro, se capturó la pantalla del osciloscopio mostrada en la Figura \ref{img:fft_circuito_3}, la cual grafica la respuesta obtenida mediante la Transformada Rápida de Fourier (FFT).
+
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.9\columnwidth]{images/b3.png}
@@ -199,53 +192,3 @@ Para la implementación física del circuito, los valores nominales de las resis
   \label{img:fft_circuito_3}
 \end{figure}
 
-% -------------------------------------------------------------------------
-% TODO: Reconstrucción del Diagrama de Bode a partir de las mediciones
-% Cuando me pases los puntos de frecuencia (Hz), Magnitud (dB) y Fase (grados),
-% los agregamos en las coordenadas de abajo y descomentamos este bloque para
-% generar el gráfico de la curva medida.
-% -------------------------------------------------------------------------
-% \begin{figure}[H]
-%   \centering
-%   \begin{tikzpicture}
-%     \begin{semilogxaxis}[
-%       width=0.9\columnwidth,
-%       height=4.5cm,
-%       grid=both,
-%       xlabel={Frecuencia [Hz]},
-%       ylabel={Magnitud [dB]},
-%       title={Bode Reconstruido (Magnitud)}
-%     ]
-%     \addplot[color=blue, mark=*] coordinates {
-%       % (frecuencia1, magnitud1)
-%       % (frecuencia2, magnitud2)
-%       % ...
-%       (100, -3)
-%       (1000, -20)
-%     };
-%     \end{semilogxaxis}
-%   \end{tikzpicture}
-%
-%   \vspace{0.5cm}
-%
-%   \begin{tikzpicture}
-%     \begin{semilogxaxis}[
-%       width=0.9\columnwidth,
-%       height=4.5cm,
-%       grid=both,
-%       xlabel={Frecuencia [Hz]},
-%       ylabel={Fase [$^\circ$]},
-%       title={Bode Reconstruido (Fase)}
-%     ]
-%     \addplot[color=red, mark=square*] coordinates {
-%       % (frecuencia1, fase1)
-%       % (frecuencia2, fase2)
-%       % ...
-%       (100, 45)
-%       (1000, 90)
-%     };
-%     \end{semilogxaxis}
-%   \end{tikzpicture}
-%   \caption{Diagrama de Bode reconstruido a partir de puntos de medición.}
-%   \label{plot:bode_reconstruido_circ_3}
-% \end{figure}
