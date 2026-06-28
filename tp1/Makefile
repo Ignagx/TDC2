@@ -1,6 +1,8 @@
-MATERIA := $(notdir $(abspath $(CURDIR)/..))
-TP := $(notdir $(CURDIR))
-OUTPUT_NAME := $(MATERIA)_$(TP)
+MATERIA := TDC2
+TP := TP1
+CURSO := 4R2
+GRUPO := Grupo2
+OUTPUT_NAME := $(MATERIA)_$(TP)_$(CURSO)_$(GRUPO)
 
 SRC := main.tex
 

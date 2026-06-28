@@ -1,7 +1,7 @@
 \section{Circuito 3}
 \label{chap:circuito_3}
 
-Se muestra en la Figura \ref{plot:circuito_3} el circuito sobre el que se trabajará, que constituye un filtro pasa banda
+Se muestra en la Figura \ref{fig:esquematico_circuito_3} el circuito sobre el que se trabajará, que constituye un filtro pasa banda
 implementado con un amplificador operacional en configuración inversora. Los valores ideales de los componentes dados en el trabajo práctico son:
 
 \begin{itemize}
@@ -15,10 +15,10 @@ implementado con un amplificador operacional en configuración inversora. Los va
   \centering
   \input{figures/circuito_3.tikz}
   \caption{Esquemático del circuito 3.}
-  \label{plot:circuito_3}
+  \label{fig:esquematico_circuito_3}
 \end{figure}
 
-\subsection{Análisis y Simulación (Ideal)}
+\subsection{Análisis y Simulación}
 \label{sec:analisis_circ_3_ideal}
 
 Para el análisis matemático de este circuito, se obtienen primero las impedancias de la rama de entrada ($Z_i$) y de la rama de realimentación ($Z_f$). 
@@ -67,8 +67,8 @@ Los polos se ubican en $s = -40$ rad/s y $s = -160$ rad/s. Ambos polos son reale
 \begin{figure}[H]
   \centering
   \input{figures/plot_poles_circuito_3.tex}
-  \caption{Polos en el plano complejo de la FDT.}
-  \label{plot:poles_circuito_3}
+  \caption{Polos en el plano complejo de la FDT del circuito 3.}
+  \label{fig:polos_circuito_3}
 \end{figure}
 
 Se procede ahora a analizar la FDT en el dominio de la frecuencia reemplazando $s = j\omega$:
@@ -97,8 +97,8 @@ Para el diagrama polar, se separa $H(j\omega)$ en sus componentes real e imagina
   \centering
   \input{figures/plot_polar_circuito_3.tex}
   % \includegraphics[width=0.9\columnwidth]{images/polar_3.png}
-  \caption{Diagrama polar de la FDT (Ideal).}
-  \label{plot:polar_circuito_3_ideal}
+  \caption{Diagrama polar de la FDT del circuito 3 (ideal).}
+  \label{fig:polar_circuito_3}
 \end{figure}
 
 \begin{figure}[H]
@@ -170,7 +170,7 @@ Durante el ensayo en el laboratorio, se utilizó un generador de señales para a
     \SI{1}{\kilo\hertz}  & \SI{0.93}{\volt}                      & \SI{0.11}{\volt}                       & \SI{-18.89}{\decibel}  \\
     \SI{1}{\mega\hertz}  & \SI{0.93}{\volt}                      & \SI{0.08}{\volt}                       & \SI{-20.83}{\decibel}  \\ \hline
   \end{tabular}
-  \caption{Mediciones experimentales del circuito 3 en el laboratorio (convertidas a valor eficaz).}
+  \caption{Mediciones experimentales del circuito 3 en el laboratorio (valor eficaz).}
   \label{tab:mediciones_circuito_3}
 \end{table}
 
@@ -178,17 +178,17 @@ Durante el ensayo en el laboratorio, se utilizó un generador de señales para a
   \centering
   \input{figures/plot_bode_medido_circuito_3.tex}
   \caption{Comparación entre la simulación de LTSpice del circuito real y las mediciones obtenidas en el laboratorio.}
-  \label{plot:bode_medido_vs_teorico_circuito_3}
+  \label{fig:bode_medido_circuito_3}
 \end{figure}
 
-A partir de las mediciones graficadas en la Figura \ref{plot:bode_medido_vs_teorico_circuito_3}, se observa el comportamiento característico de un filtro pasa banda. La ganancia máxima medida es de \SI{6.28}{\decibel}, alcanzada entre \SI{5}{\hertz} y \SI{8}{\hertz}, lo que ubica la frecuencia central experimental del filtro en dicho rango. A frecuencias superiores, la atenuación crece progresivamente con una pendiente cercana a \SI{-20}{\decibel} por década, registrándose \SI{-18.89}{\decibel} a \SI{1}{\kilo\hertz} y \SI{-20.83}{\decibel} a \SI{1}{\mega\hertz}.
+A partir de las mediciones graficadas en la Figura \ref{fig:bode_medido_circuito_3}, se observa el comportamiento característico de un filtro pasa banda. La ganancia máxima medida es de \SI{6.28}{\decibel}, alcanzada entre \SI{5}{\hertz} y \SI{8}{\hertz}, lo que ubica la frecuencia central experimental del filtro en dicho rango. A frecuencias superiores, la atenuación crece progresivamente con una pendiente cercana a \SI{-20}{\decibel} por década, registrándose \SI{-18.89}{\decibel} a \SI{1}{\kilo\hertz} y \SI{-20.83}{\decibel} a \SI{1}{\mega\hertz}.
 
-Para registrar con mayor resolución la respuesta en frecuencia completa del filtro, se capturó la pantalla del osciloscopio mostrada en la Figura \ref{img:fft_circuito_3}, la cual grafica la respuesta obtenida mediante la Transformada Rápida de Fourier (FFT).
+Para registrar con mayor resolución la respuesta en frecuencia completa del filtro, se capturó la pantalla del osciloscopio mostrada en la Figura \ref{fig:fft_circuito_3}, la cual grafica la respuesta obtenida mediante la Transformada Rápida de Fourier (FFT).
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.9\columnwidth]{images/b3.png}
   \caption{FFT y barrido de frecuencia medido en el laboratorio.}
-  \label{img:fft_circuito_3}
+  \label{fig:fft_circuito_3}
 \end{figure}
 

@@ -1,8 +1,8 @@
 \section{Circuito 1}
 \label{chap:circuito_1}
 
-Se muestra en la Figura \ref{plot:circuito_1} el circuito sobre el que se trabajará y en la Figura
-\ref{img:circuito_1ltspice} visto desde el simulador LTSpice, que constituye un filtro pasa bajo de segundo orden. Los
+Se muestra en la Figura \ref{fig:esquematico_circuito_1} el circuito sobre el que se trabajará y en la Figura
+\ref{fig:esquematico_ltspice_circuito_1} visto desde el simulador LTSpice, que constituye un filtro pasa bajo de segundo orden. Los
 valores de los componentes son:
 
 \begin{itemize}
@@ -16,21 +16,21 @@ valores de los componentes son:
   \centering
   \input{figures/circuito_1.tikz}
   \caption{Esquematico del circuito 1.}
-  \label{plot:circuito_1}
+  \label{fig:esquematico_circuito_1}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.9\columnwidth,height=6cm,keepaspectratio]{images/circuito_1ltspice.png}
   \caption{Esquematico del circuito 1 visto desde LTSpice.}
-  \label{img:circuito_1ltspice}
+  \label{fig:esquematico_ltspice_circuito_1}
 \end{figure}
 
-\subsection{Analisis y Simulacion}
+\subsection{Análisis y Simulación}
 \label{sec:analisis_circ_1}
 
 Para el analisis se transforma el circuito a su equivalente en laplace como se ve en la Figura
-\ref{plot:circuito_1_laplace} y se aplica el metodo sistematico nodal, el cual nos da las matrices de la ecuacion
+\ref{fig:laplace_circuito_1} y se aplica el metodo sistematico nodal, el cual nos da las matrices de la ecuacion
 \ref{eq:circuito_1_matrices}.
 
 
@@ -38,7 +38,7 @@ Para el analisis se transforma el circuito a su equivalente en laplace como se v
   \centering
   \input{figures/circuito_1_laplace.tikz}
   \caption{Equivalente en laplace del circuito 1.}
-  \label{plot:circuito_1_laplace}
+  \label{fig:laplace_circuito_1}
 \end{figure}
 
 
@@ -79,7 +79,7 @@ $$
 
 Dividiendo por $V_{in}(s)$, reemplazando los valores de las admitancias por los especificados anteriormente y
 resolviendo algebraicamente, se llega finalmente la Funcion de Transferencia (FDT) vista en la ecuacion \ref{eq:fdt-circuito-1}.
-Se pueden ver sus polos en el plano complejo en la Figura \ref{img:polos-plano-circuito-1}. Estos polos nos indican que el
+Se pueden ver sus polos en el plano complejo en la Figura \ref{fig:polos_circuito_1}. Estos polos nos indican que el
 sistema es estable y no posee propiedades oscilatorias, ya que se encuentran del lado izquierdo del plano sobre el eje
 real.
 
@@ -95,7 +95,7 @@ real.
   \centering
   \input{figures/plot_poles_circuito_1.tex}
   \caption{Polos en el plano complejo de la FDT.}
-  \label{img:polos-plano-circuito-1}
+  \label{fig:polos_circuito_1}
 \end{figure}
 
 Para la simulación se aplica el comando \textbf{.ac dec 10 0.01 20meg} que hará un barrido en frecuencia de la fuente V1, de $0.01\ \si{\hertz}$ a 
@@ -134,10 +134,10 @@ Para esto se multiplica y divide por el conjugado del denominador, obteniendo:
   \centering
   \input{figures/plot_polar_circuito_1.tex}
   \caption{Diagrama polar de la FDT.}
-  \label{plot:polar_circuito_1_combined}
+  \label{fig:polar_circuito_1}
 \end{figure}
 
-En la Figura \ref{plot:polar_circuito_1_combined} se presentan dos diagramas polares correspondientes a la Función de
+En la Figura \ref{fig:polar_circuito_1} se presentan dos diagramas polares correspondientes a la Función de
 Transferencia del sistema, uno  operando algebraicamente y el otro obtenido utilizando una herramienta de
 calculo. Este gráfico representa la magnitud y la fase de la respuesta en frecuencia en el plano complejo, trazando la
 parte imaginaria en función de la parte real a medida que la frecuencia angular ($\omega$) varía desde cero hasta el
@@ -167,35 +167,35 @@ infinito.
 Los diagramas de bode se aproximan utilizando una tecnica de asintotas a partir de los polos y ceros de nuestra FDT.
 Al no haber ceros, para el diagrama de bode de magnitud se traza una recta en \SI{0}{\decibel} para la constante, y dos
 rectas con pendiente de \SI{-20}{\decibel} por decada en cada polo. Finalmente se construye la resultante, viendose
-comparada por la simulacion en la Figura \ref{plot:bode_mag_circuito_1}.\\
+comparada por la simulacion en la Figura \ref{fig:bode_mag_circuito_1}.\\
 Para el diagrama de fase, la aproximación asintótica establece que cada polo aporta un desfase que inicia una década
 antes de su frecuencia de corte y finaliza una década después, cayendo con una pendiente de -45° por década. Al tener
 dos polos reales en nuestra FDT y ningún cero, la fase inicial se mantiene en 0° hasta llegar a $0,1\omega_{p1}$. A partir
 de allí comienza a caer por acción del primer polo, y al alcanzar $0,1\omega_{p2}$ se suma el efecto del segundo, llevando
 la pendiente resultante a -90° por década en la región donde ambos actúan. Finalmente, a medida que se superan las frecuencias
 de $10\omega_{p1}$ y $10\omega_{p2}$, ambos polos saturan su contribución máxima de -90° cada uno, haciendo que la gráfica
-asintótica se estabilice de forma constante en -180°, viéndose comparada por la simulación en la Figura \ref{plot:bode_phase_circuito_1}.
+asintótica se estabilice de forma constante en -180°, viéndose comparada por la simulación en la Figura \ref{fig:bode_phase_circuito_1}.
 
 
 \begin{figure}[H]
   \centering
   \input{figures/plot_asymptotic_gain_circuito_1.tex}
   \caption{Diagrama de Bode de Magnitud.}
-  \label{plot:bode_mag_circuito_1}
+  \label{fig:bode_mag_circuito_1}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \input{figures/plot_asymptotic_phase_circuito_1.tex}
   \caption{Diagrama de Bode de Fase.}
-  \label{plot:bode_phase_circuito_1}
+  \label{fig:bode_phase_circuito_1}
 \end{figure}
 
-\section{Laboratorio}
+\subsection{Mediciones de Laboratorio}
 Para la experiencia de laboratorio, se llevó a cabo la implementación física del circuito mediante la fabricación y
 ensamblaje de un PCB de diseño simple sin perforaciones. Posteriormente, se procedió a la verificación del funcionamiento conectando la
 placa a un osciloscopio RIGOL para evaluar su comportamiento empírico. 
-Primero se tomaron datos contrastando la entrada con la salida a distintas frecuencias como se ve en las Figuras \ref{plot:circuito_1_medido} y \ref{plot:bode_mag_medido_circuito_1}
+Primero se tomaron datos contrastando la entrada con la salida a distintas frecuencias como se ve en las Figuras \ref{fig:bode_medido_circuito_1} y \ref{fig:fft_circuito_1}
 Y luego se aplicó la función matemática de la Transformada Rápida de Fourier (FFT), con el instrumento configurado en una escala vertical de 10.0 dBVrms/div y una
 base de tiempo horizontal de 25.00 kHz/div, se pudo analizar el espectro de frecuencias de la señal.
 %Las mediciones registradas en pantalla (como se muestra en la Figura \ref{plot:bode_mag_medido_circuito_1}) validaron nuestro análisis previo, ya que la distribución de los picos armónicos y el perfil
@@ -208,7 +208,7 @@ base de tiempo horizontal de 25.00 kHz/div, se pudo analizar el espectro de frec
   \centering
   \begin{tabular}{cccc}
     \hline
-    \textbf{Frecuencia} & \textbf{Tensión $V_{in}$ ($V_{rms}$)} & \textbf{Tensión $V_{out}$ ($V_{rms}$)} & \textbf{Ganancia (dB)} \\
+    \textbf{Frecuencia} & \textbf{Tensión $V_{in}$ ($V_{rms}$)} & \textbf{Tensión $V_{out}$ ($V_{rms}$)} & \textbf{Ganancia [dB]} \\
     \hline
     \SI{2}{\hertz}         & \SI{2.44}{\volt}   & \SI{2.38}{\volt}          & \SI{-0.22}{\decibel} \\
     \SI{10}{\hertz}        & \SI{2.44}{\volt}   & \SI{2.38}{\volt}          & \SI{-0.22}{\decibel} \\
@@ -230,7 +230,7 @@ base de tiempo horizontal de 25.00 kHz/div, se pudo analizar el espectro de frec
     \SI{200}{\kilo\hertz}  & \SI{2.44}{\volt}   & \SI{80}{\milli\volt}      & \SI{-29.69}{\decibel} \\
     \hline
   \end{tabular}
-  \caption{Mediciones experimentales del circuito 1 en el laboratorio.}
+  \caption{Mediciones experimentales del circuito 1 en el laboratorio (valor eficaz).}
   \label{tab:mediciones_circuito_1}
 \end{table}
 
@@ -239,12 +239,12 @@ base de tiempo horizontal de 25.00 kHz/div, se pudo analizar el espectro de frec
   \centering
   \input{figures/plot_bode_medido_circuito_1.tex}
   \caption{Diagrama de Bode de Fase.}
-  \label{plot:circuito_1_medido}
+  \label{fig:bode_medido_circuito_1}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\columnwidth]{images/bd1.png}
   \caption{Diagrama de Bode de Magnitud.}
-  \label{plot:bode_mag_medido_circuito_1}
+  \label{fig:fft_circuito_1}
 \end{figure}

@@ -1,7 +1,7 @@
 \section{Circuito 2}
 \label{chap:circuito_2}
 
-Se muestra en la Figura \ref{plot:circuito_2} el circuito sobre el que se trabajará, que constituye un filtro elimina banda o notch de segundo orden. Los valores de los componentes son:
+Se muestra en la Figura \ref{fig:esquematico_circuito_2} el circuito sobre el que se trabajará, que constituye un filtro elimina banda o notch de segundo orden. Los valores de los componentes son:
 
 \begin{itemize}
   \item $R_1: \SI{100}{\kilo\ohm}$
@@ -13,19 +13,19 @@ Se muestra en la Figura \ref{plot:circuito_2} el circuito sobre el que se trabaj
   \centering
   \input{figures/circuito_2.tikz}
   \caption{Esquematico del circuito 2.}
-  \label{plot:circuito_2}
+  \label{fig:esquematico_circuito_2}
 \end{figure}
 
-\subsection{Analisis y Simulacion}
+\subsection{Análisis y Simulación}
 \label{sec:analisis_circ_2}
 
-Para el analisis se transforma el circuito a su equivalente en laplace como se ve en la Figura \ref{plot:circuito_2_laplace}.
+Para el analisis se transforma el circuito a su equivalente en laplace como se ve en la Figura \ref{fig:laplace_circuito_2}.
 
 \begin{figure}[H]
   \centering
   \input{figures/circuito_2_laplace.tikz}
   \caption{Equivalente en laplace del circuito 2.}
-  \label{plot:circuito_2_laplace}
+  \label{fig:laplace_circuito_2}
 \end{figure}
 
 Considerando la salida en circuito abierto, se puede aplicar la formula del divisor de tension sobre la rama formada por la serie del capacitor $C_1$ y el inductor $L_1$:
@@ -77,13 +77,13 @@ Debido a que el termino lineal de amortiguamiento ($\num{3.14d6}$) es extremadam
   p_2 \approx -\frac{R_1}{L_1} = -\num{3.14d6} \text{ rad/s}
 \end{equation}
 
-Se muestran estos polos graficados en el plano complejo en la Figura \ref{img:polos-plano-circuito-2}. Ambos polos se ubican sobre el eje real izquierdo, lo que garantiza la estabilidad del circuito.
+Se muestran estos polos graficados en el plano complejo en la Figura \ref{fig:polos_circuito_2}. Ambos polos se ubican sobre el eje real izquierdo, lo que garantiza la estabilidad del circuito.
 
 \begin{figure}[H]
   \centering
   \input{figures/plot_poles_circuito_2.tex}
   \caption{Polos en el plano complejo de la FDT del circuito 2.}
-  \label{img:polos-plano-circuito-2}
+  \label{fig:polos_circuito_2}
 \end{figure}
 
 Se procede ahora a analizar la FDT en el dominio de la frecuencia reemplazando $s = j\omega$, resultando:
@@ -114,27 +114,27 @@ Estas ecuaciones describen geometricamente una circunferencia desplazada en el p
   \left(Re(\omega) - \frac{1}{2}\right)^2 + Img(\omega)^2 = \left(\frac{1}{2}\right)^2
 \end{equation}
 
-La Figura \ref{plot:polar_circuito_2} muestra el diagrama polar obtenido de la FDT ideal.
+La Figura \ref{fig:polar_circuito_2} muestra el diagrama polar obtenido de la FDT ideal.
 
 \begin{figure}[H]
   \centering
   \input{figures/plot_polar_circuito_2.tex}
   \caption{Diagrama polar de la FDT del circuito 2 (ideal).}
-  \label{plot:polar_circuito_2}
+  \label{fig:polar_circuito_2}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \input{figures/plot_asymptotic_gain_circuito_2.tex}
   \caption{Diagrama de Bode de Magnitud del circuito 2 (Simulado vs Asintótico).}
-  \label{plot:bode_mag_circuito_2}
+  \label{fig:bode_mag_circuito_2}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \input{figures/plot_asymptotic_phase_circuito_2.tex}
   \caption{Diagrama de Bode de Fase del circuito 2 (Simulado vs Asintótico).}
-  \label{plot:bode_phase_circuito_2}
+  \label{fig:bode_phase_circuito_2}
 \end{figure}
 
 \subsection{Mediciones de Laboratorio}
@@ -193,16 +193,16 @@ Durante el ensayo en el laboratorio, se utilizó un generador de señales para a
   \centering
   \input{figures/plot_bode_medido_circuito_2.tex}
   \caption{Comparación entre la simulación de LTSpice del circuito real (con $C = \SI{3.3}{\micro\farad}$ y $R_{ser} = \SI{50}{\ohm}$ para modelar la pérdida del inductor) y las mediciones obtenidas en el laboratorio.}
-  \label{plot:bode_medido_vs_teorico_circuito_2}
+  \label{fig:bode_medido_circuito_2}
 \end{figure}
 
-A partir de las mediciones graficadas en la Figura \ref{plot:bode_medido_vs_teorico_circuito_2}, se observa un buen acuerdo general con la respuesta simulada. A frecuencias muy bajas (\SI{1}{\hertz} y \SI{2}{\hertz}) la ganancia es prácticamente unitaria (\SI{0}{\decibel}), confirmando que las señales de baja frecuencia pasan sin atenuación. A medida que la frecuencia se aproxima a la zona de rechazo, la atenuación crece progresivamente hasta alcanzar un mínimo de \SI{-29.36}{\decibel} a \SI{500}{\hertz}, coincidiendo con la frecuencia de resonancia teórica de $f_0 \approx \SI{491}{\hertz}$. A frecuencias superiores, la ganancia se recupera gradualmente hasta valores cercanos a \SI{0}{\decibel} en \SI{100}{\kilo\hertz} y \SI{200}{\kilo\hertz}, verificando el comportamiento característico del filtro notch.
+A partir de las mediciones graficadas en la Figura \ref{fig:bode_medido_circuito_2}, se observa un buen acuerdo general con la respuesta simulada. A frecuencias muy bajas (\SI{1}{\hertz} y \SI{2}{\hertz}) la ganancia es prácticamente unitaria (\SI{0}{\decibel}), confirmando que las señales de baja frecuencia pasan sin atenuación. A medida que la frecuencia se aproxima a la zona de rechazo, la atenuación crece progresivamente hasta alcanzar un mínimo de \SI{-29.36}{\decibel} a \SI{500}{\hertz}, coincidiendo con la frecuencia de resonancia teórica de $f_0 \approx \SI{491}{\hertz}$. A frecuencias superiores, la ganancia se recupera gradualmente hasta valores cercanos a \SI{0}{\decibel} en \SI{100}{\kilo\hertz} y \SI{200}{\kilo\hertz}, verificando el comportamiento característico del filtro notch.
 
-Para registrar con mayor resolución la respuesta en frecuencia completa del filtro en el entorno de la sintonía, se capturó la pantalla del osciloscopio mostrada en la Figura \ref{img:bode_medido_circuito_2}, la cual grafica la respuesta obtenida mediante la Transformada Rápida de Fourier (FFT), donde se aprecia claramente la fosa del notch centrada en la frecuencia de resonancia.
+Para registrar con mayor resolución la respuesta en frecuencia completa del filtro en el entorno de la sintonía, se capturó la pantalla del osciloscopio mostrada en la Figura \ref{fig:fft_circuito_2}, la cual grafica la respuesta obtenida mediante la Transformada Rápida de Fourier (FFT), donde se aprecia claramente la fosa del notch centrada en la frecuencia de resonancia.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.8\columnwidth]{images/bd2.png}
   \caption{Respuesta en frecuencia (FFT) del circuito notch real medida en el laboratorio.}
-  \label{img:bode_medido_circuito_2}
+  \label{fig:fft_circuito_2}
 \end{figure}
