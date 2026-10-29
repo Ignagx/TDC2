@@ -1,0 +1,118 @@
+\chapter{Filtro pasa altos}
+\label{chap:pasa-altos}
+
+\section{Especificaciones}
+\label{sec:pa-especificaciones}
+
+\begin{table}[!ht]
+  \centering
+  \begin{tabular}{|l|c|}
+    \hline
+    Parámetro & Valor \\
+    \hline
+    Orden & 4 \\
+    Atenuación máxima en banda de paso $A_{max}$ & $\SI{2.25}{\decibel}$ \\
+    Frecuencia de paso $f_p$ & $\SI{33}{\kilo\hertz}$ \\
+    Ganancia en banda de paso & 12,5 V/V \\
+    Aproximación & Butterworth \\
+    Topología & Sallen-Key \\
+    \hline
+  \end{tabular}
+  \caption{Especificaciones del filtro pasa altos.}
+  \label{tab:pa-especificaciones}
+\end{table}
+
+\section{Diseño}
+\label{sec:pa-diseno}
+
+\subsection{Frecuencia de corte y polos de la aproximación}
+\label{subsec:pa-polos}
+
+El filtro pasa altos se obtiene del prototipo pasa bajos normalizado mediante la transformación
+$s \rightarrow \omega_0 / s$, por lo que la frecuencia de corte a $\SI{-3}{\decibel}$ queda por debajo de $f_p$:
+
+\begin{equation}
+  f_c = f_p \left( 10^{A_{max}/10} - 1 \right)^{1/(2n)}
+  \label{eq:pa-fc}
+\end{equation}
+
+% TODO: calcular f_c, listar los polos del Butterworth de orden 4 (Q_1 = 0,5412 y Q_2 = 1,3066) y repartir la ganancia
+% total de 12,5 V/V entre las dos etapas. Verificar el producto ganancia-ancho de banda del operacional elegido
+% (ganancia por etapa x frecuencia máxima de interés).
+
+\subsection{Cálculo de las etapas Sallen-Key}
+\label{subsec:pa-etapas}
+
+Cada etapa de segundo orden (figura~\ref{crkt:sk-pasa-altos}) tiene ganancia $K = 1 + R_b / R_a$ y
+
+\begin{align*}
+  \omega_0 &= \frac{1}{\sqrt{R_1 R_2 C_1 C_2}} \\
+  Q &= \frac{\sqrt{R_1 R_2 C_1 C_2}}{R_2 C_1 + R_2 C_2 + R_1 C_2 \left( 1 - K \right)}
+\end{align*}
+
+\begin{figure}[!ht]
+  \centering
+  \input{figures/sallen-key-pasa-altos.tex}
+  \caption{Etapa Sallen-Key pasa altos de segundo orden con ganancia $K$.}
+  \label{crkt:sk-pasa-altos}
+\end{figure}
+
+% TODO: desarrollar el cálculo de R_1, R_2, C_1, C_2, R_a y R_b de cada etapa.
+
+\subsection{Valores comerciales}
+\label{subsec:pa-comerciales}
+
+\begin{table}[!ht]
+  \centering
+  \begin{tabular}{|l|c|c|c|c|}
+    \hline
+     & \multicolumn{2}{c|}{Etapa 1} & \multicolumn{2}{c|}{Etapa 2} \\
+    \cline{2-5}
+    Componente & Calculado & Comercial & Calculado & Comercial \\
+    \hline
+    $R_1$ & & & & \\
+    $R_2$ & & & & \\
+    $C_1$ & & & & \\
+    $C_2$ & & & & \\
+    $R_a$ & & & & \\
+    $R_b$ & & & & \\
+    \hline
+  \end{tabular}
+  \caption{Valores calculados y comerciales del filtro pasa altos.}
+  \label{tab:pa-componentes}
+\end{table}
+
+\section{Simulación}
+\label{sec:pa-simulacion}
+
+\subsection{Función de transferencia con elementos ideales}
+\label{subsec:pa-sim-ideal}
+
+% TODO: diagrama de Bode (módulo y fase) con los valores calculados.
+
+\subsection{Función de transferencia con valores comerciales}
+\label{subsec:pa-sim-real}
+
+% TODO: repetir con los valores comerciales y con el modelo real del operacional; comparar con las especificaciones.
+
+\section{Implementación y mediciones}
+\label{sec:pa-mediciones}
+
+% TODO: si este filtro es uno de los dos implementados: armado, fotos en pictures/, tabla de barrido en frecuencia,
+% captura del perfil de frecuencia (FFT) del osciloscopio y comparación medido vs. simulado. Si no se implementa,
+% indicar que se realiza en el TP de filtros digitales.
+
+\begin{table}[!ht]
+  \centering
+  \begin{tabular}{|c|c|c|c|c|}
+    \hline
+    $f$ [kHz] & $V_{in,pp}$ [V] & $V_{out,pp}$ [V] & $|H|$ medido [dB] & $|H|$ simulado [dB] \\
+    \hline
+     & & & & \\
+     & & & & \\
+     & & & & \\
+    \hline
+  \end{tabular}
+  \caption{Relevamiento de la respuesta en frecuencia del filtro pasa altos.}
+  \label{tab:pa-barrido}
+\end{table}

@@ -1,0 +1,118 @@
+\chapter{Filtro pasa bajos}
+\label{chap:pasa-bajos}
+
+\section{Especificaciones}
+\label{sec:pb-especificaciones}
+
+\begin{table}[!ht]
+  \centering
+  \begin{tabular}{|l|c|}
+    \hline
+    Parámetro & Valor \\
+    \hline
+    Orden & 4 \\
+    Atenuación máxima en banda de paso $A_{max}$ & $\SI{1.5}{\decibel}$ \\
+    Frecuencia de paso $f_p$ & $\SI{5.5}{\kilo\hertz}$ \\
+    Ganancia en banda de paso & 4 V/V \\
+    Aproximación & Butterworth \\
+    Topología & Sallen-Key \\
+    \hline
+  \end{tabular}
+  \caption{Especificaciones del filtro pasa bajos.}
+  \label{tab:pb-especificaciones}
+\end{table}
+
+\section{Diseño}
+\label{sec:pb-diseno}
+
+\subsection{Frecuencia de corte y polos de la aproximación}
+\label{subsec:pb-polos}
+
+Para un Butterworth de orden $n$, la atenuación en banda de paso vale $A_{max}$ en $f_p$, por lo que la frecuencia de
+corte a $\SI{-3}{\decibel}$ se obtiene de
+
+\begin{equation}
+  f_c = \frac{f_p}{\left( 10^{A_{max}/10} - 1 \right)^{1/(2n)}}
+  \label{eq:pb-fc}
+\end{equation}
+
+% TODO: calcular f_c, listar los pares de polos del Butterworth de orden 4 (Q_1 = 0,5412 y Q_2 = 1,3066) y repartir la
+% ganancia total de 4 V/V entre las dos etapas.
+
+\subsection{Cálculo de las etapas Sallen-Key}
+\label{subsec:pb-etapas}
+
+Cada etapa de segundo orden (figura~\ref{crkt:sk-pasa-bajos}) tiene ganancia $K = 1 + R_b / R_a$ y
+
+\begin{align*}
+  \omega_0 &= \frac{1}{\sqrt{R_1 R_2 C_1 C_2}} \\
+  Q &= \frac{\sqrt{R_1 R_2 C_1 C_2}}{R_1 C_2 + R_2 C_2 + R_1 C_1 \left( 1 - K \right)}
+\end{align*}
+
+\begin{figure}[!ht]
+  \centering
+  \input{figures/sallen-key-pasa-bajos.tex}
+  \caption{Etapa Sallen-Key pasa bajos de segundo orden con ganancia $K$.}
+  \label{crkt:sk-pasa-bajos}
+\end{figure}
+
+% TODO: desarrollar el cálculo de R_1, R_2, C_1, C_2, R_a y R_b de cada etapa.
+
+\subsection{Valores comerciales}
+\label{subsec:pb-comerciales}
+
+\begin{table}[!ht]
+  \centering
+  \begin{tabular}{|l|c|c|c|c|}
+    \hline
+     & \multicolumn{2}{c|}{Etapa 1} & \multicolumn{2}{c|}{Etapa 2} \\
+    \cline{2-5}
+    Componente & Calculado & Comercial & Calculado & Comercial \\
+    \hline
+    $R_1$ & & & & \\
+    $R_2$ & & & & \\
+    $C_1$ & & & & \\
+    $C_2$ & & & & \\
+    $R_a$ & & & & \\
+    $R_b$ & & & & \\
+    \hline
+  \end{tabular}
+  \caption{Valores calculados y comerciales del filtro pasa bajos.}
+  \label{tab:pb-componentes}
+\end{table}
+
+\section{Simulación}
+\label{sec:pb-simulacion}
+
+\subsection{Función de transferencia con elementos ideales}
+\label{subsec:pb-sim-ideal}
+
+% TODO: diagrama de Bode (módulo y fase) con los valores calculados. Incluir el gráfico desde images/ o como pgfplots
+% en figures/ (ver figures/bode-ejemplo.tex).
+
+\subsection{Función de transferencia con valores comerciales}
+\label{subsec:pb-sim-real}
+
+% TODO: repetir con los valores comerciales y comparar f_c, A_max y ganancia obtenidas con las especificadas.
+
+\section{Implementación y mediciones}
+\label{sec:pb-mediciones}
+
+% TODO: si este filtro es uno de los dos implementados: armado, fotos en pictures/, tabla de barrido en frecuencia,
+% captura del perfil de frecuencia (FFT) del osciloscopio y comparación medido vs. simulado. Si no se implementa,
+% indicar que se realiza en el TP de filtros digitales.
+
+\begin{table}[!ht]
+  \centering
+  \begin{tabular}{|c|c|c|c|c|}
+    \hline
+    $f$ [kHz] & $V_{in,pp}$ [V] & $V_{out,pp}$ [V] & $|H|$ medido [dB] & $|H|$ simulado [dB] \\
+    \hline
+     & & & & \\
+     & & & & \\
+     & & & & \\
+    \hline
+  \end{tabular}
+  \caption{Relevamiento de la respuesta en frecuencia del filtro pasa bajos.}
+  \label{tab:pb-barrido}
+\end{table}

@@ -1,0 +1,129 @@
+\chapter{Filtro pasa banda}
+\label{chap:pasa-banda}
+
+\section{Especificaciones}
+\label{sec:pbd-especificaciones}
+
+\begin{table}[!ht]
+  \centering
+  \begin{tabular}{|l|c|}
+    \hline
+    Parámetro & Valor \\
+    \hline
+    Orden & 2 \\
+    Atenuación máxima en banda de paso $A_{max}$ & $\SI{0.1}{\decibel}$ \\
+    Frecuencia central $f_o$ & $\SI{28}{\kilo\hertz}$ \\
+    Ancho de banda $BW = f_{p2} - f_{p1}$ & $\SI{1.7}{\kilo\hertz}$ \\
+    Ganancia en banda de paso & 9 V/V \\
+    Aproximación & Butterworth \\
+    Topología & Sallen-Key \\
+    \hline
+  \end{tabular}
+  \caption{Especificaciones del filtro pasa banda.}
+  \label{tab:pbd-especificaciones}
+\end{table}
+
+\section{Diseño}
+\label{sec:pbd-diseno}
+
+\subsection{Factor de calidad y función de transferencia}
+\label{subsec:pbd-q}
+
+Un pasa banda de segundo orden queda definido por su frecuencia central y su factor de calidad
+
+\begin{equation}
+  Q = \frac{f_o}{BW}
+  \label{eq:pbd-q}
+\end{equation}
+
+y su función de transferencia es
+
+\begin{equation}
+  H(s) = \frac{A_m \, \dfrac{\omega_0}{Q} \, s}{s^2 + \dfrac{\omega_0}{Q} s + \omega_0^2}
+  \label{eq:pbd-hs}
+\end{equation}
+
+% TODO: calcular Q y discutir la sensibilidad de la topología Sallen-Key para Q elevados (la ganancia interna K se
+% acerca a 3 y el circuito se vuelve muy sensible a las tolerancias). Relacionar A_max con el ancho de banda definido
+% a -A_max dB en lugar de -3 dB si corresponde.
+
+\subsection{Cálculo de la etapa Sallen-Key}
+\label{subsec:pbd-etapa}
+
+Para la topología de la figura~\ref{crkt:sk-pasa-banda}, con $R_1 = R_3 = R$, $R_2 = 2R$ y $C_1 = C_2 = C$,
+se tiene
+
+\begin{align*}
+  \omega_0 &= \frac{1}{R C} \\
+  Q &= \frac{1}{3 - K} \\
+  A_m &= \frac{K}{3 - K}
+\end{align*}
+
+con $K = 1 + R_b / R_a$.
+
+\begin{figure}[!ht]
+  \centering
+  \input{figures/sallen-key-pasa-banda.tex}
+  \caption{Etapa Sallen-Key pasa banda de segundo orden con ganancia $K$.}
+  \label{crkt:sk-pasa-banda}
+\end{figure}
+
+% TODO: desarrollar el cálculo de R, C, R_a y R_b. Si la ganancia A_m resultante no coincide con los 9 V/V pedidos,
+% proponer un atenuador o una etapa de ganancia adicional y justificarlo.
+
+\subsection{Valores comerciales}
+\label{subsec:pbd-comerciales}
+
+\begin{table}[!ht]
+  \centering
+  \begin{tabular}{|l|c|c|}
+    \hline
+    Componente & Calculado & Comercial \\
+    \hline
+    $R_1$ & & \\
+    $R_2$ & & \\
+    $R_3$ & & \\
+    $C_1$ & & \\
+    $C_2$ & & \\
+    $R_a$ & & \\
+    $R_b$ & & \\
+    \hline
+  \end{tabular}
+  \caption{Valores calculados y comerciales del filtro pasa banda.}
+  \label{tab:pbd-componentes}
+\end{table}
+
+\section{Simulación}
+\label{sec:pbd-simulacion}
+
+\subsection{Función de transferencia con elementos ideales}
+\label{subsec:pbd-sim-ideal}
+
+% TODO: diagrama de Bode (módulo y fase) con los valores calculados.
+
+\subsection{Función de transferencia con valores comerciales}
+\label{subsec:pbd-sim-real}
+
+% TODO: repetir con los valores comerciales y con el modelo real del operacional; comparar f_o, BW y ganancia.
+
+\section{Implementación y mediciones}
+\label{sec:pbd-mediciones}
+
+% TODO: si este filtro es uno de los dos implementados: armado, fotos en pictures/, tabla de barrido en frecuencia,
+% captura del perfil de frecuencia (FFT) del osciloscopio y comparación medido vs. simulado. Si no se implementa,
+% indicar que se realiza en el TP de filtros digitales.
+
+\begin{table}[!ht]
+  \centering
+  \begin{tabular}{|c|c|c|c|c|}
+    \hline
+    $f$ [kHz] & $V_{in,pp}$ [V] & $V_{out,pp}$ [V] & $|H|$ medido [dB] & $|H|$ simulado [dB] \\
+    \hline
+     & & & & \\
+     & & & & \\
+     & & & & \\
+    \hline
+  \end{tabular}
+  \caption{Relevamiento de la respuesta en frecuencia del filtro pasa banda.}
+  \label{tab:pbd-barrido}
+\end{table}

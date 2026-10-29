@@ -1,0 +1,15 @@
+\begin{tikzpicture}[american]
+  \node[op amp, noinv input up] (oa) at (6,0) {};
+
+  \draw (0,0.5) node[ocirc, label=left:$V_i$] {} to[R, l=$R_1$] (1.8,0.5) node[circ] (n1) {}
+    to[C, l=$C_2$] (3.6,0.5) node[circ] (n2) {} -- (oa.+);
+  \draw (n1) to[R, l=$R_2$] ++(0,-2) node[ground] {};
+  \draw (n2) to[R, l_=$R_3$] ++(0,-2) node[ground] {};
+  \draw (oa.out) -- ++(0.6,0) node[circ] (out) {} to[short, -o] ++(1,0) node[right] {$V_o$};
+  \draw (n1) to[C, l=$C_1$] ++(0,2) -| (out);
+
+  % Red de ganancia K = 1 + Rb/Ra
+  \draw (oa.-) -- ++(-0.5,0) coordinate (m) -- ++(0,-1.1) node[circ] (m2) {}
+    to[R, l=$R_a$] ++(0,-1.8) node[ground] {};
+  \draw (m2) to[R, l_=$R_b$] (out |- m2) -- (out);
+\end{tikzpicture}

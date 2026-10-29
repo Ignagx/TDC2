@@ -1,0 +1,41 @@
+\chapter{Introducción}
+\label{chap:introduccion}
+
+\section{Objetivos}
+\label{sec:objetivos}
+
+\begin{itemize}
+  \item Estudiar los conceptos básicos sobre el análisis y diseño de filtros activos.
+  \item Aplicar las técnicas explicadas en clase para el cálculo de filtros activos.
+  \item Implementar filtros activos.
+\end{itemize}
+
+\section{Descripción del trabajo práctico}
+\label{sec:descripcion}
+
+El trabajo práctico se divide en dos actividades. La primera (capítulo~\ref{chap:senal-campo}) consiste en el diseño
+e implementación de un módulo de filtrado activo para una señal de campo de $\SI{4}{\milli\ampere}$ a
+$\SI{20}{\milli\ampere}$, compuesto por un amplificador de instrumentación, un filtro pasa bajos Sallen-Key de
+segundo orden y un convertidor tensión-corriente, todo alimentado con una fuente simple de $\SI{24}{\volt}$.
+
+La segunda actividad (capítulos~\ref{chap:pasa-bajos} a~\ref{chap:pasa-banda}) consiste en el diseño de tres filtros
+con los parámetros asignados al grupo, resumidos en la tabla~\ref{tab:asignacion}. Para cada uno se realizan los
+cálculos, las simulaciones con elementos ideales y con valores comerciales, y para dos de ellos la implementación
+física y el relevamiento de la respuesta en frecuencia.
+
+\begin{table}[!ht]
+  \centering
+  \resizebox{\textwidth}{!}{\begin{tabular}{|l|c|c|c|c|c|c|}
+    \hline
+    Filtro & Orden & $A_{max}$ [dB] & $f_p$ / $f_o$ [kHz] & $BW$ [kHz] & Ganancia [V/V] & Aproximación / Topología \\
+    \hline
+    Pasa bajos & 4 & 1,5  & 5,5 & --  & 4    & Butterworth / Sallen-Key \\
+    Pasa altos & 4 & 2,25 & 33  & --  & 12,5 & Butterworth / Sallen-Key \\
+    Pasa banda & 2 & 0,1  & 28  & 1,7 & 9    & Butterworth / Sallen-Key \\
+    \hline
+  \end{tabular}}
+  \caption{Parámetros asignados al Grupo 2.}
+  \label{tab:asignacion}
+\end{table}
+
+% TODO: indicar cuáles dos filtros se implementan físicamente y cuál queda para el TP de filtros digitales.

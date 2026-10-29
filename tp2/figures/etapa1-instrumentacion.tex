@@ -1,0 +1,31 @@
+\begin{tikzpicture}[american, scale=0.9]
+  % Operacionales
+  \node[op amp] (u1a) at (5.2,3) {\scriptsize U1A};
+  \node[op amp, noinv input up] (u1b) at (5.2,0) {\scriptsize U1B};
+  \node[op amp] (u1c) at (10.6,1.5) {\scriptsize U1C};
+
+  % Lazo (-) y (+)
+  \draw (0,3.5) node[ocirc, label=left:{Lazo $(-)$}] {} to[short] (1.4,3.5) node[circ] {}
+    to[short, -*] (3,3.5) -| (u1a.+);
+  \draw (0,0) node[ocirc, label=left:{Lazo $(+)$}] {} to[short, i=$I_{in}$] (1.4,0) node[circ] {} -| (u1b.+);
+
+  % Shunt y referencia de modo común
+  \draw (1.4,3.5) to[R, l_=\shortstack{$R_{shunt\_in}$\\\SI{250}{\ohm}}] (1.4,0);
+  \draw (3,3.5) to[R, l_=\shortstack{$R_{CM}$\\\SI{1}{\mega\ohm}}] (3,1.8) node[ground] {};
+
+  % Seguidores
+  \draw (u1a.out) -- ++(0.4,0) coordinate (ao);
+  \draw (ao) -- ++(0,1.3) -| (u1a.-);
+  \draw (u1b.out) -- ++(0.4,0) coordinate (bo);
+  \draw (bo) -- ++(0,-1.3) -| (u1b.-);
+
+  % Restador
+  \draw (ao) node[circ] {} -- (ao |- u1c.-) to[R, l=\shortstack{$R_3$\\\SI{10}{\kilo\ohm}}] ($(u1c.-)+(-0.4,0)$)
+    node[circ] (nm) {} -- (u1c.-);
+  \draw (bo) node[circ] {} -- (bo |- u1c.+) to[R, l_=\shortstack{$R_4$\\\SI{10}{\kilo\ohm}}] ($(u1c.+)+(-0.4,0)$)
+    node[circ] (np) {} -- (u1c.+);
+  \draw (np) to[R, l=\shortstack{$R_5$\\\SI{10}{\kilo\ohm}}] ++(0,-2.6) node[ground] {};
+  \draw (u1c.out) -- ++(0.4,0) coordinate (co) node[circ] {} -- ++(0,1.6) coordinate (ft);
+  \draw (ft) to[R, l=$R_f$, a=\SI{10}{\kilo\ohm}] (ft -| nm) -- (nm);
+  \draw (co) to[short, -o] ++(0.9,0) node[right, align=left] {$V_{E1}$\\\scriptsize 1--5 V};
+\end{tikzpicture}

@@ -1,0 +1,12 @@
+\begin{tikzpicture}[
+    bloque/.style={draw, minimum width=2.6cm, minimum height=1.4cm, align=center},
+    flecha/.style={->, >=latex, thick},
+  ]
+  \node[bloque] (e1) at (0,0) {Amplificador de\\instrumentación};
+  \node[bloque] (e2) at (3.5,0) {Filtro activo};
+  \node[bloque] (e3) at (7,0) {Conversor\\tensión-corriente};
+  \draw[flecha] (-2.5,0) -- (e1) node[midway, above] {\scriptsize 4--20 mA};
+  \draw[flecha] (e1) -- (e2);
+  \draw[flecha] (e2) -- (e3);
+  \draw[flecha] (e3) -- (9.5,0) node[midway, above] {\scriptsize PLC};
+\end{tikzpicture}

@@ -1,0 +1,19 @@
+\begin{tikzpicture}[american]
+  \node[op amp, noinv input up] (u2a) at (3,0) {\scriptsize U2A};
+  \node[npn] (q1) at (7.5,0) {};
+  \node[anchor=west] at ($(q1.C)+(0.1,-0.4)$) {\scriptsize Q1 (BC337)};
+
+  % Entrada
+  \draw (0,0.5) node[ocirc, label={[align=left]left:$V_{filtro}$\\\scriptsize 1--5 V}] {} -- (u2a.+);
+
+  % Base
+  \draw (u2a.out) to[R, l=$R_B$, a=\SI{1}{\kilo\ohm}] (q1.B);
+
+  % Colector: carga (PLC) y +24 V
+  \draw (q1.C) to[R, l=$R_{carga}$ (PLC), a=\SI{250}{\ohm}, i<=$I_{out}$] ++(0,2.8) node[vcc] {$\SI{+24}{\volt}$};
+
+  % Emisor: shunt de salida y realimentación
+  \draw (q1.E) -- ++(0,-0.5) node[circ] (fb) {} to[R, l=$R_{shunt\_out}$, a=\SI{250}{\ohm}] ++(0,-2.2)
+    node[ground] {};
+  \draw (fb) -- (1.3,0 |- fb) -- (1.3,0 |- u2a.-) -- (u2a.-);
+\end{tikzpicture}

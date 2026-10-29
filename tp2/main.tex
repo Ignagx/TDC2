@@ -1,0 +1,58 @@
+\documentclass[]{informeutn}
+
+% ---------------------------------------------------------------------------------------------------------------------
+% Paquetes que no provee la clase (si informeutn.cls ya carga alguno, borrar la línea correspondiente)
+% ---------------------------------------------------------------------------------------------------------------------
+\usepackage{siunitx}
+\usepackage{subcaption}
+\usepackage{listings}
+\usepackage[backend=bibtex, style=alphabetic, sorting=ynt]{biblatex}
+\addbibresource{fuentes.bib}
+\usetikzlibrary{calc}
+
+\sisetup{
+  output-decimal-marker={,},
+  exponent-product=\cdot,
+  separate-uncertainty=true,
+}
+
+\lstdefinestyle{ltspice}{
+  backgroundcolor=\color{gray!10},
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  frame=single,
+  breaklines=true,
+  captionpos=b
+}
+
+% ---------------------------------------------------------------------------------------------------------------------
+% Metadatos de la carátula
+% ---------------------------------------------------------------------------------------------------------------------
+\materia{Teoría de Circuitos II}
+\titulo{Trabajo Práctico N\textsuperscript{o} 2: Diseño de Filtros Activos}
+\subtitulo{Filtro activo de señal de campo (4--20 mA) y diseño de filtros pasa bajos, pasa altos y pasa banda}
+\comision{}                                     % TODO: completar comisión
+\autores{Ernst, Pedro \\ Gil, Ignacio \\ Rao, Valentino}   % TODO: agregar legajos si la cátedra lo pide
+\fecha{\today}
+
+\begin{document}
+  \maketitle
+  \tableofcontents
+  \setcounter{page}{1}
+  \thispagestyle{plain}
+
+  % Capítulos (un archivo por punto de la consigna)
+  \input{chapters/1-introduccion.tex}
+  \input{chapters/2-filtro-senal-de-campo.tex}
+  \input{chapters/3-pasa-bajos.tex}
+  \input{chapters/4-pasa-altos.tex}
+  \input{chapters/5-pasa-banda.tex}
+  \input{chapters/6-conclusiones.tex}
+
+  % Bibliografía
+  \nocite{*}
+  \printbibliography[heading=bibnumbered, title={Fuentes}]
+
+  % Anexos
+  \input{chapters/7-anexos.tex}
+\end{document}
