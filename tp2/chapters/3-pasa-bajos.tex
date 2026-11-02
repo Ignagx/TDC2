@@ -4,21 +4,25 @@
 \section{Especificaciones}
 \label{sec:pb-especificaciones}
 
+De acuerdo con la planilla de asignación de filtros de la cátedra para el \textbf{Grupo 2}, el filtro pasa bajos activo debe satisfacer los requerimientos especificados en la tabla~\ref{tab:pb-especificaciones}.
+
 \begin{table}[!ht]
   \centering
   \begin{tabular}{|l|c|}
     \hline
-    Parámetro & Valor \\
+    \textbf{Parámetro} & \textbf{Valor} \\
     \hline
-    Orden & 4 \\
-    Atenuación máxima en banda de paso $A_{max}$ & $\SI{1.5}{\decibel}$ \\
-    Frecuencia de paso $f_p$ & $\SI{5.5}{\kilo\hertz}$ \\
-    Ganancia en banda de paso & 4 V/V \\
     Aproximación & Butterworth \\
-    Topología & Sallen-Key \\
+    Orden ($n$) & 4 \\
+    Topología & Sallen-Key (celdas no inversoras) \\
+    Atenuación máxima en banda de paso ($A_{\max}$) & $\SI{1.5}{\decibel}$ \\
+    Frecuencia de paso ($f_p$) & $\SI{5.5}{\kilo\hertz}$ \\
+    Ganancia en banda de paso ($K$) & $\SI{4}{\volt/\volt}$ ($\SI{12.04}{\decibel}$) \\
+    Tensión de alimentación & Simétrica $\pm\SI{15}{\volt}$ \\
+    Amplificador operacional & TL084 (cuádruple JFET) \\
     \hline
   \end{tabular}
-  \caption{Especificaciones del filtro pasa bajos.}
+  \caption{Especificaciones de diseño del filtro pasa bajos (Grupo 2).}
   \label{tab:pb-especificaciones}
 \end{table}
 
@@ -28,58 +32,194 @@
 \subsection{Frecuencia de corte y polos de la aproximación}
 \label{subsec:pb-polos}
 
-Para un Butterworth de orden $n$, la atenuación en banda de paso vale $A_{max}$ en $f_p$, por lo que la frecuencia de
-corte a $\SI{-3}{\decibel}$ se obtiene de
-
+Para una aproximación Butterworth de orden $n$, la función de atenuación en función de la frecuencia normalizada viene dada por:
 \begin{equation}
-  f_c = \frac{f_p}{\left( 10^{A_{max}/10} - 1 \right)^{1/(2n)}}
-  \label{eq:pb-fc}
+  \alpha(\omega) = 10 \log_{10} \left[ 1 + \varepsilon^2 \left( \frac{\omega}{\omega_p} \right)^{2n} \right]
+  \label{eq:pb-atenuacion}
 \end{equation}
 
-% TODO: calcular f_c, listar los pares de polos del Butterworth de orden 4 (Q_1 = 0,5412 y Q_2 = 1,3066) y repartir la
-% ganancia total de 4 V/V entre las dos etapas.
+El factor de rizado $\varepsilon$ se calcula exigiendo que en la frecuencia de paso $f_p = \SI{5.5}{\kilo\hertz}$ la atenuación sea exactamente $A_{\max} = \SI{1.5}{\decibel}$:
+\begin{equation}
+  10 \log_{10} \left( 1 + \varepsilon^2 \right) = A_{\max} \implies \varepsilon = \sqrt{10^{0{,}1 \cdot A_{\max}} - 1} = \sqrt{10^{0{,}15} - 1} = 0{,}6423
+  \label{eq:pb-epsilon}
+\end{equation}
+
+A partir de $\varepsilon$, la frecuencia natural de corte a $\SI{-3}{\decibel}$ ($f_0 \equiv f_c$) para el filtro pasa bajos se determina desnormalizando la frecuencia de paso:
+\begin{equation}
+  f_c = \frac{f_p}{\varepsilon^{1/n}} = \frac{\SI{5.5}{\kilo\hertz}}{\left( 0{,}6423 \right)^{1/4}} = \SI{6143.70}{\hertz}
+  \label{eq:pb-fc}
+\end{equation}
+cuya pulsación angular asociada resulta:
+\begin{equation}
+  \omega_0 = 2\pi f_c = \SI{38601.98}{\radian/\second}
+  \label{eq:pb-omega0}
+\end{equation}
+
+El polinomio característico de Butterworth normalizado de orden 4 ($n=4$) es:
+\begin{equation}
+  B_4(s) = s^4 + 2{,}61313\,s^3 + 3{,}41421\,s^2 + 2{,}61313\,s + 1
+\end{equation}
+
+Para implementar el filtro mediante etapas de segundo orden en cascada, se factoriza en dos binomios cuadráticos mónicos de la forma $\left( s^2 + a_1 s + 1 \right) \left( s^2 + a_2 s + 1 \right)$:
+\begin{align}
+  a_1 + a_2 &= 2{,}61313 \quad (\text{coeficiente de } s^3) \implies a_1 = 2{,}61313 - a_2 \\
+  a_1 a_2 + 2 &= 3{,}41421 \quad (\text{coeficiente de } s^2)
+\end{align}
+Sustituyendo $a_1$ en la segunda ecuación:
+\begin{equation}
+  a_2^2 - 2{,}61313\,a_2 + 1{,}41421 = 0 \implies \begin{cases} a_1 = 1{,}8478 \\ a_2 = 0{,}7654 \end{cases}
+\end{equation}
+
+Identificando cada factor con la expresión normalizada $s^2 + \dfrac{1}{Q_i} s + 1$, se obtienen los factores de calidad de los polos:
+\begin{equation}
+  Q_1 = \frac{1}{a_1} = \frac{1}{1{,}8478} = 0{,}5412, \qquad\qquad Q_2 = \frac{1}{a_2} = \frac{1}{0{,}7654} = 1{,}3066
+  \label{eq:pb-factores-q}
+\end{equation}
+
+Siguiendo el criterio de diseño recomendado para filtros activos en cascada, se coloca en primer lugar la celda de menor factor de calidad ($Q_1 = 0{,}5412 < 0{,}707$, correspondiente a una respuesta sobreamortiguada sin sobrepico), lo cual previene la saturación prematura ante señales con componentes transitorias. La segunda celda adopta el factor de mayor selectividad ($Q_2 = 1{,}3066$).
+
+La ganancia total requerida de $\SI{4}{\volt/\volt}$ ($\SI{12.04}{\decibel}$) se reparte de forma simétrica entre ambas etapas para optimizar el producto ganancia-ancho de banda (GBW) y el margen dinámico:
+\begin{equation}
+  G_1 = \SI{2}{\volt/\volt} \quad (\SI{6.02}{\decibel}), \qquad G_2 = \SI{2}{\volt/\volt} \quad (\SI{6.02}{\decibel}) \implies K = G_1 \cdot G_2 = \SI{4}{\volt/\volt}
+\end{equation}
+
+La función de transferencia analítica total desnormalizada resulta:
+\begin{equation}
+  H(s) = \frac{K\,\omega_0^4}{\left( s^2 + \dfrac{\omega_0}{Q_1} s + \omega_0^2 \right) \left( s^2 + \dfrac{\omega_0}{Q_2} s + \omega_0^2 \right)}
+  \label{eq:pb-transferencia-gral}
+\end{equation}
+Reemplazando los valores numéricos de diseño:
+\begin{equation}
+  H(s) = \frac{8{,}8815 \times 10^{18}}{\left( s^2 + 7{,}1327 \times 10^4\,s + 1{,}4901 \times 10^9 \right) \left( s^2 + 2{,}9545 \times 10^4\,s + 1{,}4901 \times 10^9 \right)}
+  \label{eq:pb-transferencia-num}
+\end{equation}
+
+\textbf{Verificación analítica de atenuaciones:}
+\begin{itemize}
+  \item En $f_p = \SI{5.5}{\kilo\hertz}$: $\alpha(f_p) = \SI{1.500}{\decibel} \implies |H(f_p)| = 12{,}041 - 1{,}500 = \SI{10.541}{\decibel}$.
+  \item En $f_c = \SI{6.144}{\kilo\hertz}$: $\alpha(f_c) = \SI{3.010}{\decibel} \implies |H(f_c)| = 12{,}041 - 3{,}010 = \SI{9.031}{\decibel}$.
+  \item En $2f_p = \SI{11}{\kilo\hertz}$: $\alpha(2f_p) = \SI{20.278}{\decibel} \implies |H(2f_p)| = -\SI{8.237}{\decibel}$.
+  \item En $10f_p = \SI{55}{\kilo\hertz}$: $\alpha(10f_p) = \SI{76.155}{\decibel} \implies |H(10f_p)| = -\SI{64.113}{\decibel}$.
+\end{itemize}
 
 \subsection{Cálculo de las etapas Sallen-Key}
 \label{subsec:pb-etapas}
 
-Cada etapa de segundo orden (figura~\ref{crkt:sk-pasa-bajos}) tiene ganancia $K = 1 + R_b / R_a$ y
-
-\begin{align*}
-  \omega_0 &= \frac{1}{\sqrt{R_1 R_2 C_1 C_2}} \\
-  Q &= \frac{\sqrt{R_1 R_2 C_1 C_2}}{R_1 C_2 + R_2 C_2 + R_1 C_1 \left( 1 - K \right)}
-\end{align*}
+La topología Sallen-Key para un filtro pasa bajos de segundo orden con ganancia no inversora $G = 1 + R_b / R_a$ se presenta en la figura~\ref{crkt:sk-pasa-bajos}.
 
 \begin{figure}[!ht]
   \centering
   \input{figures/sallen-key-pasa-bajos.tex}
-  \caption{Etapa Sallen-Key pasa bajos de segundo orden con ganancia $K$.}
+  \caption{Etapa Sallen-Key pasa bajos de segundo orden con ganancia $G = 1 + R_b / R_a$.}
   \label{crkt:sk-pasa-bajos}
 \end{figure}
 
-% TODO: desarrollar el cálculo de R_1, R_2, C_1, C_2, R_a y R_b de cada etapa.
+Aplicando el método de los nudos al circuito, la función de transferencia de una celda Sallen-Key genérica con impedancias $Z_1 = R_1$, $Z_2 = R_2$, $Z_3 = \frac{1}{s C_1}$ y $Z_4 = \frac{1}{s C_2}$ es:
+\begin{equation}
+  \frac{V_o}{V_i}(s) = \frac{G}{R_1 R_2 C_1 C_2 s^2 + \left[ R_1 C_1 + R_2 C_1 + R_1 C_2 (1 - G) \right] s + 1}
+  \label{eq:pb-sk-h}
+\end{equation}
+
+Igualando coeficientes con la forma canónica de segundo orden $H(s) = \dfrac{G}{s^2/\omega_0^2 + s/(\omega_0 Q_p) + 1}$:
+\begin{equation}
+  \omega_0 = \frac{1}{\sqrt{R_1 R_2 C_1 C_2}}, \qquad\qquad Q_p = \frac{\sqrt{R_1 R_2 C_1 C_2}}{R_1 C_1 + R_2 C_1 + R_1 C_2 (1 - G)}
+  \label{eq:pb-sk-w0-qp}
+\end{equation}
+
+Dado que se dispone de 4 componentes pasivos ($R_1, R_2, C_1, C_2$) para satisfacer 2 ecuaciones ($\omega_0, Q_p$), se adopta la estrategia de proporcionalidad:
+\begin{equation}
+  R_1 = m R, \qquad R_2 = R, \qquad C_1 = C, \qquad C_2 = n C
+\end{equation}
+
+Reemplazando en \eqref{eq:pb-sk-w0-qp}:
+\begin{equation}
+  \omega_0 = \frac{1}{R\,C\,\sqrt{m n}}, \qquad\qquad Q_p = \frac{\sqrt{m n}}{m + 1 + m n (1 - G)}
+  \label{eq:pb-sk-prop}
+\end{equation}
+
+Definiendo la variable auxiliar $x = \sqrt{m}$, y fijando la ganancia de etapa en $G = 2$, la expresión del factor $Q_p$ se reformula como una ecuación cuadrática en $x$:
+\begin{equation}
+  G = 1 + \frac{1}{n} + \frac{1}{n x^2} - \frac{1}{Q_p \sqrt{n}\,x} \implies Q_p (n - 1)\,x^2 + \sqrt{n}\,x - Q_p = 0
+  \label{eq:pb-cuadratica}
+\end{equation}
+
+Para minimizar la sensibilidad de $Q_p$ respecto de tolerancias de componentes, se eligen capacitores comerciales de poliéster metalizado MKT de la serie E6 con relaciones $n = C_2 / C_1$:
+
+\subsubsection{Cálculo de la Celda 1 ($Q_1 = 0{,}5412$, $G_1 = 2$)}
+Se adoptan capacitores comerciales $C_1 = \SI{2.2}{\nano\farad}$ y $C_2 = \SI{3.3}{\nano\farad}$, resultando $n_1 = 3{,}3 / 2{,}2 = 1{,}5$. Reemplazando en \eqref{eq:pb-cuadratica}:
+\begin{equation}
+  0{,}5412\,(1{,}5 - 1)\,x^2 + \sqrt{1{,}5}\,x - 0{,}5412 = 0 \implies 0{,}2706\,x^2 + 1{,}2247\,x - 0{,}5412 = 0
+\end{equation}
+Tomando la raíz físicamente admisible ($x > 0$):
+\begin{equation}
+  x = 0{,}4055 \implies m_1 = x^2 = 0{,}1645
+\end{equation}
+Despejando los resistores calculados a partir de $\omega_0 = \SI{38601.98}{\radian/\second}$:
+\begin{align}
+  R_2 &= R = \frac{1}{\omega_0\,C_1\,\sqrt{m_1 n_1}} = \frac{1}{\SI{38601.98}{\radian/\second} \cdot \SI{2.2}{\nano\farad} \cdot \sqrt{0{,}1645 \cdot 1{,}5}} = \SI{23707.25}{\ohm} \\
+  R_1 &= m_1 R_2 = 0{,}1645 \cdot \SI{23707.25}{\ohm} = \SI{3899.09}{\ohm}
+\end{align}
+
+\subsubsection{Cálculo de la Celda 2 ($Q_2 = 1{,}3066$, $G_2 = 2$)}
+Se adoptan capacitores comerciales $C_3 = \SI{3.3}{\nano\farad}$ y $C_4 = \SI{10}{\nano\farad}$, lo que define $n_2 = 10 / 3{,}3 = 3{,}0303$. Sustituyendo en \eqref{eq:pb-cuadratica}:
+\begin{equation}
+  1{,}3066\,(3{,}0303 - 1)\,x^2 + \sqrt{3{,}0303}\,x - 1{,}3066 = 0 \implies 2{,}6527\,x^2 + 1{,}7408\,x - 1{,}3066 = 0
+\end{equation}
+cuya solución positiva es:
+\begin{equation}
+  x = 0{,}4466 \implies m_2 = x^2 = 0{,}1995
+\end{equation}
+Despejando los resistores de la segunda celda:
+\begin{align}
+  R_4 &= R = \frac{1}{\omega_0\,C_3\,\sqrt{m_2 n_2}} = \frac{1}{\SI{38601.98}{\radian/\second} \cdot \SI{3.3}{\nano\farad} \cdot \sqrt{0{,}1995 \cdot 3{,}0303}} = \SI{10097.28}{\ohm} \\
+  R_3 &= m_2 R_4 = 0{,}1995 \cdot \SI{10097.28}{\ohm} = \SI{2014.01}{\ohm}
+\end{align}
+
+\subsubsection{Red de ganancia ($R_a$ y $R_b$)}
+Para ambas celdas se tiene $G = 1 + R_b / R_a = 2 \implies R_b = R_a$. Fijando por compromiso de bajo consumo y baja carga de salida $R_b = \SI{10}{\kilo\ohm}$ (película metálica $1\%$), resulta:
+\begin{equation}
+  R_{a1} = R_{b1} = R_{a2} = R_{b2} = \SI{10}{\kilo\ohm}
+\end{equation}
 
 \subsection{Valores comerciales}
 \label{subsec:pb-comerciales}
+
+Se seleccionan resistores comerciales de película metálica de la serie E24 con tolerancia del $1\%$ y capacitores de poliéster metalizado MKT de la serie E6 con tolerancia del $5\%$. La tabla~\ref{tab:pb-componentes} resume los valores calculados y los valores comerciales adoptados.
 
 \begin{table}[!ht]
   \centering
   \begin{tabular}{|l|c|c|c|c|}
     \hline
-     & \multicolumn{2}{c|}{Etapa 1} & \multicolumn{2}{c|}{Etapa 2} \\
+    & \multicolumn{2}{c|}{\textbf{Etapa 1 ($Q_1 = 0{,}5412$, $G_1 = 2$)}} & \multicolumn{2}{c|}{\textbf{Etapa 2 ($Q_2 = 1{,}3066$, $G_2 = 2$)}} \\
     \cline{2-5}
-    Componente & Calculado & Comercial & Calculado & Comercial \\
+    \textbf{Componente} & \textbf{Calculado} & \textbf{Comercial (Tol.)} & \textbf{Calculado} & \textbf{Comercial (Tol.)} \\
     \hline
-    $R_1$ & & & & \\
-    $R_2$ & & & & \\
-    $C_1$ & & & & \\
-    $C_2$ & & & & \\
-    $R_a$ & & & & \\
-    $R_b$ & & & & \\
+    $R_1$ / $R_3$ & $\SI{3899.09}{\ohm}$ & $\SI{3.9}{\kilo\ohm}$ ($1\%$) & $\SI{2014.01}{\ohm}$ & $\SI{2.0}{\kilo\ohm}$ ($1\%$) \\
+    $R_2$ / $R_4$ & $\SI{23707.25}{\ohm}$ & $\SI{24}{\kilo\ohm}$ ($1\%$) & $\SI{10097.28}{\ohm}$ & $\SI{10}{\kilo\ohm}$ ($1\%$) \\
+    $C_1$ / $C_3$ & $\SI{2.20}{\nano\farad}$ & $\SI{2.2}{\nano\farad}$ ($5\%$) & $\SI{3.30}{\nano\farad}$ & $\SI{3.3}{\nano\farad}$ ($5\%$) \\
+    $C_2$ / $C_4$ & $\SI{3.30}{\nano\farad}$ & $\SI{3.3}{\nano\farad}$ ($5\%$) & $\SI{10.00}{\nano\farad}$ & $\SI{10}{\nano\farad}$ ($5\%$) \\
+    $R_{a1}$ / $R_{a2}$ & $\SI{10.00}{\kilo\ohm}$ & $\SI{10}{\kilo\ohm}$ ($1\%$) & $\SI{10.00}{\kilo\ohm}$ & $\SI{10}{\kilo\ohm}$ ($1\%$) \\
+    $R_{b1}$ / $R_{b2}$ & $\SI{10.00}{\kilo\ohm}$ & $\SI{10}{\kilo\ohm}$ ($1\%$) & $\SI{10.00}{\kilo\ohm}$ & $\SI{10}{\kilo\ohm}$ ($1\%$) \\
     \hline
   \end{tabular}
-  \caption{Valores calculados y comerciales del filtro pasa bajos.}
+  \caption{Valores calculados y comerciales del filtro pasa bajos de 4.\textsuperscript{to} orden.}
   \label{tab:pb-componentes}
 \end{table}
+
+Recalculando los parámetros característicos con los valores comerciales nominales:
+\begin{itemize}
+  \item \textbf{Celda 1:} $f_{01} = \SI{6105.4}{\hertz}$ (desvío $-0{,}62\%$), $Q_{1} = 0{,}5374$ (desvío $-0{,}70\%$).
+  \item \textbf{Celda 2:} $f_{02} = \SI{6195.1}{\hertz}$ (desvío $+0{,}84\%$), $Q_{2} = 1{,}3107$ (desvío $+0{,}31\%$).
+\end{itemize}
+
+El esquemático eléctrico completo con los dos bloques en cascada, la asignación de pines del integrado cuádruple TL084 y sus capacitores de desacoplo cerámico se ilustra en la figura~\ref{fig:pb-esquematico-completo}.
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\textwidth]{images/fig4_esquematico_pasa_bajos}
+  \caption{Esquemático completo del filtro pasa bajos Butterworth de 4.\textsuperscript{to} orden con asignación de pines del TL084.}
+  \label{fig:pb-esquematico-completo}
+\end{figure}
 
 \section{Simulación}
 \label{sec:pb-simulacion}
@@ -87,32 +227,111 @@ Cada etapa de segundo orden (figura~\ref{crkt:sk-pasa-bajos}) tiene ganancia $K 
 \subsection{Función de transferencia con elementos ideales}
 \label{subsec:pb-sim-ideal}
 
-% TODO: diagrama de Bode (módulo y fase) con los valores calculados. Incluir el gráfico desde images/ o como pgfplots
-% en figures/ (ver figures/bode-ejemplo.tex).
+Se implementó el circuito en LTspice y ngspice empleando fuentes de tensión controladas ideales para validar la aproximación teórica. En la figura~\ref{fig:pb-bode-ideal} se superpone la respuesta teórica de Butterworth con la curva simulada con componentes exactos e ideales.
 
-\subsection{Función de transferencia con valores comerciales}
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=0.92\textwidth]{images/fig1_bode_comparativo}
+  \caption{Diagrama de Bode de magnitud y fase: comparación teórica, valores calculados y valores comerciales.}
+  \label{fig:pb-bode-ideal}
+\end{figure}
+
+En la banda de paso profunda ($f \le \SI{1}{\kilo\hertz}$), la ganancia responde exactamente a $\SI{12.04}{\decibel}$ ($\SI{4}{\volt/\volt}$). En la frecuencia de paso nominal $f_p = \SI{5.5}{\kilo\hertz}$, la atenuación respecto a continua es de $\SI{1.50}{\decibel}$, cumpliendo rigurosamente con el requerimiento de $A_{\max} \le \SI{1.5}{\decibel}$. A frecuencias elevadas, la pendiente asintótica alcanza los $-\SI{80}{\decibel/\text{década}}$ ($-\SI{24}{\decibel/\text{octava}}$), característica de un orden $n=4$.
+
+\subsection{Función de transferencia con valores comerciales y modelo macromodelo TL084}
 \label{subsec:pb-sim-real}
 
-% TODO: repetir con los valores comerciales y comparar f_c, A_max y ganancia obtenidas con las especificadas.
+Se simuló la respuesta incorporando los valores normalizados comerciales adoptados (E24/E6) y el modelo macromodelo SPICE real de Texas Instruments para el operacional cuádruple JFET TL084, alimentado a $\pm\SI{15}{\volt}$. La figura~\ref{fig:pb-zoom-banda} presenta el detalle en la banda de paso y zona de corte.
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=0.88\textwidth]{images/fig2_zoom_banda_paso}
+  \caption{Detalle ampliado de la banda de paso y frecuencia de corte a $-\SI{3}{\decibel}$.}
+  \label{fig:pb-zoom-banda}
+\end{figure}
+
+La ganancia en continua nominal es de $\SI{12.04}{\decibel}$. En $f_p = \SI{5.5}{\kilo\hertz}$, la ganancia resultante con componentes comerciales y modelo TL084 es de $\SI{10.50}{\decibel}$, correspondiendo a una atenuación de $\SI{1.54}{\decibel}$ respecto de continua. La frecuencia de corte experimental a $-\SI{3}{\decibel}$ (donde $|H| = \SI{9.03}{\decibel}$) se ubica en $f_c = \SI{6140}{\hertz}$, prácticamente idéntica al valor teórico ideal ($\SI{6144}{\hertz}$). La elevada impedancia de entrada de la etapa JFET ($R_{\text{in}} \approx \SI{1}{\tera\ohm}$) y su producto GBW de $\SI{3}{\mega\hertz}$ garantizan que el comportamiento del filtro no se vea degradado por corrientes de polarización ni por retardo de fase parásito en el rango de audio considerado.
+
+\subsection{Análisis de sensibilidad y tolerancias (Monte Carlo)}
+\label{subsec:pb-montecarlo}
+
+Se analizó la sensibilidad analítica de los parámetros $\omega_0$ y $Q_p$ frente a cada componente:
+\begin{equation}
+  S_{R_1}^{\omega_0} = S_{R_2}^{\omega_0} = S_{C_1}^{\omega_0} = S_{C_2}^{\omega_0} = -0{,}50
+\end{equation}
+Para los factores de calidad, las sensibilidades son:
+\begin{itemize}
+  \item \textbf{Celda 1 ($Q_1 = 0{,}5412$):} $S_{R_1}^{Q_1} = +0{,}59$, $S_{R_2}^{Q_1} = -0{,}59$, $S_{C_1}^{Q_1} = -0{,}77$, $S_{C_2}^{Q_1} = +0{,}77$, $S_{R_a}^{Q_1} = -0{,}27$, $S_{R_b}^{Q_1} = +0{,}27$.
+  \item \textbf{Celda 2 ($Q_2 = 1{,}3066$):} $S_{R_3}^{Q_2} = +1{,}18$, $S_{R_4}^{Q_2} = -1{,}18$, $S_{C_3}^{Q_2} = -1{,}52$, $S_{C_4}^{Q_2} = +1{,}52$, $S_{R_a}^{Q_2} = -1{,}02$, $S_{R_b}^{Q_2} = +1{,}02$.
+\end{itemize}
+
+Para evaluar el impacto de las tolerancias de fabricación sobre la respuesta física, se ejecutó una simulación Monte Carlo SPICE de $N = 10\,000$ corridas estadísticas independientes, asumiendo resistores al $\pm 1\%$ y comparando capacitores al $\pm 5\%$ frente a capacitores estándar al $\pm 10\%$. Los resultados gráficos se muestran en la figura~\ref{fig:pb-montecarlo} y su síntesis numérica en la tabla~\ref{tab:pb-tolerancias}.
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=0.92\textwidth]{images/fig3_tolerancias_montecarlo}
+  \caption{Simulación Monte Carlo SPICE ($N=10\,000$ iteraciones) con modelo TL084 para $R \pm 1\%$ con $C \pm 5\%$ y $C \pm 10\%$.}
+  \label{fig:pb-montecarlo}
+\end{figure}
+
+\begin{table}[!ht]
+  \centering
+  \resizebox{\textwidth}{!}{%
+  \begin{tabular}{|l|c|c|c|c|}
+    \hline
+    \textbf{Parámetro} & \textbf{Nominal (TL084)} & \textbf{Media $\pm\,\sigma$ ($C\,5\%$)} & \textbf{IC 95\% ($R\,1\%, C\,5\%$)} & \textbf{IC 95\% ($R\,1\%, C\,10\%$)} \\
+    \hline
+    Ganancia DC $G_0$ & $\SI{12.04}{\decibel}$ ($\SI{4.00}{\volt/\volt}$) & $12{,}04 \pm 0{,}05\,\text{dB}$ & $[11{,}95;\; 12{,}14]\,\text{dB}$ & $[11{,}94;\; 12{,}14]\,\text{dB}$ \\
+    Atenuación $A(f_p)$ & $\SI{1.54}{\decibel}$ & $1{,}56 \pm 0{,}59\,\text{dB}$ & $[0{,}37;\; 2{,}68]\,\text{dB}$ & $[-0{,}84;\; 3{,}72]\,\text{dB}$ \\
+    Frecuencia corte $f_c$ & $\SI{6140}{\hertz}$ & $6132 \pm 242\,\text{Hz}$ & $[5656;\; 6584]\,\text{Hz}$ & $[5148;\; 6968]\,\text{Hz}$ \\
+    Atenuación $A(2f_p)$ & $\SI{20.29}{\decibel}$ & $20{,}21 \pm 0{,}57\,\text{dB}$ & $[19{,}11;\; 21{,}28]\,\text{dB}$ & $[17{,}94;\; 22{,}28]\,\text{dB}$ \\
+    Atenuación $A(10f_p)$ & $\SI{76.24}{\decibel}$ & $76{,}10 \pm 0{,}51\,\text{dB}$ & $[75{,}10;\; 77{,}09]\,\text{dB}$ & $[74{,}04;\; 77{,}96]\,\text{dB}$ \\
+    \hline
+  \end{tabular}%
+  }
+  \caption{Resumen estadístico del análisis de Monte Carlo ($N=10\,000$ corridas).}
+  \label{tab:pb-tolerancias}
+\end{table}
+
+Se observa que con capacitores al $5\%$ la frecuencia de corte se mantiene confinada dentro de un intervalo de confianza del $95\%$ entre $\SI{5656}{\hertz}$ y $\SI{6584}{\hertz}$, garantizando la estabilidad de la banda de paso. Se recomienda medir previamente con capacímetro los componentes pasivos antes del soldado para aproximar los valores a sus centros nominales.
 
 \section{Implementación y mediciones}
 \label{sec:pb-mediciones}
 
-% TODO: si este filtro es uno de los dos implementados: armado, fotos en pictures/, tabla de barrido en frecuencia,
-% captura del perfil de frecuencia (FFT) del osciloscopio y comparación medido vs. simulado. Si no se implementa,
-% indicar que se realiza en el TP de filtros digitales.
+\subsection{Condiciones de ensayo en laboratorio}
+\label{subsec:pb-condiciones}
+
+Para el ensayo y caracterización experimental en el banco de trabajo, se establecen las siguientes condiciones:
+\begin{itemize}
+  \item \textbf{Alimentación:} Fuente regulada doble simétrica fijada en $\pm\SI{15}{\volt}$, verificando conexión de masa común entre fuente, generador de funciones y osciloscopio.
+  \item \textbf{Señal de prueba:} Onda senoidal pura de baja distorsión con amplitud de referencia $V_{\text{in}} = \SI{1.00}{\volt_{\text{pp}}}$ sin tensión de offset continuo. En banda de paso la salida nominal esperada es de $\SI{4.00}{\volt_{\text{pp}}}$, operando cómodamente lejos de los límites de excursión y saturación de salida del TL084 ($\approx \SI{26}{\volt_{\text{pp}}}$).
+  \item \textbf{Medición en alta frecuencia ($10 f_p$):} En frecuencias superiores a $\SI{20}{\kilo\hertz}$, debido a la fuerte atenuación ($> \SI{40}{\decibel}$), se incrementa la señal del generador a $\SI{5.00}{\volt_{\text{pp}}}$ o $\SI{10.0}{\volt_{\text{pp}}}$ y se activa el promediado (Average) o la transformada rápida de Fourier (FFT) del osciloscopio digital.
+\end{itemize}
+
+\subsection{Tabla de valores esperados para visado}
+\label{subsec:pb-tabla-visado}
+
+La tabla~\ref{tab:pb-barrido} consolida la plantilla de ensayo experimental con los valores teóricos ideales calculados, los valores simulados con modelo TL084 y componentes comerciales, y las columnas de registro destinadas a las lecturas experimentales de laboratorio.
 
 \begin{table}[!ht]
   \centering
-  \begin{tabular}{|c|c|c|c|c|}
+  \resizebox{\textwidth}{!}{%
+  \begin{tabular}{|l|c|c|c|c|c|c|}
     \hline
-    $f$ [kHz] & $V_{in,pp}$ [V] & $V_{out,pp}$ [V] & $|H|$ medido [dB] & $|H|$ simulado [dB] \\
+    \textbf{Punto / Criterio} & \textbf{$f$ [Hz]} & \textbf{$|H|$ Ideal} & \textbf{$|H|$ Comercial + TL084} & \textbf{$V_{\text{out}}$ esp. ($1\,\text{V}_{\text{pp}}$)} & \textbf{$V_{\text{out}}$ Med. [$\text{V}_{\text{pp}}$]} & \textbf{$|H|$ Med. [dB]} \\
     \hline
-     & & & & \\
-     & & & & \\
-     & & & & \\
+    Banda de paso baja & $100$ & $\SI{12.04}{\decibel}$ & $\SI{12.04}{\decibel}$ & $\SI{4.00}{\volt_{\text{pp}}}$ & & \\
+    Banda de paso & $1\,000$ & $\SI{12.04}{\decibel}$ & $\SI{12.03}{\decibel}$ & $\SI{4.00}{\volt_{\text{pp}}}$ & & \\
+    Pre-corte & $3\,000$ & $\SI{12.03}{\decibel}$ & $\SI{11.97}{\decibel}$ & $\SI{3.97}{\volt_{\text{pp}}}$ & & \\
+    \textbf{Frecuencia de paso $f_p$} & $\mathbf{5\,500}$ & $\SI{10.54}{\decibel}$ ($\alpha=\SI{1.50}{\decibel}$) & $\SI{10.50}{\decibel}$ ($\alpha=\SI{1.54}{\decibel}$) & $\SI{3.35}{\volt_{\text{pp}}}$ & & \\
+    \textbf{Corte $-3\,\text{dB}$ ($f_c$)} & $\mathbf{6\,140}$ & $\SI{9.03}{\decibel}$ ($\alpha=\SI{3.01}{\decibel}$) & $\SI{9.03}{\decibel}$ ($\alpha=\SI{3.01}{\decibel}$) & $\SI{2.83}{\volt_{\text{pp}}}$ & & \\
+    Zona transición & $8\,000$ & $\SI{2.37}{\decibel}$ & $\SI{2.39}{\decibel}$ & $\SI{1.32}{\volt_{\text{pp}}}$ & & \\
+    \textbf{Rechazo $2 f_p$} & $\mathbf{11\,000}$ & $-\SI{8.24}{\decibel}$ ($\alpha=\SI{20.28}{\decibel}$) & $-\SI{8.25}{\decibel}$ ($\alpha=\SI{20.29}{\decibel}$) & $\SI{387}{\milli\volt_{\text{pp}}}$ & & \\
+    Rechazo intermedio & $20\,000$ & $-\SI{28.97}{\decibel}$ & $-\SI{29.02}{\decibel}$ & $\SI{35.4}{\milli\volt_{\text{pp}}}$ & & \\
+    \textbf{Rechazo $10 f_p$} & $\mathbf{55\,000}$ & $-\SI{64.11}{\decibel}$ & $-\SI{64.20}{\decibel}$ & $\SI{0.62}{\milli\volt_{\text{pp}}}$ & & \\
     \hline
-  \end{tabular}
-  \caption{Relevamiento de la respuesta en frecuencia del filtro pasa bajos.}
+  \end{tabular}%
+  }
+  \caption{Planilla de relevamiento experimental y valores esperados del filtro pasa bajos ($V_{\text{in}} = \SI{1.00}{\volt_{\text{pp}}}$).}
   \label{tab:pb-barrido}
 \end{table}

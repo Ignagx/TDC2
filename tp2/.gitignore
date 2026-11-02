@@ -11,3 +11,6 @@
 *.synctex.gz
 *.pdf
 !sources/*.pdf
+!images/*.pdf
+!figures/*.pdf
+
