@@ -413,6 +413,265 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Connector:Screw_Terminal_01x03"
+			(pin_names
+				(offset 1.016)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "J"
+				(at 0 5.08 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "Screw_Terminal_01x03"
+				(at 0 -5.08 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Generic screw terminal, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "screw terminal"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "TerminalBlock*:*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "Screw_Terminal_01x03_1_1"
+				(rectangle
+					(start -1.27 3.81)
+					(end 1.27 -3.81)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(polyline
+					(pts
+						(xy -0.5334 2.8702) (xy 0.3302 2.032)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -0.5334 0.3302) (xy 0.3302 -0.508)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -0.5334 -2.2098) (xy 0.3302 -3.048)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -0.3556 3.048) (xy 0.508 2.2098)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -0.3556 0.508) (xy 0.508 -0.3302)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -0.3556 -2.032) (xy 0.508 -2.8702)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center 0 2.54)
+					(radius 0.635)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center 0 0)
+					(radius 0.635)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center 0 -2.54)
+					(radius 0.635)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(pin passive line
+					(at -5.08 2.54 0)
+					(length 3.81)
+					(name "Pin_1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -5.08 0 0)
+					(length 3.81)
+					(name "Pin_2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -5.08 -2.54 0)
+					(length 3.81)
+					(name "Pin_3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "Device:C"
 			(pin_numbers
 				(hide yes)
@@ -1224,10 +1483,22 @@
 		(uuid "8224254c-b9a9-432a-9243-befc05ac4954")
 	)
 	(junction
+		(at 110.49 116.84)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "035df0ee-fffc-4667-b4e0-450a394f54d3")
+	)
+	(junction
 		(at 205.74 45.72)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "0a999cd5-75d5-4cb8-b8eb-9daf5fc4d63e")
+	)
+	(junction
+		(at 101.6 102.87)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "1563b7a6-e10f-490c-8c3b-249eabe3fab7")
 	)
 	(junction
 		(at 273.05 109.22)
@@ -1242,10 +1513,10 @@
 		(uuid "2ccfe438-bf50-4f1c-824a-34d219b9fdba")
 	)
 	(junction
-		(at 101.6 102.87)
+		(at 130.81 105.41)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "35fad746-02fe-434e-b5c7-5f8513bc2fcf")
+		(uuid "3a59590c-40d8-427e-8887-3b9b2f76168f")
 	)
 	(junction
 		(at 90.17 102.87)
@@ -1281,31 +1552,13 @@
 		(at 242.57 106.68)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "739598e0-44e1-4562-a82a-7635686ae7fa")
-	)
-	(junction
-		(at 110.49 116.84)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "80c6b7e6-612b-4b4a-8240-4cbbcfd0d319")
-	)
-	(junction
-		(at 250.19 120.65)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "952b3d39-4cba-4429-a1dc-98fc42dc713b")
+		(uuid "834d4091-acf2-4603-b5b9-18db0d755f64")
 	)
 	(junction
 		(at 172.72 104.14)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "ae7ea58f-6bae-421c-850d-fb5fa80316fd")
-	)
-	(junction
-		(at 130.81 105.41)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "b056d6bf-a170-4061-bc56-a77648bec3de")
 	)
 	(junction
 		(at 186.69 104.14)
@@ -1318,6 +1571,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "bf77ddfa-9d17-4c6f-a07b-aefc5ff6766f")
+	)
+	(junction
+		(at 252.73 120.65)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "d40d953c-3240-4c37-b423-72274eba4663")
 	)
 	(junction
 		(at 38.1 100.33)
@@ -1363,6 +1622,16 @@
 	)
 	(wire
 		(pts
+			(xy 252.73 111.76) (xy 252.73 120.65)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "03f3ff6f-e100-4d64-957f-bfe72c96d27a")
+	)
+	(wire
+		(pts
 			(xy 74.93 102.87) (xy 78.74 102.87)
 		)
 		(stroke
@@ -1390,6 +1659,16 @@
 			(type default)
 		)
 		(uuid "081eda06-f175-4111-ab3f-83bec8ac79ba")
+	)
+	(wire
+		(pts
+			(xy 252.73 120.65) (xy 256.54 120.65)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0abf143e-ef9f-40af-aa48-053d4a2a4939")
 	)
 	(polyline
 		(pts
@@ -1443,6 +1722,16 @@
 	)
 	(wire
 		(pts
+			(xy 248.92 48.26) (xy 248.92 54.61)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "16be4b16-1e30-4af9-a995-d5f7b31adff9")
+	)
+	(wire
+		(pts
 			(xy 172.72 91.44) (xy 172.72 104.14)
 		)
 		(stroke
@@ -1483,16 +1772,6 @@
 	)
 	(wire
 		(pts
-			(xy 242.57 106.68) (xy 250.19 106.68)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "23276eb9-c875-48ea-9a0e-424bf637c985")
-	)
-	(wire
-		(pts
 			(xy 172.72 104.14) (xy 176.53 104.14)
 		)
 		(stroke
@@ -1523,13 +1802,13 @@
 	)
 	(wire
 		(pts
-			(xy 127 105.41) (xy 130.81 105.41)
+			(xy 101.6 102.87) (xy 111.76 102.87)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "2bfa477d-6de8-4848-87ba-e7256564b3a6")
+		(uuid "2da7f796-e4ec-4e3d-97ec-47cd3554b5aa")
 	)
 	(wire
 		(pts
@@ -1563,13 +1842,23 @@
 	)
 	(wire
 		(pts
-			(xy 247.65 120.65) (xy 250.19 120.65)
+			(xy 247.65 120.65) (xy 252.73 120.65)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "38f199be-fe10-4db2-9e03-dea0245d55b0")
+	)
+	(wire
+		(pts
+			(xy 127 105.41) (xy 130.81 105.41)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3939fd7e-b7b2-4fd3-8a1d-fc367e4e4029")
 	)
 	(wire
 		(pts
@@ -1583,6 +1872,16 @@
 	)
 	(wire
 		(pts
+			(xy 130.81 105.41) (xy 130.81 116.84)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "40bca6b1-b5f6-462e-9d9d-4c0ab4f06d14")
+	)
+	(wire
+		(pts
 			(xy 101.6 102.87) (xy 101.6 109.22)
 		)
 		(stroke
@@ -1590,6 +1889,16 @@
 			(type default)
 		)
 		(uuid "45cefe15-ad82-4616-a6ed-17703c5cb15c")
+	)
+	(wire
+		(pts
+			(xy 110.49 107.95) (xy 110.49 116.84)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "460f6aa3-a3e6-4693-bf53-391d478a8d18")
 	)
 	(wire
 		(pts
@@ -1623,7 +1932,7 @@
 	)
 	(polyline
 		(pts
-			(xy 245.11 17.78) (xy 186.69 17.78)
+			(xy 281.94 16.51) (xy 186.69 16.51)
 		)
 		(stroke
 			(width 0)
@@ -1643,7 +1952,7 @@
 	)
 	(polyline
 		(pts
-			(xy 186.69 60.96) (xy 245.11 60.96)
+			(xy 186.69 60.96) (xy 281.94 60.96)
 		)
 		(stroke
 			(width 0)
@@ -1700,6 +2009,16 @@
 			(type default)
 		)
 		(uuid "6f14587a-8391-4530-8fc6-14449bc2f729")
+	)
+	(wire
+		(pts
+			(xy 267.97 109.22) (xy 273.05 109.22)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "70b8c125-365e-4770-bc30-0ff05f9923bc")
 	)
 	(wire
 		(pts
@@ -1770,36 +2089,6 @@
 			(type default)
 		)
 		(uuid "826741fe-3463-40b0-a736-b9cea23a985d")
-	)
-	(wire
-		(pts
-			(xy 110.49 107.95) (xy 111.76 107.95)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "942f490f-48e9-4f6b-8ddf-080ec59cd992")
-	)
-	(wire
-		(pts
-			(xy 110.49 116.84) (xy 110.49 107.95)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "9651ba50-3f1f-4742-954d-da2b1a89ccda")
-	)
-	(wire
-		(pts
-			(xy 250.19 120.65) (xy 256.54 120.65)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "9e2456c5-6147-408e-9802-985de28d79f9")
 	)
 	(polyline
 		(pts
@@ -1903,16 +2192,6 @@
 	)
 	(wire
 		(pts
-			(xy 250.19 111.76) (xy 250.19 120.65)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "b1076bb9-caec-487b-92b9-98fa18854f49")
-	)
-	(wire
-		(pts
 			(xy 130.81 116.84) (xy 125.73 116.84)
 		)
 		(stroke
@@ -1933,7 +2212,7 @@
 	)
 	(polyline
 		(pts
-			(xy 245.11 60.96) (xy 245.11 17.78)
+			(xy 281.94 60.96) (xy 281.94 16.51)
 		)
 		(stroke
 			(width 0)
@@ -1963,6 +2242,16 @@
 	)
 	(wire
 		(pts
+			(xy 252.73 48.26) (xy 248.92 48.26)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "cb4bdaa9-93f6-4c5e-9634-8994326dcb2d")
+	)
+	(wire
+		(pts
 			(xy 78.74 102.87) (xy 78.74 85.09)
 		)
 		(stroke
@@ -1973,7 +2262,7 @@
 	)
 	(wire
 		(pts
-			(xy 130.81 105.41) (xy 130.81 87.63)
+			(xy 130.81 87.63) (xy 130.81 105.41)
 		)
 		(stroke
 			(width 0)
@@ -1993,7 +2282,7 @@
 	)
 	(polyline
 		(pts
-			(xy 186.69 17.78) (xy 186.69 60.96)
+			(xy 186.69 16.51) (xy 186.69 60.96)
 		)
 		(stroke
 			(width 0)
@@ -2043,6 +2332,16 @@
 	)
 	(wire
 		(pts
+			(xy 242.57 106.68) (xy 252.73 106.68)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "dd043c74-8b69-479e-9896-cb2324c17f08")
+	)
+	(wire
+		(pts
 			(xy 264.16 120.65) (xy 273.05 120.65)
 		)
 		(stroke
@@ -2073,23 +2372,13 @@
 	)
 	(wire
 		(pts
-			(xy 130.81 105.41) (xy 130.81 116.84)
+			(xy 111.76 107.95) (xy 110.49 107.95)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "ee0aa1e9-0471-4d36-af17-d0b324f1bb8b")
-	)
-	(wire
-		(pts
-			(xy 273.05 109.22) (xy 265.43 109.22)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "f1a54c0e-659d-409c-891f-ed72800d91e6")
+		(uuid "efe62874-b178-4e95-a8c4-5472400d58a4")
 	)
 	(wire
 		(pts
@@ -2103,13 +2392,13 @@
 	)
 	(wire
 		(pts
-			(xy 101.6 102.87) (xy 111.76 102.87)
+			(xy 245.11 50.8) (xy 252.73 50.8)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "feaa3924-d218-4d83-b7bb-b2faa8ad7534")
+		(uuid "f886a15e-6bc5-4ac2-965b-6674e0d61a18")
 	)
 	(label "vo_pa"
 		(at 274.32 109.22 0)
@@ -2263,7 +2552,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical"
 			(at 244.348 113.03 90)
 			(hide yes)
 			(show_name no)
@@ -2343,7 +2632,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_THT:C_Rect_L4.6mm_W2.0mm_P2.50mm_MKS02_FKP02"
 			(at 184.15 103.1748 0)
 			(hide yes)
 			(show_name no)
@@ -2423,7 +2712,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Package_DFN_QFN:Texas_DSQ0010A_WSON-10-1EP_2x2mm_P0.4mm_EP0.9x1.5mm"
+		(property "Footprint" "Package_DIP:CERDIP-14_W7.62mm_SideBrazed_LongPads_Socket"
 			(at 66.04 100.33 0)
 			(hide yes)
 			(show_name no)
@@ -2539,7 +2828,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_THT:C_Rect_L4.6mm_W2.0mm_P2.50mm_MKS02_FKP02"
 			(at 224.79 105.7148 0)
 			(hide yes)
 			(show_name no)
@@ -2855,7 +3144,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical"
 			(at 108.712 121.92 90)
 			(hide yes)
 			(show_name no)
@@ -3013,7 +3302,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_THT:C_Rect_L7.2mm_W3.0mm_P5.00mm_FKS2_FKP2_MKS2_MKP2"
 			(at 121.92 86.6648 0)
 			(hide yes)
 			(show_name no)
@@ -3093,7 +3382,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical"
 			(at 121.92 118.618 90)
 			(hide yes)
 			(show_name no)
@@ -3298,6 +3587,200 @@
 		)
 	)
 	(symbol
+		(lib_id "power:-15V")
+		(at 245.11 50.8 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "53c2a788-3955-4d71-978b-5a111fa956c5")
+		(property "Reference" "#PWR017"
+			(at 245.11 54.61 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "-15V"
+			(at 245.11 45.72 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 245.11 50.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 245.11 50.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"-15V\""
+			(at 245.11 50.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "b7a19c0f-bfcd-4cd7-be11-58fb1aee41f5")
+		)
+		(instances
+			(project "Filtros_TP2"
+				(path "/719e69fc-bee5-440e-874c-439632873f8c"
+					(reference "#PWR017")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Amplifier_Operational:TL084")
+		(at 119.38 105.41 0)
+		(unit 4)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "53c93afb-9ee8-4c88-8fea-6a798e65cc00")
+		(property "Reference" "U1"
+			(at 119.38 95.25 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "TL084"
+			(at 119.38 97.79 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Package_DIP:CERDIP-14_W7.62mm_SideBrazed_LongPads_Socket"
+			(at 118.11 102.87 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "http://www.ti.com/lit/ds/symlink/tl081.pdf"
+			(at 120.65 100.33 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Quad JFET-Input Operational Amplifiers, DIP-14/SOIC-14/SSOP-14"
+			(at 119.38 105.41 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "4"
+			(uuid "7858e6aa-1f17-41ba-8248-a628b6577abd")
+		)
+		(pin "11"
+			(uuid "6883d2f1-d897-41d0-a0f3-9dc8d6567a80")
+		)
+		(pin "14"
+			(uuid "4656cce1-f4a3-47c6-ba76-05366c40720b")
+		)
+		(pin "1"
+			(uuid "54c49798-9f17-4dae-9f8c-9e3f449beeb7")
+		)
+		(pin "6"
+			(uuid "032f57f9-24ed-4440-b0b7-fc9f349579f4")
+		)
+		(pin "10"
+			(uuid "9c4a9124-aa6c-422b-bac6-1dbe4aafafa9")
+		)
+		(pin "9"
+			(uuid "30eebb5c-2c11-4c26-988a-1c66c456eedf")
+		)
+		(pin "8"
+			(uuid "9853298e-6e4b-4f8f-9ec0-4f28bb470c02")
+		)
+		(pin "7"
+			(uuid "00c10545-0a8b-47dd-adb9-9c1520cea932")
+		)
+		(pin "13"
+			(uuid "8a110c96-e799-49d7-b35e-dbcf960f9fcc")
+		)
+		(pin "12"
+			(uuid "c24f6025-44bc-40e1-a913-1da8a1eaccad")
+		)
+		(pin "3"
+			(uuid "d2df53bd-2df8-4372-a790-645cdbfc567b")
+		)
+		(pin "5"
+			(uuid "9e839e9a-8fa6-4330-a72e-706ccbfa6d00")
+		)
+		(pin "2"
+			(uuid "f307f83f-6bac-4b62-b41b-46f42c56dee6")
+		)
+		(instances
+			(project "Filtros_TP2"
+				(path "/719e69fc-bee5-440e-874c-439632873f8c"
+					(reference "U1")
+					(unit 4)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:GND")
 		(at 49.53 114.3 0)
 		(unit 1)
@@ -3407,7 +3890,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical"
 			(at 260.35 122.428 90)
 			(hide yes)
 			(show_name no)
@@ -3487,7 +3970,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
 			(at 45.72 102.108 90)
 			(hide yes)
 			(show_name no)
@@ -3530,6 +4013,169 @@
 			(project "Filtros_TP2"
 				(path "/719e69fc-bee5-440e-874c-439632873f8c"
 					(reference "R10")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:Screw_Terminal_01x03")
+		(at 257.81 48.26 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "64ade189-46ef-4e31-8a38-3c6e3c715515")
+		(property "Reference" "J1"
+			(at 260.35 46.9899 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Screw_Terminal_01x03"
+			(at 260.35 49.5299 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TerminalBlock:TerminalBlock_MaiXu_MX126-5.0-03P_1x03_P5.00mm"
+			(at 257.81 48.26 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 257.81 48.26 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Generic screw terminal, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(at 257.81 48.26 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "c9458ad2-6b86-4ff8-9a3d-6087ac1a44e5")
+		)
+		(pin "2"
+			(uuid "af5660fd-b825-48b0-95e8-bf361bb117b8")
+		)
+		(pin "3"
+			(uuid "b9907233-1740-4ede-a8b7-7af935404f23")
+		)
+		(instances
+			(project "Filtros_TP2"
+				(path "/719e69fc-bee5-440e-874c-439632873f8c"
+					(reference "J1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 233.68 29.21 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "66446b92-26c7-44f4-b3bd-9f38aa80ae2e")
+		(property "Reference" "#PWR018"
+			(at 233.68 35.56 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 233.68 34.29 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 233.68 29.21 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 233.68 29.21 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 233.68 29.21 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "c61ae0d6-b02d-4a44-84db-1a3743aa64d3")
+		)
+		(instances
+			(project "Filtros_TP2"
+				(path "/719e69fc-bee5-440e-874c-439632873f8c"
+					(reference "#PWR018")
 					(unit 1)
 				)
 			)
@@ -3691,122 +4337,6 @@
 		)
 	)
 	(symbol
-		(lib_id "Amplifier_Operational:TL084")
-		(at 119.38 105.41 0)
-		(unit 4)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "7c989c06-4bdb-4c48-9fac-a0cc08c264fd")
-		(property "Reference" "U2"
-			(at 119.38 95.25 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "TL084"
-			(at 119.38 97.79 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Package_DFN_QFN:Texas_DSQ0010A_WSON-10-1EP_2x2mm_P0.4mm_EP0.9x1.5mm"
-			(at 118.11 102.87 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" "http://www.ti.com/lit/ds/symlink/tl081.pdf"
-			(at 120.65 100.33 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Quad JFET-Input Operational Amplifiers, DIP-14/SOIC-14/SSOP-14"
-			(at 119.38 105.41 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "7"
-			(uuid "6ebf55a9-e6a0-459f-8865-45020f9c27db")
-		)
-		(pin "3"
-			(uuid "b8080df4-78a4-4c66-b5e0-de1557182857")
-		)
-		(pin "8"
-			(uuid "dbe6b76d-7ecc-43b4-af79-c99dcf737d49")
-		)
-		(pin "2"
-			(uuid "2932437b-d00b-4ada-8ae0-6d0e6b0c8eac")
-		)
-		(pin "6"
-			(uuid "cd4406d2-de64-43fe-be60-15cf42f8b1a9")
-		)
-		(pin "5"
-			(uuid "567f48fc-fdce-4fd1-93a4-409d8409ba3d")
-		)
-		(pin "1"
-			(uuid "cc21bb55-57ee-4b44-b686-b769d6f3142c")
-		)
-		(pin "9"
-			(uuid "b484a6a5-728f-4731-a927-d02d1ab595ce")
-		)
-		(pin "11"
-			(uuid "7463b894-9a97-4284-a189-1c0897fe815d")
-		)
-		(pin "10"
-			(uuid "ec074ec9-f95e-4d14-a03c-595eb33abc04")
-		)
-		(pin "12"
-			(uuid "56054dda-512e-47b2-b82a-7441475eca30")
-		)
-		(pin "13"
-			(uuid "4942c573-926c-4a78-be69-84b7b51cc59f")
-		)
-		(pin "14"
-			(uuid "424cf790-89ef-4169-bb5b-f1c994d12a79")
-		)
-		(pin "4"
-			(uuid "4fad7aad-b0f5-42bb-8a73-202f7edb0674")
-		)
-		(instances
-			(project "Filtros_TP2"
-				(path "/719e69fc-bee5-440e-874c-439632873f8c"
-					(reference "U2")
-					(unit 4)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:R")
 		(at 69.85 114.3 90)
 		(unit 1)
@@ -3838,7 +4368,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical"
 			(at 69.85 116.078 90)
 			(hide yes)
 			(show_name no)
@@ -3920,7 +4450,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_THT:C_Disc_D3.0mm_W1.6mm_P2.50mm"
 			(at 195.2752 34.29 0)
 			(hide yes)
 			(show_name no)
@@ -4002,7 +4532,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical"
 			(at 189.992 121.92 90)
 			(hide yes)
 			(show_name no)
@@ -4160,7 +4690,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
 			(at 201.93 93.218 90)
 			(hide yes)
 			(show_name no)
@@ -4320,7 +4850,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
 			(at 245.872 124.46 90)
 			(hide yes)
 			(show_name no)
@@ -4400,7 +4930,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
 			(at 82.55 104.648 90)
 			(hide yes)
 			(show_name no)
@@ -4482,7 +5012,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_THT:C_Rect_L7.2mm_W3.0mm_P5.00mm_FKS2_FKP2_MKS2_MKP2"
 			(at 100.6348 109.22 0)
 			(hide yes)
 			(show_name no)
@@ -4562,7 +5092,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
 			(at 97.79 104.648 90)
 			(hide yes)
 			(show_name no)
@@ -4720,7 +5250,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical"
 			(at 257.81 95.758 90)
 			(hide yes)
 			(show_name no)
@@ -4802,7 +5332,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical"
 			(at 56.642 119.38 90)
 			(hide yes)
 			(show_name no)
@@ -4882,7 +5412,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
 			(at 30.48 102.108 90)
 			(hide yes)
 			(show_name no)
@@ -4962,7 +5492,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Package_DFN_QFN:Texas_DSQ0010A_WSON-10-1EP_2x2mm_P0.4mm_EP0.9x1.5mm"
+		(property "Footprint" "Package_DIP:CERDIP-14_W7.62mm_SideBrazed_LongPads_Socket"
 			(at 200.66 104.14 0)
 			(hide yes)
 			(show_name no)
@@ -4996,168 +5526,52 @@
 			)
 		)
 		(pin "7"
-			(uuid "6ebf55a9-e6a0-459f-8865-45020f9c27db")
+			(uuid "6ebf55a9-e6a0-459f-8865-45020f9c27dd")
 		)
 		(pin "3"
-			(uuid "b8080df4-78a4-4c66-b5e0-de1557182857")
+			(uuid "b8080df4-78a4-4c66-b5e0-de1557182859")
 		)
 		(pin "8"
-			(uuid "dbe6b76d-7ecc-43b4-af79-c99dcf737d49")
+			(uuid "dbe6b76d-7ecc-43b4-af79-c99dcf737d4b")
 		)
 		(pin "2"
-			(uuid "2932437b-d00b-4ada-8ae0-6d0e6b0c8eac")
+			(uuid "2932437b-d00b-4ada-8ae0-6d0e6b0c8eae")
 		)
 		(pin "6"
-			(uuid "cd4406d2-de64-43fe-be60-15cf42f8b1a9")
+			(uuid "cd4406d2-de64-43fe-be60-15cf42f8b1ab")
 		)
 		(pin "5"
-			(uuid "567f48fc-fdce-4fd1-93a4-409d8409ba3d")
+			(uuid "567f48fc-fdce-4fd1-93a4-409d8409ba3f")
 		)
 		(pin "1"
-			(uuid "cc21bb55-57ee-4b44-b686-b769d6f3142c")
+			(uuid "cc21bb55-57ee-4b44-b686-b769d6f3142e")
 		)
 		(pin "9"
-			(uuid "b484a6a5-728f-4731-a927-d02d1ab595ce")
+			(uuid "b484a6a5-728f-4731-a927-d02d1ab595d0")
 		)
 		(pin "11"
-			(uuid "7463b894-9a97-4284-a189-1c0897fe815d")
+			(uuid "7463b894-9a97-4284-a189-1c0897fe815f")
 		)
 		(pin "10"
-			(uuid "ec074ec9-f95e-4d14-a03c-595eb33abc04")
+			(uuid "ec074ec9-f95e-4d14-a03c-595eb33abc06")
 		)
 		(pin "12"
-			(uuid "283df6f1-4575-4148-a40e-abaf46cd15be")
+			(uuid "283df6f1-4575-4148-a40e-abaf46cd15bf")
 		)
 		(pin "13"
-			(uuid "11fba8a7-7a9d-4d25-9b6e-6b23b95fd874")
+			(uuid "11fba8a7-7a9d-4d25-9b6e-6b23b95fd875")
 		)
 		(pin "14"
-			(uuid "3be6f617-a170-4eaf-a1bb-50b7dc524105")
+			(uuid "3be6f617-a170-4eaf-a1bb-50b7dc524106")
 		)
 		(pin "4"
-			(uuid "4fad7aad-b0f5-42bb-8a73-202f7edb0674")
+			(uuid "4fad7aad-b0f5-42bb-8a73-202f7edb0676")
 		)
 		(instances
 			(project "Filtros_TP2"
 				(path "/719e69fc-bee5-440e-874c-439632873f8c"
 					(reference "U1")
 					(unit 2)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Amplifier_Operational:TL084")
-		(at 257.81 109.22 0)
-		(unit 3)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "b930b45c-f449-4217-831f-dc74be62658f")
-		(property "Reference" "U2"
-			(at 257.81 99.06 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "TL084"
-			(at 257.81 101.6 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Package_DFN_QFN:Texas_DSQ0010A_WSON-10-1EP_2x2mm_P0.4mm_EP0.9x1.5mm"
-			(at 256.54 106.68 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" "http://www.ti.com/lit/ds/symlink/tl081.pdf"
-			(at 259.08 104.14 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Quad JFET-Input Operational Amplifiers, DIP-14/SOIC-14/SSOP-14"
-			(at 257.81 109.22 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "7"
-			(uuid "6ebf55a9-e6a0-459f-8865-45020f9c27db")
-		)
-		(pin "3"
-			(uuid "b8080df4-78a4-4c66-b5e0-de1557182857")
-		)
-		(pin "8"
-			(uuid "b6164b06-95d2-43c5-b29f-5cf40d201f4d")
-		)
-		(pin "2"
-			(uuid "2932437b-d00b-4ada-8ae0-6d0e6b0c8eac")
-		)
-		(pin "6"
-			(uuid "cd4406d2-de64-43fe-be60-15cf42f8b1a9")
-		)
-		(pin "5"
-			(uuid "567f48fc-fdce-4fd1-93a4-409d8409ba3d")
-		)
-		(pin "1"
-			(uuid "cc21bb55-57ee-4b44-b686-b769d6f3142c")
-		)
-		(pin "9"
-			(uuid "4efcc3cc-26c8-44d8-89dc-8e79144a839d")
-		)
-		(pin "11"
-			(uuid "7463b894-9a97-4284-a189-1c0897fe815d")
-		)
-		(pin "10"
-			(uuid "21e9f3f6-dce5-40f3-a87a-fbfc9f60e880")
-		)
-		(pin "12"
-			(uuid "283df6f1-4575-4148-a40e-abaf46cd15be")
-		)
-		(pin "13"
-			(uuid "11fba8a7-7a9d-4d25-9b6e-6b23b95fd874")
-		)
-		(pin "14"
-			(uuid "3be6f617-a170-4eaf-a1bb-50b7dc524105")
-		)
-		(pin "4"
-			(uuid "4fad7aad-b0f5-42bb-8a73-202f7edb0674")
-		)
-		(instances
-			(project "Filtros_TP2"
-				(path "/719e69fc-bee5-440e-874c-439632873f8c"
-					(reference "U2")
-					(unit 3)
 				)
 			)
 		)
@@ -5196,7 +5610,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_THT:C_Disc_D3.0mm_W1.6mm_P2.50mm"
 			(at 206.7052 53.34 0)
 			(hide yes)
 			(show_name no)
@@ -5245,6 +5659,84 @@
 		)
 	)
 	(symbol
+		(lib_id "power:GND")
+		(at 248.92 54.61 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "be1207ba-4b25-4ce5-bab7-0a0a838f6de9")
+		(property "Reference" "#PWR019"
+			(at 248.92 60.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 248.92 59.69 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 248.92 54.61 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 248.92 54.61 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 248.92 54.61 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "86491ded-3b87-4fa4-b853-6b425dfe546a")
+		)
+		(instances
+			(project "Filtros_TP2"
+				(path "/719e69fc-bee5-440e-874c-439632873f8c"
+					(reference "#PWR019")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:C")
 		(at 66.04 85.09 90)
 		(unit 1)
@@ -5276,7 +5768,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_THT:C_Rect_L7.2mm_W3.0mm_P5.00mm_FKS2_FKP2_MKS2_MKP2"
 			(at 69.85 84.1248 0)
 			(hide yes)
 			(show_name no)
@@ -5325,6 +5817,84 @@
 		)
 	)
 	(symbol
+		(lib_id "power:+15V")
+		(at 252.73 45.72 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "ceebcdce-bd03-4fa5-aadd-471780351891")
+		(property "Reference" "#PWR016"
+			(at 252.73 49.53 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "+15V"
+			(at 252.73 40.64 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 252.73 45.72 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 252.73 45.72 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"+15V\""
+			(at 252.73 45.72 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "d99a21cc-f0b3-4fb4-a4b7-6b90e11e68df")
+		)
+		(instances
+			(project "Filtros_TP2"
+				(path "/719e69fc-bee5-440e-874c-439632873f8c"
+					(reference "#PWR016")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R")
 		(at 204.47 118.11 90)
 		(unit 1)
@@ -5356,7 +5926,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical"
 			(at 204.47 119.888 90)
 			(hide yes)
 			(show_name no)
@@ -5514,7 +6084,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_THT:C_Rect_L4.6mm_W2.0mm_P2.50mm_MKS02_FKP02"
 			(at 168.91 103.1748 0)
 			(hide yes)
 			(show_name no)
@@ -5594,7 +6164,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_THT:C_Rect_L4.6mm_W2.0mm_P2.50mm_MKS02_FKP02"
 			(at 240.03 105.7148 0)
 			(hide yes)
 			(show_name no)
@@ -5676,7 +6246,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_THT:C_Rect_L7.2mm_W3.0mm_P5.00mm_FKS2_FKP2_MKS2_MKP2"
 			(at 48.5648 106.68 0)
 			(hide yes)
 			(show_name no)
@@ -5720,6 +6290,122 @@
 				(path "/719e69fc-bee5-440e-874c-439632873f8c"
 					(reference "C8")
 					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Amplifier_Operational:TL084")
+		(at 260.35 109.22 0)
+		(unit 3)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "edc9e48a-e93e-45ae-af3d-fba222774793")
+		(property "Reference" "U1"
+			(at 260.35 99.06 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "TL084"
+			(at 260.35 101.6 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Package_DIP:CERDIP-14_W7.62mm_SideBrazed_LongPads_Socket"
+			(at 259.08 106.68 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "http://www.ti.com/lit/ds/symlink/tl081.pdf"
+			(at 261.62 104.14 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Quad JFET-Input Operational Amplifiers, DIP-14/SOIC-14/SSOP-14"
+			(at 260.35 109.22 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "4"
+			(uuid "7858e6aa-1f17-41ba-8248-a628b6577abd")
+		)
+		(pin "11"
+			(uuid "6883d2f1-d897-41d0-a0f3-9dc8d6567a80")
+		)
+		(pin "14"
+			(uuid "4656cce1-f4a3-47c6-ba76-05366c40720b")
+		)
+		(pin "1"
+			(uuid "54c49798-9f17-4dae-9f8c-9e3f449beeb7")
+		)
+		(pin "6"
+			(uuid "032f57f9-24ed-4440-b0b7-fc9f349579f4")
+		)
+		(pin "10"
+			(uuid "9c4a9124-aa6c-422b-bac6-1dbe4aafafa9")
+		)
+		(pin "9"
+			(uuid "30eebb5c-2c11-4c26-988a-1c66c456eedf")
+		)
+		(pin "8"
+			(uuid "9853298e-6e4b-4f8f-9ec0-4f28bb470c02")
+		)
+		(pin "7"
+			(uuid "00c10545-0a8b-47dd-adb9-9c1520cea932")
+		)
+		(pin "13"
+			(uuid "8a110c96-e799-49d7-b35e-dbcf960f9fcc")
+		)
+		(pin "12"
+			(uuid "c24f6025-44bc-40e1-a913-1da8a1eaccad")
+		)
+		(pin "3"
+			(uuid "d2df53bd-2df8-4372-a790-645cdbfc567b")
+		)
+		(pin "5"
+			(uuid "9e839e9a-8fa6-4330-a72e-706ccbfa6d00")
+		)
+		(pin "2"
+			(uuid "f307f83f-6bac-4b62-b41b-46f42c56dee6")
+		)
+		(instances
+			(project "Filtros_TP2"
+				(path "/719e69fc-bee5-440e-874c-439632873f8c"
+					(reference "U1")
+					(unit 3)
 				)
 			)
 		)
@@ -5836,7 +6522,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Package_DFN_QFN:Texas_DSQ0010A_WSON-10-1EP_2x2mm_P0.4mm_EP0.9x1.5mm"
+		(property "Footprint" "Package_DIP:CERDIP-14_W7.62mm_SideBrazed_LongPads_Socket"
 			(at 207.01 34.29 0)
 			(hide yes)
 			(show_name no)
@@ -5870,46 +6556,46 @@
 			)
 		)
 		(pin "7"
-			(uuid "6ebf55a9-e6a0-459f-8865-45020f9c27db")
+			(uuid "6ebf55a9-e6a0-459f-8865-45020f9c27df")
 		)
 		(pin "3"
-			(uuid "b8080df4-78a4-4c66-b5e0-de1557182857")
+			(uuid "b8080df4-78a4-4c66-b5e0-de155718285b")
 		)
 		(pin "8"
-			(uuid "dbe6b76d-7ecc-43b4-af79-c99dcf737d49")
+			(uuid "dbe6b76d-7ecc-43b4-af79-c99dcf737d4c")
 		)
 		(pin "2"
-			(uuid "2932437b-d00b-4ada-8ae0-6d0e6b0c8eac")
+			(uuid "2932437b-d00b-4ada-8ae0-6d0e6b0c8eb0")
 		)
 		(pin "6"
-			(uuid "cd4406d2-de64-43fe-be60-15cf42f8b1a9")
+			(uuid "cd4406d2-de64-43fe-be60-15cf42f8b1ad")
 		)
 		(pin "5"
-			(uuid "567f48fc-fdce-4fd1-93a4-409d8409ba3d")
+			(uuid "567f48fc-fdce-4fd1-93a4-409d8409ba41")
 		)
 		(pin "1"
-			(uuid "cc21bb55-57ee-4b44-b686-b769d6f3142c")
+			(uuid "cc21bb55-57ee-4b44-b686-b769d6f31430")
 		)
 		(pin "9"
-			(uuid "b484a6a5-728f-4731-a927-d02d1ab595ce")
+			(uuid "b484a6a5-728f-4731-a927-d02d1ab595d1")
 		)
 		(pin "11"
-			(uuid "7463b894-9a97-4284-a189-1c0897fe815d")
+			(uuid "7463b894-9a97-4284-a189-1c0897fe8161")
 		)
 		(pin "10"
-			(uuid "ec074ec9-f95e-4d14-a03c-595eb33abc04")
+			(uuid "ec074ec9-f95e-4d14-a03c-595eb33abc07")
 		)
 		(pin "12"
-			(uuid "283df6f1-4575-4148-a40e-abaf46cd15be")
+			(uuid "283df6f1-4575-4148-a40e-abaf46cd15c1")
 		)
 		(pin "13"
-			(uuid "11fba8a7-7a9d-4d25-9b6e-6b23b95fd874")
+			(uuid "11fba8a7-7a9d-4d25-9b6e-6b23b95fd877")
 		)
 		(pin "14"
-			(uuid "3be6f617-a170-4eaf-a1bb-50b7dc524105")
+			(uuid "3be6f617-a170-4eaf-a1bb-50b7dc524108")
 		)
 		(pin "4"
-			(uuid "4fad7aad-b0f5-42bb-8a73-202f7edb0674")
+			(uuid "4fad7aad-b0f5-42bb-8a73-202f7edb0678")
 		)
 		(instances
 			(project "Filtros_TP2"
@@ -5954,7 +6640,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical"
 			(at 188.468 110.49 90)
 			(hide yes)
 			(show_name no)
