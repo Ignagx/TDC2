@@ -1,0 +1,45 @@
+* TP2 Teoria de Circuitos II - Grupo 2 - Filtro pasa altos Butterworth orden 4 (Sallen-Key)
+* Comparacion: (A) valores calculados + AO ideal | (B) valores comerciales + AO ideal
+* (el circuito con valores comerciales + TL084 esta en Filtro_PasaAltos_Orden4_Grupo2.asc)
+.subckt AOIDEAL inp inn out
+Rin inp inn 1e12
+E1 out 0 inp inn 1e7
+.ends
+Vin VIN 0 AC 1
+* ---- (A) Valores calculados ----
+C1a NA1 VIN 1n
+C2a NB1 NA1 1n
+R1a NB1 0 3028.01
+R2a VA1 NA1 8462.86
+Ra1a NM1 0 12k
+Rb1a VA1 NM1 30k
+XU1a NB1 NM1 VA1 AOIDEAL
+C3a NA2 VA1 1n
+C4a NB2 NA2 1n
+R3a NB2 0 3818.84
+R4a VOUT_CALC NA2 6710.32
+Ra2a NM2 0 12k
+Rb2a VOUT_CALC NM2 30k
+XU2a NB2 NM2 VOUT_CALC AOIDEAL
+* ---- (B) Valores comerciales ----
+C1b PA1 VIN 1n
+C2b PB1 PA1 1n
+R1b PB1 0 3k
+R2b VB1 PA1 8.2k
+Ra1b PM1 0 12k
+Rb1b VB1 PM1 30k
+XU1b PB1 PM1 VB1 AOIDEAL
+C3b PA2 VB1 1n
+C4b PB2 PA2 1n
+R3b PB2 0 3.9k
+R4b VOUT_COM PA2 6.8k
+Ra2b PM2 0 12k
+Rb2b VOUT_COM PM2 30k
+XU2b PB2 PM2 VOUT_COM AOIDEAL
+.ac dec 400 100 10Meg
+.meas AC fc_calc WHEN mag(V(vout_calc))=12.25/sqrt(2) CROSS=1
+.meas AC fc_com WHEN mag(V(vout_com))=12.25/sqrt(2) CROSS=1
+.meas AC Afp_calc FIND mag(V(vout_calc)) AT 33k
+.meas AC Afp_com FIND mag(V(vout_com)) AT 33k
+.meas AC Gmax_com MAX mag(V(vout_com))
+.end

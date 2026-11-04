@@ -252,8 +252,8 @@ Se simuló la respuesta incorporando los valores normalizados comerciales adopta
 
 La ganancia en continua nominal es de $\SI{12.04}{\decibel}$. En $f_p = \SI{5.5}{\kilo\hertz}$, la ganancia resultante con componentes comerciales y modelo TL084 es de $\SI{10.50}{\decibel}$, correspondiendo a una atenuación de $\SI{1.54}{\decibel}$ respecto de continua. La frecuencia de corte experimental a $-\SI{3}{\decibel}$ (donde $|H| = \SI{9.03}{\decibel}$) se ubica en $f_c = \SI{6140}{\hertz}$, prácticamente idéntica al valor teórico ideal ($\SI{6144}{\hertz}$). La elevada impedancia de entrada de la etapa JFET ($R_{\text{in}} \approx \SI{1}{\tera\ohm}$) y su producto GBW de $\SI{3}{\mega\hertz}$ garantizan que el comportamiento del filtro no se vea degradado por corrientes de polarización ni por retardo de fase parásito en el rango de audio considerado.
 
-\subsection{Análisis de sensibilidad y tolerancias (Monte Carlo)}
-\label{subsec:pb-montecarlo}
+\subsection{Análisis de sensibilidad}
+\label{subsec:pb-sensibilidad}
 
 Se analizó la sensibilidad analítica de los parámetros $\omega_0$ y $Q_p$ frente a cada componente:
 \begin{equation}
@@ -265,35 +265,7 @@ Para los factores de calidad, las sensibilidades son:
   \item \textbf{Celda 2 ($Q_2 = 1{,}3066$):} $S_{R_3}^{Q_2} = +1{,}18$, $S_{R_4}^{Q_2} = -1{,}18$, $S_{C_3}^{Q_2} = -1{,}52$, $S_{C_4}^{Q_2} = +1{,}52$, $S_{R_a}^{Q_2} = -1{,}02$, $S_{R_b}^{Q_2} = +1{,}02$.
 \end{itemize}
 
-Para evaluar el impacto de las tolerancias de fabricación sobre la respuesta física, se ejecutó una simulación Monte Carlo SPICE de $N = 10\,000$ corridas estadísticas independientes, asumiendo resistores al $\pm 1\%$ y comparando capacitores al $\pm 5\%$ frente a capacitores estándar al $\pm 10\%$. Los resultados gráficos se muestran en la figura~\ref{fig:pb-montecarlo} y su síntesis numérica en la tabla~\ref{tab:pb-tolerancias}.
-
-\begin{figure}[!ht]
-  \centering
-  \includegraphics[width=0.92\textwidth]{images/fig3_tolerancias_montecarlo}
-  \caption{Simulación Monte Carlo SPICE ($N=10\,000$ iteraciones) con modelo TL084 para $R \pm 1\%$ con $C \pm 5\%$ y $C \pm 10\%$.}
-  \label{fig:pb-montecarlo}
-\end{figure}
-
-\begin{table}[!ht]
-  \centering
-  \resizebox{\textwidth}{!}{%
-  \begin{tabular}{|l|c|c|c|c|}
-    \hline
-    \textbf{Parámetro} & \textbf{Nominal (TL084)} & \textbf{Media $\pm\,\sigma$ ($C\,5\%$)} & \textbf{IC 95\% ($R\,1\%, C\,5\%$)} & \textbf{IC 95\% ($R\,1\%, C\,10\%$)} \\
-    \hline
-    Ganancia DC $G_0$ & $\SI{12.04}{\decibel}$ ($\SI{4.00}{\volt/\volt}$) & $12{,}04 \pm 0{,}05\,\text{dB}$ & $[11{,}95;\; 12{,}14]\,\text{dB}$ & $[11{,}94;\; 12{,}14]\,\text{dB}$ \\
-    Atenuación $A(f_p)$ & $\SI{1.54}{\decibel}$ & $1{,}56 \pm 0{,}59\,\text{dB}$ & $[0{,}37;\; 2{,}68]\,\text{dB}$ & $[-0{,}84;\; 3{,}72]\,\text{dB}$ \\
-    Frecuencia corte $f_c$ & $\SI{6140}{\hertz}$ & $6132 \pm 242\,\text{Hz}$ & $[5656;\; 6584]\,\text{Hz}$ & $[5148;\; 6968]\,\text{Hz}$ \\
-    Atenuación $A(2f_p)$ & $\SI{20.29}{\decibel}$ & $20{,}21 \pm 0{,}57\,\text{dB}$ & $[19{,}11;\; 21{,}28]\,\text{dB}$ & $[17{,}94;\; 22{,}28]\,\text{dB}$ \\
-    Atenuación $A(10f_p)$ & $\SI{76.24}{\decibel}$ & $76{,}10 \pm 0{,}51\,\text{dB}$ & $[75{,}10;\; 77{,}09]\,\text{dB}$ & $[74{,}04;\; 77{,}96]\,\text{dB}$ \\
-    \hline
-  \end{tabular}%
-  }
-  \caption{Resumen estadístico del análisis de Monte Carlo ($N=10\,000$ corridas).}
-  \label{tab:pb-tolerancias}
-\end{table}
-
-Se observa que con capacitores al $5\%$ la frecuencia de corte se mantiene confinada dentro de un intervalo de confianza del $95\%$ entre $\SI{5656}{\hertz}$ y $\SI{6584}{\hertz}$, garantizando la estabilidad de la banda de paso. Se recomienda medir previamente con capacímetro los componentes pasivos antes del soldado para aproximar los valores a sus centros nominales.
+Las sensibilidades de la celda 2 superan la unidad en módulo, por lo que es la etapa más afectada por la dispersión de los componentes; en particular, $Q_2$ resulta más sensible a los capacitores que a los resistores. Se recomienda medir previamente con capacímetro los componentes pasivos antes del soldado para aproximar los valores a sus centros nominales.
 
 \section{Implementación y mediciones}
 \label{sec:pb-mediciones}
