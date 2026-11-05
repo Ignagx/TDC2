@@ -3361,7 +3361,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Relay_THT:Relay_DPDT_Schrack-RT2-FormC_RM5mm"
+		(property "Footprint" "Connector_PinHeader_1.00mm:PinHeader_1x02_P1.00mm_Vertical"
 			(at 83.82 85.09 0)
 			(hide yes)
 			(show_name no)
@@ -4174,7 +4174,7 @@
 				)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "4k7"
 			(at 45.72 96.52 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5134,7 +5134,7 @@
 				)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "3k3"
 			(at 82.55 99.06 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5296,7 +5296,7 @@
 				)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "2k"
 			(at 97.79 99.06 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5616,7 +5616,7 @@
 				)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "1k5"
 			(at 30.48 96.52 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6142,7 +6142,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Connector_PinHeader_1.00mm:PinHeader_1x02_P1.00mm_Vertical"
 			(at 222.25 91.44 0)
 			(hide yes)
 			(show_name no)
