@@ -3,11 +3,17 @@
 \chapter{Hojas de datos}
 \label{chap:anexo-datasheets}
 
-Las hojas de datos de los componentes activos principales empleados en las distintas etapas se encuentran disponibles en la bibliografía técnica del proyecto:
+Las hojas de datos de los componentes activos principales empleados en las distintas etapas se encuentran disponibles
+en la bibliografía técnica del proyecto:
 \begin{itemize}
-  \item \textbf{LM324 / LM324N:} Cuádruple amplificador operacional de alimentación simple ($\SI{3}{\volt}$ a $\SI{32}{\volt}$), entrada con rango de modo común hasta masa ($0\,\text{V}$), empleado en la etapa de acondicionamiento de señal de campo de $\SI{4}{\milli\ampere}$ a $\SI{20}{\milli\ampere}$.
-  \item \textbf{TL084 / TL084CN:} Cuádruple amplificador operacional con entradas JFET de ultra alta impedancia ($\approx \SI{1}{\tera\ohm}$), baja distorsión armónica, producto ganancia-ancho de banda $\text{GBW} = \SI{3}{\mega\hertz}$ y velocidad de respuesta $\text{SR} = \SI{13}{\volt/\micro\second}$, empleado en los filtros activos de 4.\textsuperscript{to} orden.
-  \item \textbf{BC337:} Transistor bipolar NPN para la etapa 3 sumidero de corriente en el lazo industrial.
+  \item LM324 / LM324N: Cuádruple amplificador operacional de alimentación simple ($\SI{3}{\volt}$ a
+    $\SI{32}{\volt}$), entrada con rango de modo común hasta masa ($\SI{0}{\volt}$), empleado en la etapa de
+    acondicionamiento de señal de campo de $\SI{4}{\milli\ampere}$ a $\SI{20}{\milli\ampere}$.
+  \item TL084 / TL084CN: Cuádruple amplificador operacional con entradas JFET de ultra alta impedancia
+    ($\approx \SI{1}{\tera\ohm}$), baja distorsión armónica, producto ganancia-ancho de banda
+    $\text{GBW} = \SI{3}{\mega\hertz}$ y velocidad de respuesta $\text{SR} = \SI{13}{\volt/\micro\second}$, empleado
+    en los filtros activos de 4.\textsuperscript{to} orden.
+  \item BC337: Transistor bipolar NPN para la etapa 3 sumidero de corriente en el lazo industrial.
 \end{itemize}
 
 \chapter{Cálculos auxiliares}
@@ -15,8 +21,10 @@ Las hojas de datos de los componentes activos principales empleados en las disti
 
 En la carpeta \texttt{sources/} del repositorio se disponen los documentos analíticos de soporte:
 \begin{itemize}
-  \item \texttt{Calculos\_PasaBajos\_Pedro.pdf}: Deducción matemática formal de la aproximación Butterworth de orden 4, transformación de impedancias y resolución de la ecuación cuadrática de sensibilidad mínima para Sallen-Key.
-  \item \texttt{Informe\_PasaBajos\_y\_Compras\_Pedro\_Grupo2.pdf}: Informe extendido de diseño del filtro pasa bajos y especificación técnica de compras.
+  \item \texttt{Calculos\_PasaBajos\_Pedro.pdf}: Deducción matemática formal de la aproximación Butterworth de orden
+    4, transformación de impedancias y resolución de la ecuación cuadrática de sensibilidad mínima para Sallen-Key.
+  \item \texttt{Informe\_PasaBajos\_y\_Compras\_Pedro\_Grupo2.pdf}: Informe extendido de diseño del filtro pasa bajos
+    y especificación técnica de compras.
 \end{itemize}
 
 \chapter{Archivos de simulación}
@@ -24,83 +32,116 @@ En la carpeta \texttt{sources/} del repositorio se disponen los documentos anal�
 
 En la carpeta \texttt{sources/sim/} se alojan los proyectos completos de simulación SPICE y scripts de cálculo:
 \begin{itemize}
-  \item \texttt{Filtro\_PasaBajos\_Orden4\_Grupo2.asc}: Esquemático de simulación en LTspice del filtro pasa bajos de 4.\textsuperscript{to} orden con macromodelo real TL084 y desacoplos.
-  \item \texttt{Filtro\_PasaBajos\_Solo\_TL084.asc}: Esquemático simplificado en LTspice para caracterización rápida de respuesta AC.
+  \item \texttt{Filtro\_PasaBajos\_Orden4\_Grupo2.asc}: Esquemático de simulación en LTspice del filtro pasa bajos de
+    4.\textsuperscript{to} orden con macromodelo real TL084 y desacoplos.
+  \item \texttt{Filtro\_PasaBajos\_Solo\_TL084.asc}: Esquemático simplificado en LTspice para caracterización rápida
+    de respuesta AC.
   \item \texttt{simulacion\_ngspice.cir}: Netlist para simulación en ngspice en entornos de terminal.
-  \item \texttt{analisis\_completo.py}: Script en Python con NumPy, SciPy y Matplotlib que efectúa el cálculo numérico, ajuste de polos, análisis de sensibilidad y generación de las figuras de respuesta en frecuencia.
-  \item \texttt{TL084.lib}: Biblioteca con el macromodelo oficial de Texas Instruments del amplificador operacional TL084.
+  \item \texttt{analisis\_completo.py}: Script en Python con NumPy, SciPy y Matplotlib que efectúa el cálculo
+    numérico, ajuste de polos, análisis de sensibilidad y generación de las figuras de respuesta en frecuencia.
+  \item \texttt{TL084.lib}: Biblioteca con el macromodelo oficial de Texas Instruments del amplificador operacional
+    TL084.
   \item \texttt{pasa alto.asc} y \texttt{TL082.asy}: Modelos de simulación de la etapa pasa altos.
-  \item \texttt{Filtro\_PasaAltos\_Orden4\_Grupo2.asc}: Esquemático de simulación en LTspice del filtro pasa altos de 4.\textsuperscript{to} orden con valores comerciales y macromodelo TL084 (incluye directivas \texttt{.meas} de frecuencias de corte y atenuación en $f_p$). Su impresión se encuentra en \texttt{esquematico\_pasa\_altos\_ltspice.png}.
-  \item \texttt{PasaAltos\_Ideal\_vs\_Comercial.cir}: Netlist de LTspice del filtro pasa altos con operacional ideal, para valores calculados y comerciales.
-  \item \texttt{analisis\_pasa\_altos.py}: Script en Python que lee los resultados de LTspice y genera las figuras de respuesta en frecuencia del filtro pasa altos.
+  \item \texttt{Filtro\_PasaAltos\_Orden4\_Grupo2.asc}: Esquemático de simulación en LTspice del filtro pasa altos de
+    4.\textsuperscript{to} orden con valores comerciales y macromodelo TL084 (incluye directivas \texttt{.meas} de
+    frecuencias de corte y atenuación en $f_p$). Su impresión se encuentra en
+    \texttt{esquematico\_pasa\_altos\_ltspice.png}.
+  \item \texttt{PasaAltos\_Ideal\_vs\_Comercial.cir}: Netlist de LTspice del filtro pasa altos con operacional ideal,
+    para valores calculados y comerciales.
+  \item \texttt{analisis\_pasa\_altos.py}: Script en Python que lee los resultados de LTspice y genera las figuras de
+    respuesta en frecuencia del filtro pasa altos.
 \end{itemize}
 
 \chapter{Lista de materiales (BOM) y balance de compras}
 \label{chap:anexo-bom}
 
-A fin de coordinar la fabricación y el montaje de las placas del grupo, se detalla el balance consolidado entre componentes disponibles en stock y componentes adquiridos para el laboratorio.
+A fin de coordinar la fabricación y el montaje de las placas del grupo, se detalla el balance consolidado entre
+componentes disponibles en stock y componentes adquiridos para el laboratorio.
 
-\section{Placa 1: Receptor y filtro de señal de campo 4--20 mA}
+\section{Placa 1: Receptor y filtro de señal de campo
+  \texorpdfstring{$\SI{4}{}$--$\SI{20}{\milli\ampere}$}{4--20 mA}}
+\label{sec:anexo-bom-placa1}
 
 \begin{table}[!ht]
-\centering
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{|l|c|c|c|p{7cm}|}
-\hline
-\textbf{Componente / Valor} & \textbf{Req.} & \textbf{Stock} & \textbf{A Comprar} & \textbf{Observaciones} \\
-\hline
-Integrado \textbf{LM324N} & 2 & 2 & 0 & Cubierto (fuente simple $+24\,\text{V}$). \\
-Zócalo DIP-14 & 2 & 2 & 0 & Cubierto. \\
-Transistor NPN \textbf{BC337} & 1 & 0 & 2 & Sumidero etapa 3 ($V_{CE}\approx 14\,\text{V}, P_D\approx 0{,}28\,\text{W}$). \\
-Resistores $\SI{250}{\ohm}$ ($1\%$) & 3 & 0 & 5 & Shunt de entrada, salida y carga. \\
-Resistores $\SI{10}{\kilo\ohm}$ ($1\%$) & 4 & 0 & 6 & Críticos para el CMRR del receptor diferencial. \\
-Resistores $\SI{1}{\mega\ohm}$ y $\SI{1}{\kilo\ohm}$ & 1 + 1 & 0 & 2 + 2 & Polarización modo común y base del transistor. \\
-Capacitores filtro 10 Hz ($1\,\mu\text{F}$ y $2{,}2\,\mu\text{F}$) & 1 + 1 & 1 + 1 & 0 & Poliéster $>63\,\text{V}$ cubiertos. \\
-Resistores filtro 10 Hz ($\approx\SI{11}{\kilo\ohm}$) & 2 & 0 & 4 & Para $f_c = \SI{10}{\hertz}$. \\
-Desacople $\SI{100}{\nano\farad}$ cerámico & 2 & 2 & 0 & Pegados a pines 4 y 11 del LM324. \\
-Borneras 2 pines + Pin Headers & 3 + 1 tira & 0 & 4 + 1 tira & Conexiones de alimentación, lazo y test points. \\
-\hline
-\end{tabular}%
-}
-\caption{Lista de materiales para Placa 1 (Señal de campo).}
-\label{tab:bom-placa1}
+  \centering
+  \resizebox{\textwidth}{!}{%
+  \begin{tabular}{|l|c|c|c|p{7cm}|}
+    \hline
+    Componente / Valor & Req. & Stock & A Comprar & Observaciones \\
+    \hline
+    Integrado LM324N & 2 & 2 & 0 & Cubierto (fuente simple $+\SI{24}{\volt}$). \\
+    Zócalo DIP-14 & 2 & 2 & 0 & Cubierto. \\
+    Transistor NPN BC337 & 1 & 0 & 2 & Sumidero etapa 3
+      ($V_{CE}\approx \SI{14}{\volt}, P_D\approx \SI{0.28}{\watt}$). \\
+    Resistores $\SI{250}{\ohm}$ ($\SI{1}{\percent}$) & 3 & 0 & 5 & Shunt de entrada, salida y carga. \\
+    Resistores $\SI{10}{\kilo\ohm}$ ($\SI{1}{\percent}$) & 4 & 0 & 6
+      & Críticos para el CMRR del receptor diferencial. \\
+    Resistores $\SI{1}{\mega\ohm}$ y $\SI{1}{\kilo\ohm}$ & 1 + 1 & 0 & 2 + 2
+      & Polarización modo común y base del transistor. \\
+    Capacitores filtro $\SI{10}{\hertz}$ ($\SI{1}{\micro\farad}$ y $\SI{2.2}{\micro\farad}$) & 1 + 1 & 1 + 1 & 0
+      & Poliéster $>\SI{63}{\volt}$ cubiertos. \\
+    Resistores filtro $\SI{10}{\hertz}$ ($\approx\SI{11}{\kilo\ohm}$) & 2 & 0 & 4 & Para $f_c = \SI{10}{\hertz}$. \\
+    Desacople $\SI{100}{\nano\farad}$ cerámico & 2 & 2 & 0 & Pegados a pines 4 y 11 del LM324. \\
+    Borneras 2 pines + Pin Headers & 3 + 1 tira & 0 & 4 + 1 tira
+      & Conexiones de alimentación, lazo y test points. \\
+    \hline
+  \end{tabular}%
+  }
+  \caption{Lista de materiales para Placa 1 (Señal de campo).}
+  \label{tab:bom-placa1}
 \end{table}
 
 \section{Placa 2: Filtro Pasa Bajos y Filtro Pasa Altos (Orden 4)}
+\label{sec:anexo-bom-placa2}
 
 \begin{table}[!ht]
-\centering
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{|l|c|c|c|p{7cm}|}
-\hline
-\textbf{Componente / Valor} & \textbf{Req.} & \textbf{Stock} & \textbf{A Comprar} & \textbf{Asignación / Observaciones} \\
-\hline
-Integrado \textbf{TL084CN} (DIP-14) & 1 ó 2 & 2 & 0 & Cubierto. \\
-Zócalos DIP-14 & 2 & 2 & 0 & Cubierto. \\
-Capacitores $\SI{1.0}{\nano\farad}$ (102) poliéster & 4 & 4 & 0 & Cubiertos para Pasa Altos ($C_1\text{--}C_4$). \\
-Capacitor $\SI{10}{\nano\farad}$ (103) poliéster & 1 & 2 & 0 & Cubierto para Pasa Bajos Celda 2 ($C_4$). \\
-Capacitor $\SI{2.2}{\nano\farad}$ (222) poliéster & 1 & 0 & 3 & Pasa Bajos Celda 1 ($C_1$). \\
-Capacitores $\SI{3.3}{\nano\farad}$ (332) poliéster & 2 & 0 & 4 & Pasa Bajos Celda 1 ($C_2$) y Celda 2 ($C_3$). \\
-Resistor $\SI{2.0}{\kilo\ohm}$ ($1\%$) & 1 & 0 & 3 & Pasa Bajos Celda 2 ($R_3$). \\
-Resistor $\SI{3.0}{\kilo\ohm}$ ($1\%$) & 1 & 0 & 3 & Pasa Altos Celda 1 ($R_1$). \\
-Resistores $\SI{3.9}{\kilo\ohm}$ ($1\%$) & 2 & 0 & 5 & Pasa Bajos Celda 1 ($R_1$) + Pasa Altos Celda 2. \\
-Resistores $\SI{10}{\kilo\ohm}$ ($1\%$) & 5 & 0 & 8 & Pasa Bajos ($R_4, R_{a1}, R_{b1}, R_{a2}, R_{b2}$). \\
-Resistor $\SI{24}{\kilo\ohm}$ ($1\%$) & 1 & 0 & 3 & Pasa Bajos Celda 1 ($R_2$). \\
-Desacoples $\SI{100}{\nano\farad}$ cerámicos & 4 & 0 & 6 & Desacople de rieles $\pm\SI{15}{\volt}$ pegados a TL084. \\
-Electrolíticos $\SI{10}{\micro\farad}\,/\,\SI{35}{\volt}$ & 2 & 0 & 4 & Filtrado en bornera de entrada $\pm\SI{15}{\volt}$. \\
-Bornera 3 pines + Pin Headers & 1 + 1 tira & 0 & 2 + 1 tira & Entrada $\pm\SI{15}{\volt}$/GND y pines de medición. \\
-\hline
-\end{tabular}%
-}
-\caption{Lista de materiales para Placa 2 (Pasa Bajos + Pasa Altos).}
-\label{tab:bom-placa2}
+  \centering
+  \resizebox{\textwidth}{!}{%
+  \begin{tabular}{|l|c|c|c|p{7cm}|}
+    \hline
+    Componente / Valor & Req. & Stock & A Comprar & Asignación / Observaciones \\
+    \hline
+    Integrado TL084CN (DIP-14) & 1 ó 2 & 2 & 0 & Cubierto. \\
+    Zócalos DIP-14 & 2 & 2 & 0 & Cubierto. \\
+    Capacitores $\SI{1.0}{\nano\farad}$ (102) poliéster & 4 & 4 & 0
+      & Cubiertos para Pasa Altos ($C_1\text{--}C_4$). \\
+    Capacitor $\SI{10}{\nano\farad}$ (103) poliéster & 1 & 2 & 0 & Cubierto para Pasa Bajos Celda 2 ($C_4$). \\
+    Capacitor $\SI{2.2}{\nano\farad}$ (222) poliéster & 1 & 0 & 3 & Pasa Bajos Celda 1 ($C_1$). \\
+    Capacitores $\SI{3.3}{\nano\farad}$ (332) poliéster & 2 & 0 & 4
+      & Pasa Bajos Celda 1 ($C_2$) y Celda 2 ($C_3$). \\
+    Resistor $\SI{2.0}{\kilo\ohm}$ ($\SI{1}{\percent}$) & 1 & 0 & 3 & Pasa Bajos Celda 2 ($R_3$). \\
+    Resistor $\SI{3.0}{\kilo\ohm}$ ($\SI{1}{\percent}$) & 1 & 0 & 3 & Pasa Altos Celda 1 ($R_1$). \\
+    Resistores $\SI{3.9}{\kilo\ohm}$ ($\SI{1}{\percent}$) & 2 & 0 & 5
+      & Pasa Bajos Celda 1 ($R_1$) + Pasa Altos Celda 2. \\
+    Resistores $\SI{10}{\kilo\ohm}$ ($\SI{1}{\percent}$) & 5 & 0 & 8
+      & Pasa Bajos ($R_4, R_{a1}, R_{b1}, R_{a2}, R_{b2}$). \\
+    Resistor $\SI{24}{\kilo\ohm}$ ($\SI{1}{\percent}$) & 1 & 0 & 3 & Pasa Bajos Celda 1 ($R_2$). \\
+    Desacoples $\SI{100}{\nano\farad}$ cerámicos & 4 & 0 & 6
+      & Desacople de rieles $\pm\SI{15}{\volt}$ pegados a TL084. \\
+    Electrolíticos $\SI{10}{\micro\farad}\,/\,\SI{35}{\volt}$ & 2 & 0 & 4
+      & Filtrado en bornera de entrada $\pm\SI{15}{\volt}$. \\
+    Bornera 3 pines + Pin Headers & 1 + 1 tira & 0 & 2 + 1 tira
+      & Entrada $\pm\SI{15}{\volt}$/GND y pines de medición. \\
+    \hline
+  \end{tabular}%
+  }
+  \caption{Lista de materiales para Placa 2 (Pasa Bajos + Pasa Altos).}
+  \label{tab:bom-placa2}
 \end{table}
 
 \section{Checklist de verificación para el layout de PCBs}
+\label{sec:anexo-checklist}
 
 \begin{enumerate}
-  \item \textbf{Alimentación de integrados:} Verificar en Placa 1 (LM324) Pin 4 a $+\SI{24}{\volt}$ y Pin 11 a \texttt{GND}; y en Placa 2 (TL084) Pin 4 a $+\SI{15}{\volt}$ y Pin 11 a $\mathbf{-15\,\text{V}}$ (no a GND), con capacitores cerámicos de $\SI{100}{\nano\farad}$ inmediatamente contiguos a los pines de alimentación física.
-  \item \textbf{Orientación en Pasa Altos:} Verificar que los 4 capacitores figuren como $\SI{1}{\nano\farad}$ y que los resistores $R_1$ a masa y $R_2$ en la realimentación positiva respeten la posición calculada para evitar inestabilidad.
-  \item \textbf{Operacionales sobrantes:} En celdas no utilizadas, configurar como seguidores de tensión con salida unida a la entrada inversora y entrada no inversora referenciada a tierra (GND).
-  \item \textbf{Tolerancias mecánicas y pistas:} Dimensionar pistas de alimentación con ancho $\ge \SI{0.8}{\milli\metre}$, pistas de señal con $\ge \SI{0.4}{\milli\metre}$ e islas de soldadura reforzadas para método de fabricación por transferencia térmica (toner transfer).
+  \item Alimentación de integrados: Verificar en Placa 1 (LM324) Pin 4 a $+\SI{24}{\volt}$ y Pin 11 a
+    \texttt{GND}; y en Placa 2 (TL084) Pin 4 a $+\SI{15}{\volt}$ y Pin 11 a $-\SI{15}{\volt}$ (no a GND), con
+    capacitores cerámicos de $\SI{100}{\nano\farad}$ inmediatamente contiguos a los pines de alimentación física.
+  \item Orientación en Pasa Altos: Verificar que los 4 capacitores figuren como $\SI{1}{\nano\farad}$ y que los
+    resistores $R_1$ a masa y $R_2$ en la realimentación positiva respeten la posición calculada para evitar
+    inestabilidad.
+  \item Operacionales sobrantes: En celdas no utilizadas, configurar como seguidores de tensión con salida unida a la
+    entrada inversora y entrada no inversora referenciada a tierra (GND).
+  \item Tolerancias mecánicas y pistas: Dimensionar pistas de alimentación con ancho $\ge \SI{0.8}{\milli\metre}$,
+    pistas de señal con $\ge \SI{0.4}{\milli\metre}$ e islas de soldadura reforzadas para método de fabricación por
+    transferencia térmica (toner transfer).
 \end{enumerate}

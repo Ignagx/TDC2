@@ -11,10 +11,10 @@
     Parámetro & Valor \\
     \hline
     Orden & 2 \\
-    Atenuación máxima en banda de paso $A_{max}$ & $\SI{0.1}{\decibel}$ \\
+    Atenuación máxima en banda de paso $A_{\max}$ & $\SI{0.1}{\decibel}$ \\
     Frecuencia central $f_o$ & $\SI{28}{\kilo\hertz}$ \\
     Ancho de banda $BW = f_{p2} - f_{p1}$ & $\SI{1.7}{\kilo\hertz}$ \\
-    Ganancia en banda de paso & 9 V/V \\
+    Ganancia en banda de paso & $\SI{9}{\volt/\volt}$ \\
     Aproximación & Butterworth \\
     Topología & Sallen-Key \\
     \hline
@@ -30,14 +30,11 @@
 \label{subsec:pbd-q}
 
 Un pasa banda de segundo orden queda definido por su frecuencia central y su factor de calidad
-
 \begin{equation}
   Q = \frac{f_o}{BW}
   \label{eq:pbd-q}
 \end{equation}
-
 y su función de transferencia es
-
 \begin{equation}
   H(s) = \frac{A_m \, \dfrac{\omega_0}{Q} \, s}{s^2 + \dfrac{\omega_0}{Q} s + \omega_0^2}
   \label{eq:pbd-hs}
@@ -52,13 +49,11 @@ y su función de transferencia es
 
 Para la topología de la figura~\ref{crkt:sk-pasa-banda}, con $R_1 = R_3 = R$, $R_2 = 2R$ y $C_1 = C_2 = C$,
 se tiene
-
 \begin{align*}
   \omega_0 &= \frac{1}{R C} \\
   Q &= \frac{1}{3 - K} \\
   A_m &= \frac{K}{3 - K}
 \end{align*}
-
 con $K = 1 + R_b / R_a$.
 
 \begin{figure}[!ht]
@@ -117,7 +112,8 @@ con $K = 1 + R_b / R_a$.
   \centering
   \begin{tabular}{|c|c|c|c|c|}
     \hline
-    $f$ [kHz] & $V_{in,pp}$ [V] & $V_{out,pp}$ [V] & $|H|$ medido [dB] & $|H|$ simulado [dB] \\
+    $f$ [\si{\kilo\hertz}] & $V_{in,pp}$ [\si{\volt}] & $V_{out,pp}$ [\si{\volt}] & $|H|$ medido [\si{\decibel}]
+      & $|H|$ simulado [\si{\decibel}] \\
     \hline
      & & & & \\
      & & & & \\

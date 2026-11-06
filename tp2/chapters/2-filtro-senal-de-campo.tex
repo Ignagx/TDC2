@@ -45,7 +45,7 @@ El circuito completo requiere cinco amplificadores operacionales, por lo que se 
     no inversora a masa.
 \end{itemize}
 
-El pin 4 de cada integrado se conecta a $\SI{+24}{\volt}$ y el pin 11 a GND, con un capacitor de desacople de
+El pin 4 de cada integrado se conecta a $+\SI{24}{\volt}$ y el pin 11 a GND, con un capacitor de desacople de
 $\SI{100}{\nano\farad}$ lo más cerca posible de cada integrado.
 
 % TODO: justificar brevemente por qué el TL084 no es apto con fuente simple (rango de entrada y excursión de salida).
@@ -60,7 +60,6 @@ bucle flotante y provee el camino de polarización de las entradas. Los seguidor
 de entrada del restador ($R_3 + R_4 = \SI{20}{\kilo\ohm}$) cargue al shunt, lo que produciría un error de ganancia de
 $\SI{-1.23}{\percent}$. El restador U1C tiene ganancia unitaria con $R_3 = R_4 = R_5 = R_f = \SI{10}{\kilo\ohm}$
 (tolerancia $\SI{1}{\percent}$ o mejor), de modo que
-
 \begin{equation}
   V_{E1} = V_{(+)} - V_{(-)} = I_{in} \cdot R_{shunt\_in}
   \label{eq:ve1}
@@ -79,12 +78,10 @@ $\SI{-1.23}{\percent}$. El restador U1C tiene ganancia unitaria con $R_3 = R_4 =
 La salida del filtro se reinyecta como corriente a la entrada analógica del PLC mediante una fuente de corriente tipo
 sumidero con transistor NPN (figura~\ref{crkt:etapa3}). El operacional U2A fuerza la tensión de emisor a ser igual a
 $V_{filtro}$, por lo que la corriente de salida resulta
-
 \begin{equation}
   I_{out} = \alpha \, \frac{V_{filtro}}{R_{shunt\_out}} \approx \frac{V_{filtro}}{\SI{250}{\ohm}}
   \label{eq:iout}
 \end{equation}
-
 de modo que los $\SI{1}{\volt}$ a $\SI{5}{\volt}$ del filtro se convierten en $\SI{4}{\milli\ampere}$ a
 $\SI{20}{\milli\ampere}$, donde $\alpha = \beta / (\beta + 1)$. Con $\beta \approx$ 100 a 200 el error por
 corriente de base es de $\SI{-0.5}{\percent}$ a $\SI{-1}{\percent}$, y debe tenerse en cuenta en el análisis de
@@ -108,7 +105,6 @@ error de la caracterización estática.
 Se diseña un filtro pasa bajos Sallen-Key de segundo orden con aproximación Butterworth y ganancia unitaria en la
 banda de paso, con frecuencia de corte $f_c = \SI{10}{\hertz}$ ($\SI{-3}{\decibel}$). La función de transferencia
 buscada es
-
 \begin{equation}
   H(s) = \frac{\omega_0^2}{s^2 + \dfrac{\omega_0}{Q} s + \omega_0^2}
   \qquad \text{con } Q = \frac{1}{\sqrt{2}} \text{ y } \omega_0 = 2 \pi f_c
@@ -116,7 +112,6 @@ buscada es
 \end{equation}
 
 Para la topología Sallen-Key de ganancia unitaria de la figura~\ref{crkt:sk-unitario} se tiene
-
 \begin{align*}
   \omega_0 &= \frac{1}{\sqrt{R_1 R_2 C_1 C_2}} \\
   Q &= \frac{\sqrt{R_1 R_2 C_1 C_2}}{C_2 \left( R_1 + R_2 \right)}
@@ -176,7 +171,8 @@ Para la topología Sallen-Key de ganancia unitaria de la figura~\ref{crkt:sk-uni
   \centering
   \begin{tabular}{|c|c|c|c|c|}
     \hline
-    $I_{in}$ [mA] & $V_{E1}$ [V] & $V_{filtro}$ [V] & $I_{out}$ [mA] & Error [\%] \\
+    $I_{in}$ [\si{\milli\ampere}] & $V_{E1}$ [\si{\volt}] & $V_{filtro}$ [\si{\volt}] & $I_{out}$ [\si{\milli\ampere}]
+      & Error [\si{\percent}] \\
     \hline
     4  & & & & \\
     8  & & & & \\
@@ -198,7 +194,7 @@ Para la topología Sallen-Key de ganancia unitaria de la figura~\ref{crkt:sk-uni
   \centering
   \begin{tabular}{|c|c|c|c|}
     \hline
-    $f$ [Hz] & $V_{in,pp}$ [V] & $V_{out,pp}$ [V] & $|H|$ [dB] \\
+    $f$ [\si{\hertz}] & $V_{in,pp}$ [\si{\volt}] & $V_{out,pp}$ [\si{\volt}] & $|H|$ [\si{\decibel}] \\
     \hline
     1   & & & \\
     2   & & & \\

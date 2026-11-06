@@ -4,13 +4,16 @@
 \section{Especificaciones}
 \label{sec:pa-especificaciones}
 
-De acuerdo con la planilla de asignación de filtros de la cátedra para el \textbf{Grupo 2}, el filtro pasa altos activo debe satisfacer los requerimientos especificados en la tabla~\ref{tab:pa-especificaciones}. Se implementa sobre la misma placa que el filtro pasa bajos (capítulo~\ref{chap:pasa-bajos}), empleando las dos secciones restantes del operacional cuádruple TL084.
+De acuerdo con la planilla de asignación de filtros de la cátedra para el Grupo 2, el filtro pasa altos activo debe
+satisfacer los requerimientos especificados en la tabla~\ref{tab:pa-especificaciones}. Se implementa sobre la misma
+placa que el filtro pasa bajos (capítulo~\ref{chap:pasa-bajos}), empleando las dos secciones restantes del
+operacional cuádruple TL084.
 
 \begin{table}[!ht]
   \centering
   \begin{tabular}{|l|c|}
     \hline
-    \textbf{Parámetro} & \textbf{Valor} \\
+    Parámetro & Valor \\
     \hline
     Aproximación & Butterworth \\
     Orden ($n$) & 4 \\
@@ -32,22 +35,29 @@ De acuerdo con la planilla de asignación de filtros de la cátedra para el \tex
 \subsection{Frecuencia de corte y polos de la aproximación}
 \label{subsec:pa-polos}
 
-El filtro pasa altos se obtiene a partir del prototipo pasa bajos Butterworth normalizado mediante la transformación de frecuencia $s \rightarrow \omega_0 / s$. Bajo esta transformación, la función de atenuación del prototipo queda expresada en función de la frecuencia como:
+El filtro pasa altos se obtiene a partir del prototipo pasa bajos Butterworth normalizado mediante la transformación
+de frecuencia $s \rightarrow \omega_0 / s$. Bajo esta transformación, la función de atenuación del prototipo queda
+expresada en función de la frecuencia como:
 \begin{equation}
   \alpha(\omega) = 10 \log_{10} \left[ 1 + \varepsilon^2 \left( \frac{\omega_p}{\omega} \right)^{2n} \right]
   \label{eq:pa-atenuacion}
 \end{equation}
 es decir, la atenuación crece al \emph{disminuir} la frecuencia y es mínima (nula) para $\omega \to \infty$.
 
-El factor $\varepsilon$ se obtiene exigiendo que en la frecuencia de paso $f_p = \SI{33}{\kilo\hertz}$ la atenuación sea exactamente $A_{\max} = \SI{2.25}{\decibel}$:
+El factor $\varepsilon$ se obtiene exigiendo que en la frecuencia de paso $f_p = \SI{33}{\kilo\hertz}$ la atenuación
+sea exactamente $A_{\max} = \SI{2.25}{\decibel}$:
 \begin{equation}
-  10 \log_{10} \left( 1 + \varepsilon^2 \right) = A_{\max} \implies \varepsilon = \sqrt{10^{0{,}1 \cdot A_{\max}} - 1} = \sqrt{10^{0{,}225} - 1} = 0{,}8239
+  10 \log_{10} \left( 1 + \varepsilon^2 \right) = A_{\max} \implies
+  \varepsilon = \sqrt{10^{0{,}1 \cdot A_{\max}} - 1} = \sqrt{10^{0{,}225} - 1} = 0{,}8239
   \label{eq:pa-epsilon}
 \end{equation}
 
-La frecuencia de corte a $\SI{-3}{\decibel}$ ($f_0 \equiv f_c$) se determina imponiendo $\varepsilon^2 (\omega_p/\omega_0)^{2n} = 1$ en \eqref{eq:pa-atenuacion}. A diferencia del pasa bajos, para el pasa altos queda \emph{por debajo} de $f_p$:
+La frecuencia de corte a $\SI{-3}{\decibel}$ ($f_0 \equiv f_c$) se determina imponiendo
+$\varepsilon^2 (\omega_p/\omega_0)^{2n} = 1$ en \eqref{eq:pa-atenuacion}. A diferencia del pasa bajos, para el pasa
+altos queda \emph{por debajo} de $f_p$:
 \begin{equation}
-  f_c = f_p \left( 10^{A_{max}/10} - 1 \right)^{1/(2n)} = f_p\,\varepsilon^{1/n} = \SI{33}{\kilo\hertz} \cdot \left( 0{,}8239 \right)^{1/4} = \SI{31.44}{\kilo\hertz}
+  f_c = f_p \left( 10^{A_{\max}/10} - 1 \right)^{1/(2n)} = f_p\,\varepsilon^{1/n}
+  = \SI{33}{\kilo\hertz} \cdot \left( 0{,}8239 \right)^{1/4} = \SI{31.44}{\kilo\hertz}
   \label{eq:pa-fc}
 \end{equation}
 cuya pulsación angular asociada resulta:
@@ -56,15 +66,17 @@ cuya pulsación angular asociada resulta:
   \label{eq:pa-omega0}
 \end{equation}
 
-Al tratarse de una aproximación Butterworth del mismo orden que el filtro pasa bajos, el polinomio normalizado es el mismo:
+Al tratarse de una aproximación Butterworth del mismo orden que el filtro pasa bajos, el polinomio normalizado es el
+mismo:
 \begin{equation}
   B_4(s) = s^4 + 2{,}61313\,s^3 + 3{,}41421\,s^2 + 2{,}61313\,s + 1
 \end{equation}
-y su factorización en dos binomios cuadráticos $\left( s^2 + a_1 s + 1 \right) \left( s^2 + a_2 s + 1 \right)$ conduce al mismo sistema de ecuaciones:
-\begin{align}
+y su factorización en dos binomios cuadráticos $\left( s^2 + a_1 s + 1 \right) \left( s^2 + a_2 s + 1 \right)$
+conduce al mismo sistema de ecuaciones:
+\begin{align*}
   a_1 + a_2 &= 2{,}61313 \quad (\text{coeficiente de } s^3) \implies a_1 = 2{,}61313 - a_2 \\
   a_1 a_2 + 2 &= 3{,}41421 \quad (\text{coeficiente de } s^2)
-\end{align}
+\end{align*}
 \begin{equation}
   a_2^2 - 2{,}61313\,a_2 + 1{,}41421 = 0 \implies \begin{cases} a_1 = 1{,}8478 \\ a_2 = 0{,}7654 \end{cases}
 \end{equation}
@@ -75,7 +87,9 @@ Identificando cada factor con la forma $s^2 + \dfrac{1}{Q_i} s + 1$, los factore
   \label{eq:pa-factores-q}
 \end{equation}
 
-Al igual que en el pasa bajos, se ubica primero la celda de menor factor de calidad ($Q_1$) y luego la de mayor selectividad ($Q_2$), de modo que la etapa de entrada no presente sobrepico y se reduzca el riesgo de saturación de la segunda etapa.
+Al igual que en el pasa bajos, se ubica primero la celda de menor factor de calidad ($Q_1$) y luego la de mayor
+selectividad ($Q_2$), de modo que la etapa de entrada no presente sobrepico y se reduzca el riesgo de saturación de la
+segunda etapa.
 
 La ganancia total se reparte de forma simétrica entre ambas celdas, adoptando $G_1 = G_2 = \SI{3.5}{\volt/\volt}$:
 \begin{equation}
@@ -83,36 +97,52 @@ La ganancia total se reparte de forma simétrica entre ambas celdas, adoptando $
   \label{eq:pa-ganancia}
 \end{equation}
 
-\textbf{Observación:} la ganancia especificada es de $\SI{12.5}{\volt/\volt}$ ($\SI{21.94}{\decibel}$); el reparto simétrico exacto requeriría $G_1 = G_2 = \sqrt{12{,}5} = 3{,}536$. Con el valor redondeado $G = 3{,}5$ adoptado en los cálculos de diseño, la ganancia total resulta un $2\,\%$ inferior ($-\SI{0.18}{\decibel}$). Esta diferencia no afecta la forma de la respuesta (frecuencia de corte ni factores $Q$, que se calculan para $G = 3{,}5$) y se mantiene en el resto del capítulo; si se quisiera ajustar exactamente la ganancia, alcanzaría con modificar la red $R_a$--$R_b$ y recalcular $m$ con \eqref{eq:pa-cuadratica}.
+La ganancia especificada es de $\SI{12.5}{\volt/\volt}$ ($\SI{21.94}{\decibel}$); el reparto simétrico
+exacto requeriría $G_1 = G_2 = \sqrt{12{,}5} = 3{,}536$. Con el valor redondeado $G = 3{,}5$ adoptado en los cálculos
+de diseño, la ganancia total resulta un $\SI{2}{\percent}$ inferior ($-\SI{0.18}{\decibel}$). Esta diferencia no
+afecta la forma de la respuesta (frecuencia de corte ni factores $Q$, que se calculan para $G = 3{,}5$) y se mantiene
+en el resto del capítulo; si se quisiera ajustar exactamente la ganancia, alcanzaría con modificar la red
+$R_a$--$R_b$ y recalcular $m$ con \eqref{eq:pa-cuadratica}.
 
 La función de transferencia analítica total desnormalizada resulta:
 \begin{equation}
-  H(s) = \frac{K\,s^4}{\left( s^2 + \dfrac{\omega_0}{Q_1} s + \omega_0^2 \right) \left( s^2 + \dfrac{\omega_0}{Q_2} s + \omega_0^2 \right)}
+  H(s) = \frac{K\,s^4}{\left( s^2 + \dfrac{\omega_0}{Q_1} s + \omega_0^2 \right)
+    \left( s^2 + \dfrac{\omega_0}{Q_2} s + \omega_0^2 \right)}
   \label{eq:pa-transferencia-gral}
 \end{equation}
 Reemplazando los valores numéricos de diseño:
 \begin{equation}
-  H(s) = \frac{12{,}25\,s^4}{\left( s^2 + 3{,}6501 \times 10^5\,s + 3{,}9023 \times 10^{10} \right) \left( s^2 + 1{,}5119 \times 10^5\,s + 3{,}9023 \times 10^{10} \right)}
+  H(s) = \frac{12{,}25\,s^4}{\left( s^2 + 3{,}6501 \times 10^5\,s + 3{,}9023 \times 10^{10} \right)
+    \left( s^2 + 1{,}5119 \times 10^5\,s + 3{,}9023 \times 10^{10} \right)}
   \label{eq:pa-transferencia-num}
 \end{equation}
 
-\textbf{Verificación analítica de atenuaciones} (respecto de la ganancia en banda de paso $K = \SI{21.76}{\decibel}$):
+Verificación analítica de atenuaciones (respecto de la ganancia en banda de paso $K = \SI{21.76}{\decibel}$):
 \begin{itemize}
-  \item En $f_p = \SI{33}{\kilo\hertz}$: $\alpha(f_p) = \SI{2.250}{\decibel} \implies |H(f_p)| = 21{,}762 - 2{,}250 = \SI{19.512}{\decibel}$.
-  \item En $f_c = \SI{31.44}{\kilo\hertz}$: $\alpha(f_c) = \SI{3.010}{\decibel} \implies |H(f_c)| = 21{,}762 - 3{,}010 = \SI{18.752}{\decibel}$.
-  \item En $f_p/2 = \SI{16.5}{\kilo\hertz}$: $\alpha(f_p/2) = \SI{22.42}{\decibel} \implies |H(f_p/2)| = -\SI{0.66}{\decibel}$.
-  \item En $f_p/10 = \SI{3.3}{\kilo\hertz}$: $\alpha(f_p/10) = \SI{78.32}{\decibel} \implies |H(f_p/10)| = -\SI{56.55}{\decibel}$.
+  \item En $f_p = \SI{33}{\kilo\hertz}$: $\alpha(f_p) = \SI{2.250}{\decibel} \implies
+    |H(f_p)| = 21{,}762 - 2{,}250 = \SI{19.512}{\decibel}$.
+  \item En $f_c = \SI{31.44}{\kilo\hertz}$: $\alpha(f_c) = \SI{3.010}{\decibel} \implies
+    |H(f_c)| = 21{,}762 - 3{,}010 = \SI{18.752}{\decibel}$.
+  \item En $f_p/2 = \SI{16.5}{\kilo\hertz}$: $\alpha(f_p/2) = \SI{22.42}{\decibel} \implies
+    |H(f_p/2)| = -\SI{0.66}{\decibel}$.
+  \item En $f_p/10 = \SI{3.3}{\kilo\hertz}$: $\alpha(f_p/10) = \SI{78.32}{\decibel} \implies
+    |H(f_p/10)| = -\SI{56.55}{\decibel}$.
 \end{itemize}
 
 \subsection{Cálculo de las etapas Sallen-Key}
 \label{subsec:pa-etapas}
 
-La topología Sallen-Key genérica de segundo orden, con impedancias $Z_1$ a $Z_4$ y ganancia no inversora $G = 1 + R_b / R_a$, posee la función de transferencia:
+La topología Sallen-Key genérica de segundo orden, con impedancias $Z_1$ a $Z_4$ y ganancia no inversora
+$G = 1 + R_b / R_a$, posee la función de transferencia:
 \begin{equation}
-  \frac{V_o}{V_i}(s) = \frac{G}{\dfrac{Z_1 Z_2}{Z_3 Z_4} + \dfrac{Z_1}{Z_3} + \dfrac{Z_2}{Z_3} + (1 - G)\dfrac{Z_1}{Z_4} + 1}
+  \frac{V_o}{V_i}(s) = \frac{G}{\dfrac{Z_1 Z_2}{Z_3 Z_4} + \dfrac{Z_1}{Z_3} + \dfrac{Z_2}{Z_3}
+    + (1 - G)\dfrac{Z_1}{Z_4} + 1}
   \label{eq:pa-sk-generica}
 \end{equation}
-donde $Z_1$ y $Z_2$ son las ramas serie de entrada, $Z_3$ la rama a masa del nodo no inversor y $Z_4$ la rama de realimentación positiva. Para obtener una respuesta pasa altos se intercambian resistores y capacitores respecto del pasa bajos: $Z_1 = \frac{1}{s C_1}$, $Z_2 = \frac{1}{s C_2}$, $Z_3 = R_1$ (a masa) y $Z_4 = R_2$ (realimentación), resultando el circuito de la figura~\ref{crkt:sk-pasa-altos}.
+donde $Z_1$ y $Z_2$ son las ramas serie de entrada, $Z_3$ la rama a masa del nodo no inversor y $Z_4$ la rama de
+realimentación positiva. Para obtener una respuesta pasa altos se intercambian resistores y capacitores respecto del
+pasa bajos: $Z_1 = \frac{1}{s C_1}$, $Z_2 = \frac{1}{s C_2}$, $Z_3 = R_1$ (a masa) y $Z_4 = R_2$ (realimentación),
+resultando el circuito de la figura~\ref{crkt:sk-pasa-altos}.
 
 \begin{figure}[!ht]
   \centering
@@ -121,15 +151,19 @@ donde $Z_1$ y $Z_2$ son las ramas serie de entrada, $Z_3$ la rama a masa del nod
   \label{crkt:sk-pasa-altos}
 \end{figure}
 
-Reemplazando las impedancias en \eqref{eq:pa-sk-generica} y multiplicando numerador y denominador por $s^2 R_1 R_2 C_1 C_2$:
+Reemplazando las impedancias en \eqref{eq:pa-sk-generica} y multiplicando numerador y denominador por
+$s^2 R_1 R_2 C_1 C_2$:
 \begin{equation}
-  \frac{V_o}{V_i}(s) = \frac{G\,R_1 R_2 C_1 C_2\,s^2}{R_1 R_2 C_1 C_2\,s^2 + \left[ R_2 C_2 + R_2 C_1 + R_1 C_2 (1 - G) \right] s + 1}
+  \frac{V_o}{V_i}(s) = \frac{G\,R_1 R_2 C_1 C_2\,s^2}{R_1 R_2 C_1 C_2\,s^2
+    + \left[ R_2 C_2 + R_2 C_1 + R_1 C_2 (1 - G) \right] s + 1}
   \label{eq:pa-sk-h}
 \end{equation}
 
-Igualando coeficientes con la forma canónica del pasa altos de segundo orden $H(s) = \dfrac{K\,s^2}{s^2 + \dfrac{\omega_0}{Q_p} s + \omega_0^2}$ se deduce que $K = G$ y:
+Igualando coeficientes con la forma canónica del pasa altos de segundo orden
+$H(s) = \dfrac{K\,s^2}{s^2 + \dfrac{\omega_0}{Q_p} s + \omega_0^2}$ se deduce que $K = G$ y:
 \begin{equation}
-  \omega_0 = \frac{1}{\sqrt{R_1 R_2 C_1 C_2}}, \qquad\qquad Q_p = \frac{\sqrt{R_1 R_2 C_1 C_2}}{R_2 C_2 + R_2 C_1 + R_1 C_2 (1 - G)}
+  \omega_0 = \frac{1}{\sqrt{R_1 R_2 C_1 C_2}}, \qquad\qquad
+  Q_p = \frac{\sqrt{R_1 R_2 C_1 C_2}}{R_2 C_2 + R_2 C_1 + R_1 C_2 (1 - G)}
   \label{eq:pa-sk-w0-qp}
 \end{equation}
 
@@ -143,7 +177,9 @@ con la cual \eqref{eq:pa-sk-w0-qp} queda:
   \label{eq:pa-sk-prop}
 \end{equation}
 
-Se adopta la estrategia de \textbf{capacitores iguales} ($n = 1$), con $C_1 = C_2 = C = \SI{1}{\nano\farad}$, lo que además permite utilizar un único valor de capacitor en las cuatro posiciones del filtro. Con $n = 1$, despejando la ganancia de \eqref{eq:pa-sk-prop} y definiendo la variable auxiliar $x = \sqrt{m}$:
+Se adopta la estrategia de capacitores iguales ($n = 1$), con $C_1 = C_2 = C = \SI{1}{\nano\farad}$, lo que además
+permite utilizar un único valor de capacitor en las cuatro posiciones del filtro. Con $n = 1$, despejando la ganancia
+de \eqref{eq:pa-sk-prop} y definiendo la variable auxiliar $x = \sqrt{m}$:
 \begin{equation}
   G = 1 + \frac{2}{m} - \frac{1}{Q_p \sqrt{m}} = 1 + \frac{2 Q_p - x}{Q_p\,x^2}
   \implies (G - 1)\,Q_p\,x^2 + x - 2 Q_p = 0
@@ -160,6 +196,7 @@ Una vez obtenido $m = x^2$, el resistor de referencia se despeja de \eqref{eq:pa
 \end{equation}
 
 \subsubsection{Cálculo de la Celda 1 ($Q_1 = 0{,}5412$, $G_1 = 3{,}5$)}
+
 Reemplazando en \eqref{eq:pa-cuadratica}:
 \begin{equation}
   x^2 + \frac{x}{2{,}5 \cdot 0{,}5412} - \frac{2}{2{,}5} = 0 \implies x^2 + 0{,}7391\,x - 0{,}8 = 0
@@ -169,13 +206,16 @@ Tomando la raíz físicamente admisible ($x > 0$):
   x = 0{,}5982 \implies m_1 = x^2 = 0{,}3578
 \end{equation}
 Despejando los resistores con \eqref{eq:pa-r}:
-\begin{align}
-  R_2 &= R = \frac{1}{\SI{197543}{\radian/\second} \cdot \SI{1}{\nano\farad} \cdot \sqrt{0{,}3578}} = \SI{8462.86}{\ohm} \\
+\begin{align*}
+  R_2 &= R = \frac{1}{\SI{197543}{\radian/\second} \cdot \SI{1}{\nano\farad} \cdot \sqrt{0{,}3578}}
+    = \SI{8462.86}{\ohm} \\
   R_1 &= m_1 R_2 = 0{,}3578 \cdot \SI{8462.86}{\ohm} = \SI{3028.01}{\ohm}
-\end{align}
+\end{align*}
 
 \subsubsection{Cálculo de la Celda 2 ($Q_2 = 1{,}3066$, $G_2 = 3{,}5$)}
-Procediendo de manera análoga, en la segunda celda (componentes $C_3$, $C_4$, $R_3$ a masa y $R_4$ de realimentación):
+
+Procediendo de manera análoga, en la segunda celda (componentes $C_3$, $C_4$, $R_3$ a masa y $R_4$ de
+realimentación):
 \begin{equation}
   x^2 + \frac{x}{2{,}5 \cdot 1{,}3066} - \frac{2}{2{,}5} = 0 \implies x^2 + 0{,}3061\,x - 0{,}8 = 0
 \end{equation}
@@ -184,39 +224,50 @@ cuya solución positiva es:
   x = 0{,}7544 \implies m_2 = x^2 = 0{,}5691
 \end{equation}
 Despejando los resistores de la segunda celda:
-\begin{align}
-  R_4 &= R = \frac{1}{\SI{197543}{\radian/\second} \cdot \SI{1}{\nano\farad} \cdot \sqrt{0{,}5691}} = \SI{6710.32}{\ohm} \\
+\begin{align*}
+  R_4 &= R = \frac{1}{\SI{197543}{\radian/\second} \cdot \SI{1}{\nano\farad} \cdot \sqrt{0{,}5691}}
+    = \SI{6710.32}{\ohm} \\
   R_3 &= m_2 R_4 = 0{,}5691 \cdot \SI{6710.32}{\ohm} = \SI{3818.84}{\ohm}
-\end{align}
+\end{align*}
 
 \subsubsection{Red de ganancia ($R_a$ y $R_b$)}
+
 Para ambas celdas $G = 1 + R_b / R_a = 3{,}5$. Fijando $R_b = \SI{30}{\kilo\ohm}$:
 \begin{equation}
   R_a = \frac{R_b}{G - 1} = \frac{\SI{30}{\kilo\ohm}}{2{,}5} = \SI{12}{\kilo\ohm}
 \end{equation}
-con lo cual $R_{a1} = R_{a2} = \SI{12}{\kilo\ohm}$ y $R_{b1} = R_{b2} = \SI{30}{\kilo\ohm}$, ambos valores normalizados.
-
+con lo cual $R_{a1} = R_{a2} = \SI{12}{\kilo\ohm}$ y $R_{b1} = R_{b2} = \SI{30}{\kilo\ohm}$, ambos valores
+normalizados.
 
 \subsection{Valores comerciales}
 \label{subsec:pa-comerciales}
 
-Se seleccionan resistores de película metálica de la serie E24 ($1\%$) y capacitores de poliéster de $\SI{1}{\nano\farad}$. La tabla~\ref{tab:pa-componentes} resume los valores calculados y los valores comerciales adoptados.
+Se seleccionan resistores de película metálica de la serie E24 ($\SI{1}{\percent}$) y capacitores de poliéster de
+$\SI{1}{\nano\farad}$. La tabla~\ref{tab:pa-componentes} resume los valores calculados y los valores comerciales
+adoptados.
 
 \begin{table}[!ht]
   \centering
   \resizebox{\textwidth}{!}{%
   \begin{tabular}{|l|c|c|c|c|}
     \hline
-    & \multicolumn{2}{c|}{\textbf{Etapa 1 ($Q_1 = 0{,}5412$, $G_1 = 3{,}5$)}} & \multicolumn{2}{c|}{\textbf{Etapa 2 ($Q_2 = 1{,}3066$, $G_2 = 3{,}5$)}} \\
+    & \multicolumn{2}{c|}{Etapa 1 ($Q_1 = 0{,}5412$, $G_1 = 3{,}5$)}
+    & \multicolumn{2}{c|}{Etapa 2 ($Q_2 = 1{,}3066$, $G_2 = 3{,}5$)} \\
     \cline{2-5}
-    \textbf{Componente} & \textbf{Calculado} & \textbf{Comercial} & \textbf{Calculado} & \textbf{Comercial} \\
+    Componente & Calculado & Comercial & Calculado & Comercial \\
     \hline
-    $R_1$ / $R_3$ (a masa) & $\SI{3028.01}{\ohm}$ & $\SI{3.0}{\kilo\ohm}$ & $\SI{3818.84}{\ohm}$ & $\SI{3.9}{\kilo\ohm}$ \\
-    $R_2$ / $R_4$ (realim.) & $\SI{8462.86}{\ohm}$ & $\SI{8.2}{\kilo\ohm}$ & $\SI{6710.32}{\ohm}$ & $\SI{6.8}{\kilo\ohm}$ \\
-    $C_1$ / $C_3$ & $\SI{1.00}{\nano\farad}$ & $\SI{1}{\nano\farad}$ & $\SI{1.00}{\nano\farad}$ & $\SI{1}{\nano\farad}$ \\
-    $C_2$ / $C_4$ & $\SI{1.00}{\nano\farad}$ & $\SI{1}{\nano\farad}$ & $\SI{1.00}{\nano\farad}$ & $\SI{1}{\nano\farad}$ \\
-    $R_{a1}$ / $R_{a2}$ & $\SI{12.00}{\kilo\ohm}$ & $\SI{12}{\kilo\ohm}$ & $\SI{12.00}{\kilo\ohm}$ & $\SI{12}{\kilo\ohm}$ \\
-    $R_{b1}$ / $R_{b2}$ & $\SI{30.00}{\kilo\ohm}$ & $\SI{30}{\kilo\ohm}$ & $\SI{30.00}{\kilo\ohm}$ & $\SI{30}{\kilo\ohm}$ \\
+    $R_1$ / $R_3$ (a masa) & $\SI{3028.01}{\ohm}$ & $\SI{3.0}{\kilo\ohm}$ & $\SI{3818.84}{\ohm}$
+      & $\SI{3.9}{\kilo\ohm}$ \\
+    $R_2$ / $R_4$ (realim.) & $\SI{8462.86}{\ohm}$ & $\SI{8.2}{\kilo\ohm}$ & $\SI{6710.32}{\ohm}$
+      & $\SI{6.8}{\kilo\ohm}$ \\
+    $C_1$ / $C_3$ & $\SI{1.00}{\nano\farad}$ & $\SI{1}{\nano\farad}$ & $\SI{1.00}{\nano\farad}$
+      & $\SI{1}{\nano\farad}$ \\
+    $C_2$ / $C_4$ & $\SI{1.00}{\nano\farad}$ & $\SI{1}{\nano\farad}$ & $\SI{1.00}{\nano\farad}$
+      & $\SI{1}{\nano\farad}$ \\
+    $R_{a1}$ / $R_{a2}$ & $\SI{12.00}{\kilo\ohm}$ & $\SI{12}{\kilo\ohm}$ & $\SI{12.00}{\kilo\ohm}$
+      & $\SI{12}{\kilo\ohm}$ \\
+    $R_{b1}$ / $R_{b2}$ & $\SI{30.00}{\kilo\ohm}$ & $\SI{30}{\kilo\ohm}$ & $\SI{30.00}{\kilo\ohm}$
+      & $\SI{30}{\kilo\ohm}$ \\
     \hline
   \end{tabular}%
   }
@@ -226,16 +277,23 @@ Se seleccionan resistores de película metálica de la serie E24 ($1\%$) y capac
 
 Recalculando los parámetros característicos con \eqref{eq:pa-sk-w0-qp} y los valores comerciales nominales:
 \begin{itemize}
-  \item \textbf{Celda 1:} $f_{01} = \SI{32.09}{\kilo\hertz}$ (desvío $+2{,}06\%$), $Q_{1} = 0{,}5573$ (desvío $+2{,}97\%$).
-  \item \textbf{Celda 2:} $f_{02} = \SI{30.91}{\kilo\hertz}$ (desvío $-1{,}70\%$), $Q_{2} = 1{,}3376$ (desvío $+2{,}37\%$).
+  \item Celda 1: $f_{01} = \SI{32.09}{\kilo\hertz}$ (desvío $+\SI{2.06}{\percent}$), $Q_{1} = 0{,}5573$
+    (desvío $+\SI{2.97}{\percent}$).
+  \item Celda 2: $f_{02} = \SI{30.91}{\kilo\hertz}$ (desvío $-\SI{1.70}{\percent}$), $Q_{2} = 1{,}3376$
+    (desvío $+\SI{2.37}{\percent}$).
 \end{itemize}
 
-Los desvíos son mayores que en el pasa bajos porque los valores calculados quedan más alejados de los normalizados (por ejemplo, $\SI{8462.86}{\ohm} \rightarrow \SI{8.2}{\kilo\ohm}$, $-3{,}1\%$). Además, la estrategia de capacitores iguales con $G > 1$ hace que el factor de calidad dependa fuertemente de la ganancia. Para $n = 1$, de \eqref{eq:pa-sk-prop} se obtiene la sensibilidad
+Los desvíos son mayores que en el pasa bajos porque los valores calculados quedan más alejados de los normalizados
+(por ejemplo, $\SI{8462.86}{\ohm} \rightarrow \SI{8.2}{\kilo\ohm}$, $-\SI{3.1}{\percent}$). Además, la estrategia de
+capacitores iguales con $G > 1$ hace que el factor de calidad dependa fuertemente de la ganancia. Para $n = 1$, de
+\eqref{eq:pa-sk-prop} se obtiene la sensibilidad
 \begin{equation}
   S_{G}^{Q_p} = \frac{G}{Q_p}\frac{\partial Q_p}{\partial G} = G\,Q_p\,\sqrt{m}
   \implies S_{G}^{Q_1} = 1{,}13, \qquad S_{G}^{Q_2} = 3{,}45
 \end{equation}
-por lo que una variación del $1\%$ en la relación $R_b/R_a$ de la segunda celda modifica $Q_2$ en aproximadamente un $2{,}5\%$ (la variación relativa de $G$ es $2{,}5/3{,}5 \approx 0{,}71$ veces la de $R_b/R_a$). Esto justifica el uso de resistores al $1\%$ en la red de ganancia.
+por lo que una variación del $\SI{1}{\percent}$ en la relación $R_b/R_a$ de la segunda celda modifica $Q_2$ en
+aproximadamente un $\SI{2.5}{\percent}$ (la variación relativa de $G$ es $2{,}5/3{,}5 \approx 0{,}71$ veces la de
+$R_b/R_a$). Esto justifica el uso de resistores al $\SI{1}{\percent}$ en la red de ganancia.
 
 \section{Simulación}
 \label{sec:pa-simulacion}
@@ -243,39 +301,64 @@ por lo que una variación del $1\%$ en la relación $R_b/R_a$ de la segunda celd
 \subsection{Circuito simulado en LTspice}
 \label{subsec:pa-sim-circuito}
 
-El filtro completo se implementó en LTspice con los valores comerciales de la tabla~\ref{tab:pa-componentes} y el macromodelo de Texas Instruments del TL084, alimentado a $\pm\SI{15}{\volt}$. El esquemático, obtenido mediante la opción de impresión de LTspice, se presenta en la figura~\ref{fig:pa-esquematico-ltspice}. Se realizó un análisis \texttt{.ac} con barrido logarítmico de 400 puntos por década entre $\SI{100}{\hertz}$ y $\SI{10}{\mega\hertz}$, con una fuente de excitación de amplitud unitaria (\texttt{AC 1}), de modo que $V(\text{vout})$ coincide directamente con $H(j\omega)$. Las frecuencias características se obtuvieron mediante directivas \texttt{.meas}.
+El filtro completo se implementó en LTspice con los valores comerciales de la tabla~\ref{tab:pa-componentes} y el
+macromodelo de Texas Instruments del TL084, alimentado a $\pm\SI{15}{\volt}$. El esquemático, obtenido mediante la
+opción de impresión de LTspice, se presenta en la figura~\ref{crkt:pa-esquematico-ltspice}. Se realizó un análisis
+\texttt{.ac} con barrido logarítmico de 400 puntos por década entre $\SI{100}{\hertz}$ y $\SI{10}{\mega\hertz}$, con
+una fuente de excitación de amplitud unitaria (\texttt{AC 1}), de modo que $V(\text{vout})$ coincide directamente con
+$H(j\omega)$. Las frecuencias características se obtuvieron mediante directivas \texttt{.meas}.
 
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=\textwidth]{sources/sim/esquematico_pasa_altos_ltspice.png}
-  \caption{Esquemático en LTspice del filtro pasa altos Butterworth de 4.\textsuperscript{to} orden: dos celdas Sallen-Key con $G = 3{,}5$, valores comerciales y macromodelo TL084.}
-  \label{fig:pa-esquematico-ltspice}
+  \caption{Esquemático en LTspice del filtro pasa altos Butterworth de 4.\textsuperscript{to} orden: dos celdas
+    Sallen-Key con $G = 3{,}5$, valores comerciales y macromodelo TL084.}
+  \label{crkt:pa-esquematico-ltspice}
 \end{figure}
 
-Para separar el efecto de la normalización de los componentes del efecto del amplificador real, se simularon además, en el mismo programa, dos variantes con operacional ideal (fuente controlada de ganancia $10^7$ y $R_{in} = \SI{1}{\tera\ohm}$): una con los valores exactos calculados y otra con los valores comerciales. Los resultados de las tres simulaciones se procesaron y superpusieron con la respuesta teórica \eqref{eq:pa-transferencia-gral} mediante un script.
+Para separar el efecto de la normalización de los componentes del efecto del amplificador real, se simularon además,
+en el mismo programa, dos variantes con operacional ideal (fuente controlada de ganancia $10^7$ y
+$R_{in} = \SI{1}{\tera\ohm}$): una con los valores exactos calculados y otra con los valores comerciales. Los
+resultados de las tres simulaciones se procesaron y superpusieron con la respuesta teórica
+\eqref{eq:pa-transferencia-gral} mediante un script.
 
 \subsection{Función de transferencia con elementos ideales}
 \label{subsec:pa-sim-ideal}
 
-En la figura~\ref{fig:pa-bode} se presenta el diagrama de Bode de módulo y fase de las tres simulaciones junto con la respuesta teórica de Butterworth.
+En la figura~\ref{fig:pa-bode} se presenta el diagrama de Bode de módulo y fase de las tres simulaciones junto con la
+respuesta teórica de Butterworth.
 
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=0.92\textwidth]{images/fig5_pa_bode_comparativo}
-  \caption{Diagrama de Bode de magnitud y fase del filtro pasa altos: comparación teórica, valores calculados y valores comerciales (operacional ideal y TL084).}
+  \caption{Diagrama de Bode de magnitud y fase del filtro pasa altos: comparación teórica, valores calculados y
+    valores comerciales (operacional ideal y TL084).}
   \label{fig:pa-bode}
 \end{figure}
 
-Con los valores calculados y operacional ideal, la curva simulada se superpone exactamente con la teórica: la frecuencia de corte a $\SI{-3}{\decibel}$ respecto de $K$ se mide en $f_c = \SI{31.440}{\kilo\hertz}$ y la atenuación en $f_p$ es de $\SI{2.25}{\decibel}$, idénticas a los valores de \eqref{eq:pa-fc} y \eqref{eq:pa-epsilon}. En la banda de paso la ganancia se mantiene en $\SI{21.76}{\decibel}$ ($\SI{12.25}{\volt/\volt}$) sin sobrepico, como corresponde a una respuesta maximalmente plana. Por debajo de $f_c$ la pendiente asintótica es de $+\SI{80}{\decibel/\text{década}}$ ($+\SI{24}{\decibel/\text{octava}}$), característica de un orden $n = 4$; en $f_p/10 = \SI{3.3}{\kilo\hertz}$ el módulo es de $-\SI{56.55}{\decibel}$, coincidente con el cálculo analítico.
+Con los valores calculados y operacional ideal, la curva simulada se superpone exactamente con la teórica: la
+frecuencia de corte a $\SI{-3}{\decibel}$ respecto de $K$ se mide en $f_c = \SI{31.440}{\kilo\hertz}$ y la
+atenuación en $f_p$ es de $\SI{2.25}{\decibel}$, idénticas a los valores de \eqref{eq:pa-fc} y
+\eqref{eq:pa-epsilon}. En la banda de paso la ganancia se mantiene en $\SI{21.76}{\decibel}$
+($\SI{12.25}{\volt/\volt}$) sin sobrepico, como corresponde a una respuesta maximalmente plana. Por debajo de $f_c$
+la pendiente asintótica es de $+\SI{80}{\decibel/\text{década}}$ ($+\SI{24}{\decibel/\text{octava}}$),
+característica de un orden $n = 4$; en $f_p/10 = \SI{3.3}{\kilo\hertz}$ el módulo es de $-\SI{56.55}{\decibel}$,
+coincidente con el cálculo analítico.
 
-La fase parte de $+\SI{360}{\degree}$ a muy baja frecuencia (cuatro ceros en el origen), pasa por $\SI{180}{\degree}$ en $f_0$ y tiende a $\SI{0}{\degree}$ en alta frecuencia, comportamiento simétrico (en escala logarítmica) al del pasa bajos.
+La fase parte de $+\SI{360}{\degree}$ a muy baja frecuencia (cuatro ceros en el origen), pasa por
+$\SI{180}{\degree}$ en $f_0$ y tiende a $\SI{0}{\degree}$ en alta frecuencia, comportamiento simétrico (en escala
+logarítmica) al del pasa bajos.
 
-Con valores comerciales y operacional ideal, la frecuencia de corte se desplaza a $f_c = \SI{30.69}{\kilo\hertz}$ ($-2{,}4\%$) y la atenuación en $f_p$ baja a $\SI{1.88}{\decibel}$, con un leve sobrepico de $\SI{0.07}{\decibel}$ en torno a $\SI{64}{\kilo\hertz}$ debido al aumento de los factores $Q$. La especificación $A(f_p) \le A_{\max}$ se sigue cumpliendo con margen.
+Con valores comerciales y operacional ideal, la frecuencia de corte se desplaza a $f_c = \SI{30.69}{\kilo\hertz}$
+($-\SI{2.4}{\percent}$) y la atenuación en $f_p$ baja a $\SI{1.88}{\decibel}$, con un leve sobrepico de
+$\SI{0.07}{\decibel}$ en torno a $\SI{64}{\kilo\hertz}$ debido al aumento de los factores $Q$. La especificación
+$A(f_p) \le A_{\max}$ se sigue cumpliendo con margen.
 
 \subsection{Función de transferencia con valores comerciales y macromodelo TL084}
 \label{subsec:pa-sim-real}
 
-La figura~\ref{fig:pa-zoom-banda} muestra el detalle de la banda de paso y de la zona de corte, donde se aprecia el efecto del operacional real.
+La figura~\ref{fig:pa-zoom-banda} muestra el detalle de la banda de paso y de la zona de corte, donde se aprecia el
+efecto del operacional real.
 
 \begin{figure}[!ht]
   \centering
@@ -284,21 +367,41 @@ La figura~\ref{fig:pa-zoom-banda} muestra el detalle de la banda de paso y de la
   \label{fig:pa-zoom-banda}
 \end{figure}
 
-A diferencia del pasa bajos, en el pasa altos la banda de paso se extiende teóricamente hasta frecuencia infinita, por lo que el producto ganancia-ancho de banda del operacional limita la respuesta. Cada celda se comporta, en su lazo de ganancia, como un amplificador no inversor de ganancia $3{,}5$, cuyo ancho de banda a lazo cerrado es aproximadamente
+A diferencia del pasa bajos, en el pasa altos la banda de paso se extiende teóricamente hasta frecuencia infinita,
+por lo que el producto ganancia-ancho de banda del operacional limita la respuesta. Cada celda se comporta, en su lazo
+de ganancia, como un amplificador no inversor de ganancia $3{,}5$, cuyo ancho de banda a lazo cerrado es
+aproximadamente
 \begin{equation}
   f_{BW} \approx \frac{\text{GBW}}{G} = \frac{\SI{3}{\mega\hertz}}{3{,}5} \approx \SI{857}{\kilo\hertz}
 \end{equation}
-apenas 27 veces la frecuencia de corte. Además, el desfasaje introducido por el operacional modifica la realimentación positiva de la celda y, dada la alta sensibilidad $S_G^{Q_2} = 3{,}45$, altera los polos también dentro de la banda de paso. Los resultados de la simulación con TL084 son:
+apenas 27 veces la frecuencia de corte. Además, el desfasaje introducido por el operacional modifica la
+realimentación positiva de la celda y, dada la alta sensibilidad $S_G^{Q_2} = 3{,}45$, altera los polos también
+dentro de la banda de paso. Los resultados de la simulación con TL084 son:
 \begin{itemize}
-  \item Ganancia máxima $G_{\max} = \SI{20.75}{\decibel}$ en $\SI{48.7}{\kilo\hertz}$, es decir $\SI{1.01}{\decibel}$ por debajo de la ganancia nominal $K$; en $\SI{200}{\kilo\hertz}$ el módulo ya cae a $\SI{20.27}{\decibel}$.
-  \item En $f_p = \SI{33}{\kilo\hertz}$: $|H| = \SI{19.58}{\decibel}$, es decir una atenuación de $\SI{2.18}{\decibel}$ respecto de $K$ y de $\SI{1.17}{\decibel}$ respecto de $G_{\max}$; se cumple $A(f_p) \le A_{\max}$.
-  \item Frecuencia de corte inferior: $f_c = \SI{30.84}{\kilo\hertz}$ tomando como referencia $K - \SI{3}{\decibel} = \SI{18.75}{\decibel}$ ($-1{,}9\%$ respecto del valor teórico) y $f_c = \SI{29.06}{\kilo\hertz}$ tomando como referencia $G_{\max} - \SI{3}{\decibel}$.
-  \item Frecuencia de corte superior (efecto del GBW): $f_{c,\text{sup}} = \SI{761}{\kilo\hertz}$ ($G_{\max} - \SI{3}{\decibel}$). Por encima de ella la respuesta decae y el filtro se comporta, en la práctica, como un pasa banda muy ancho.
-  \item En la banda atenuada, el módulo en $f_p/10$ es de $-\SI{56.58}{\decibel}$ y la pendiente se mantiene en $+\SI{80}{\decibel/\text{década}}$: el operacional no influye en la zona de rechazo.
-  \item La fase sigue a la teórica por debajo de $f_c$, pero en la banda de paso presenta un retraso creciente: cruza $\SI{0}{\degree}$ cerca de $\SI{200}{\kilo\hertz}$ y alcanza $-\SI{95}{\degree}$ en $\SI{1}{\mega\hertz}$.
+  \item Ganancia máxima $G_{\max} = \SI{20.75}{\decibel}$ en $\SI{48.7}{\kilo\hertz}$, es decir
+    $\SI{1.01}{\decibel}$ por debajo de la ganancia nominal $K$; en $\SI{200}{\kilo\hertz}$ el módulo ya cae a
+    $\SI{20.27}{\decibel}$.
+  \item En $f_p = \SI{33}{\kilo\hertz}$: $|H| = \SI{19.58}{\decibel}$, es decir una atenuación de
+    $\SI{2.18}{\decibel}$ respecto de $K$ y de $\SI{1.17}{\decibel}$ respecto de $G_{\max}$; se cumple
+    $A(f_p) \le A_{\max}$.
+  \item Frecuencia de corte inferior: $f_c = \SI{30.84}{\kilo\hertz}$ tomando como referencia
+    $K - \SI{3}{\decibel} = \SI{18.75}{\decibel}$ ($-\SI{1.9}{\percent}$ respecto del valor teórico) y
+    $f_c = \SI{29.06}{\kilo\hertz}$ tomando como referencia $G_{\max} - \SI{3}{\decibel}$.
+  \item Frecuencia de corte superior (efecto del GBW): $f_{c,\text{sup}} = \SI{761}{\kilo\hertz}$
+    ($G_{\max} - \SI{3}{\decibel}$). Por encima de ella la respuesta decae y el filtro se comporta, en la práctica,
+    como un pasa banda muy ancho.
+  \item En la banda atenuada, el módulo en $f_p/10$ es de $-\SI{56.58}{\decibel}$ y la pendiente se mantiene en
+    $+\SI{80}{\decibel/\text{década}}$: el operacional no influye en la zona de rechazo.
+  \item La fase sigue a la teórica por debajo de $f_c$, pero en la banda de paso presenta un retraso creciente: cruza
+    $\SI{0}{\degree}$ cerca de $\SI{200}{\kilo\hertz}$ y alcanza $-\SI{95}{\degree}$ en $\SI{1}{\mega\hertz}$.
 \end{itemize}
 
-En síntesis, la frecuencia de corte obtenida por simulación ($\SI{30.84}{\kilo\hertz}$) coincide con la calculada ($\SI{31.44}{\kilo\hertz}$) dentro del $2\%$, diferencia atribuible principalmente a la normalización de los resistores, y la condición de atenuación en $f_p$ se verifica. La principal limitación del diseño con TL084 es la reducción de la ganancia en banda de paso (aproximadamente $\SI{1}{\decibel}$) y su caída por encima de algunos cientos de kilohertz; si se requiriera una banda de paso plana en un rango más amplio, convendría emplear un operacional de mayor GBW o repartir la ganancia de modo de reducir la exigencia sobre la celda de mayor $Q$.
+En síntesis, la frecuencia de corte obtenida por simulación ($\SI{30.84}{\kilo\hertz}$) coincide con la calculada
+($\SI{31.44}{\kilo\hertz}$) dentro del $\SI{2}{\percent}$, diferencia atribuible principalmente a la normalización de
+los resistores, y la condición de atenuación en $f_p$ se verifica. La principal limitación del diseño con TL084 es la
+reducción de la ganancia en banda de paso (aproximadamente $\SI{1}{\decibel}$) y su caída por encima de algunos
+cientos de kilohertz; si se requiriera una banda de paso plana en un rango más amplio, convendría emplear un
+operacional de mayor GBW o repartir la ganancia de modo de reducir la exigencia sobre la celda de mayor $Q$.
 
 \section{Implementación y mediciones}
 \label{sec:pa-mediciones}
@@ -311,7 +414,8 @@ En síntesis, la frecuencia de corte obtenida por simulación ($\SI{30.84}{\kilo
   \centering
   \begin{tabular}{|c|c|c|c|c|}
     \hline
-    $f$ [kHz] & $V_{in,pp}$ [V] & $V_{out,pp}$ [V] & $|H|$ medido [dB] & $|H|$ simulado [dB] \\
+    $f$ [\si{\kilo\hertz}] & $V_{in,pp}$ [\si{\volt}] & $V_{out,pp}$ [\si{\volt}] & $|H|$ medido [\si{\decibel}]
+      & $|H|$ simulado [\si{\decibel}] \\
     \hline
      & & & & \\
      & & & & \\
