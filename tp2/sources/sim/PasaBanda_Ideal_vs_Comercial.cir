@@ -1,0 +1,37 @@
+* TP2 Teoria de Circuitos II - Grupo 2 - Filtro pasa banda Butterworth orden 2 (Sallen-Key topologia I)
+* f0 = 28 kHz | BW = 1,7 kHz a Amax = 0,1 dB | Qp = 2,5137 | K = 9 V/V
+* Ambos circuitos con AO ideal (el mismo con TL084 esta en Filtro_PasaBanda_Orden2_Grupo2.asc)
+*   (A) valores calculados      (B) valores comerciales
+.subckt AOIDEAL inp inn out
+Rin inp inn 1e12
+E1 out 0 inp inn 1e7
+.ends
+Vin VIN 0 AC 1
+* ---- (A) Calculado: R1 = Rf = 2237,11 ohm, R2 = 12837,60 ohm, C1 = C2 = 1,5 nF, G = 2,11367 ----
+R1a UFA VIN 2237.11
+C1a UFA 0 1.5n
+C2a NPA UFA 1.5n
+R2a NPA 0 12837.60
+Rfa VOUT_CALC UFA 2237.11
+Raa NMA 0 5.6k
+Rba VOUT_CALC NMA 6236.57
+XUa NPA NMA VOUT_CALC AOIDEAL
+* ---- (B) Comercial: R1 = Rf = 2,2 k, R2 = 13 k, C1 = C2 = 1,5 nF, Ra = 5,6 k, Rb = 6,2 k ----
+R1b UFB VIN 2.2k
+C1b UFB 0 1.5n
+C2b NPB UFB 1.5n
+R2b NPB 0 13k
+Rfb VOUT_COM UFB 2.2k
+Rab NMB 0 5.6k
+Rbb VOUT_COM NMB 6.2k
+XUb NPB NMB VOUT_COM AOIDEAL
+.ac dec 2000 100 10Meg
+.meas AC Gmax_calc MAX mag(V(vout_calc))
+.meas AC fc1_calc WHEN mag(V(vout_calc))=9/sqrt(2) RISE=1
+.meas AC fc2_calc WHEN mag(V(vout_calc))=9/sqrt(2) FALL=1
+.meas AC fp1_calc WHEN mag(V(vout_calc))=9*10**(-0.1/20) RISE=1
+.meas AC fp2_calc WHEN mag(V(vout_calc))=9*10**(-0.1/20) FALL=1
+.meas AC Gmax_com MAX mag(V(vout_com))
+.meas AC fp1_com WHEN mag(V(vout_com))=Gmax_com*10**(-0.1/20) RISE=1
+.meas AC fp2_com WHEN mag(V(vout_com))=Gmax_com*10**(-0.1/20) FALL=1
+.end

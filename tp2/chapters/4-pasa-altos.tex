@@ -117,18 +117,6 @@ Reemplazando los valores numéricos de diseño:
   \label{eq:pa-transferencia-num}
 \end{equation}
 
-Verificación analítica de atenuaciones (respecto de la ganancia en banda de paso $K = \SI{21.76}{\decibel}$):
-\begin{itemize}
-  \item En $f_p = \SI{33}{\kilo\hertz}$: $\alpha(f_p) = \SI{2.250}{\decibel} \implies
-    |H(f_p)| = 21{,}762 - 2{,}250 = \SI{19.512}{\decibel}$.
-  \item En $f_c = \SI{31.44}{\kilo\hertz}$: $\alpha(f_c) = \SI{3.010}{\decibel} \implies
-    |H(f_c)| = 21{,}762 - 3{,}010 = \SI{18.752}{\decibel}$.
-  \item En $f_p/2 = \SI{16.5}{\kilo\hertz}$: $\alpha(f_p/2) = \SI{22.42}{\decibel} \implies
-    |H(f_p/2)| = -\SI{0.66}{\decibel}$.
-  \item En $f_p/10 = \SI{3.3}{\kilo\hertz}$: $\alpha(f_p/10) = \SI{78.32}{\decibel} \implies
-    |H(f_p/10)| = -\SI{56.55}{\decibel}$.
-\end{itemize}
-
 \subsection{Cálculo de las etapas Sallen-Key}
 \label{subsec:pa-etapas}
 
@@ -239,6 +227,10 @@ Para ambas celdas $G = 1 + R_b / R_a = 3{,}5$. Fijando $R_b = \SI{30}{\kilo\ohm}
 con lo cual $R_{a1} = R_{a2} = \SI{12}{\kilo\ohm}$ y $R_{b1} = R_{b2} = \SI{30}{\kilo\ohm}$, ambos valores
 normalizados.
 
+En cuanto a la estabilidad, de \eqref{eq:pa-sk-prop} cada celda se vuelve inestable recién cuando se anula el
+denominador de $Q_p$, es decir para $G_{osc} = 1 + 2/m$ (con $n = 1$), que vale 6,59 en la celda 1 y 4,51 en la
+celda 2; con $G = 3{,}5$ ambas operan con margen suficiente.
+
 \subsection{Valores comerciales}
 \label{subsec:pa-comerciales}
 
@@ -284,16 +276,7 @@ Recalculando los parámetros característicos con \eqref{eq:pa-sk-w0-qp} y los v
 \end{itemize}
 
 Los desvíos son mayores que en el pasa bajos porque los valores calculados quedan más alejados de los normalizados
-(por ejemplo, $\SI{8462.86}{\ohm} \rightarrow \SI{8.2}{\kilo\ohm}$, $-\SI{3.1}{\percent}$). Además, la estrategia de
-capacitores iguales con $G > 1$ hace que el factor de calidad dependa fuertemente de la ganancia. Para $n = 1$, de
-\eqref{eq:pa-sk-prop} se obtiene la sensibilidad
-\begin{equation}
-  S_{G}^{Q_p} = \frac{G}{Q_p}\frac{\partial Q_p}{\partial G} = G\,Q_p\,\sqrt{m}
-  \implies S_{G}^{Q_1} = 1{,}13, \qquad S_{G}^{Q_2} = 3{,}45
-\end{equation}
-por lo que una variación del $\SI{1}{\percent}$ en la relación $R_b/R_a$ de la segunda celda modifica $Q_2$ en
-aproximadamente un $\SI{2.5}{\percent}$ (la variación relativa de $G$ es $2{,}5/3{,}5 \approx 0{,}71$ veces la de
-$R_b/R_a$). Esto justifica el uso de resistores al $\SI{1}{\percent}$ en la red de ganancia.
+(por ejemplo, $\SI{8462.86}{\ohm} \rightarrow \SI{8.2}{\kilo\ohm}$, $-\SI{3.1}{\percent}$).
 
 \section{Simulación}
 \label{sec:pa-simulacion}
@@ -342,8 +325,8 @@ atenuación en $f_p$ es de $\SI{2.25}{\decibel}$, idénticas a los valores de \e
 \eqref{eq:pa-epsilon}. En la banda de paso la ganancia se mantiene en $\SI{21.76}{\decibel}$
 ($\SI{12.25}{\volt/\volt}$) sin sobrepico, como corresponde a una respuesta maximalmente plana. Por debajo de $f_c$
 la pendiente asintótica es de $+\SI{80}{\decibel/\text{década}}$ ($+\SI{24}{\decibel/\text{octava}}$),
-característica de un orden $n = 4$; en $f_p/10 = \SI{3.3}{\kilo\hertz}$ el módulo es de $-\SI{56.55}{\decibel}$,
-coincidente con el cálculo analítico.
+característica de un orden $n = 4$; en $f_p/10 = \SI{3.3}{\kilo\hertz}$ el módulo es de
+$-\SI{56.55}{\decibel}$.
 
 La fase parte de $+\SI{360}{\degree}$ a muy baja frecuencia (cuatro ceros en el origen), pasa por
 $\SI{180}{\degree}$ en $f_0$ y tiende a $\SI{0}{\degree}$ en alta frecuencia, comportamiento simétrico (en escala
@@ -375,8 +358,7 @@ aproximadamente
   f_{BW} \approx \frac{\text{GBW}}{G} = \frac{\SI{3}{\mega\hertz}}{3{,}5} \approx \SI{857}{\kilo\hertz}
 \end{equation}
 apenas 27 veces la frecuencia de corte. Además, el desfasaje introducido por el operacional modifica la
-realimentación positiva de la celda y, dada la alta sensibilidad $S_G^{Q_2} = 3{,}45$, altera los polos también
-dentro de la banda de paso. Los resultados de la simulación con TL084 son:
+realimentación positiva de la celda y altera los polos también dentro de la banda de paso. Los resultados de la simulación con TL084 son:
 \begin{itemize}
   \item Ganancia máxima $G_{\max} = \SI{20.75}{\decibel}$ en $\SI{48.7}{\kilo\hertz}$, es decir
     $\SI{1.01}{\decibel}$ por debajo de la ganancia nominal $K$; en $\SI{200}{\kilo\hertz}$ el módulo ya cae a

@@ -109,18 +109,6 @@ Reemplazando los valores numéricos de diseño:
   \label{eq:pb-transferencia-num}
 \end{equation}
 
-Verificación analítica de atenuaciones:
-\begin{itemize}
-  \item En $f_p = \SI{5.5}{\kilo\hertz}$: $\alpha(f_p) = \SI{1.500}{\decibel} \implies
-    |H(f_p)| = 12{,}041 - 1{,}500 = \SI{10.541}{\decibel}$.
-  \item En $f_c = \SI{6.144}{\kilo\hertz}$: $\alpha(f_c) = \SI{3.010}{\decibel} \implies
-    |H(f_c)| = 12{,}041 - 3{,}010 = \SI{9.031}{\decibel}$.
-  \item En $2f_p = \SI{11}{\kilo\hertz}$: $\alpha(2f_p) = \SI{20.278}{\decibel} \implies
-    |H(2f_p)| = -\SI{8.237}{\decibel}$.
-  \item En $10f_p = \SI{55}{\kilo\hertz}$: $\alpha(10f_p) = \SI{76.155}{\decibel} \implies
-    |H(10f_p)| = -\SI{64.113}{\decibel}$.
-\end{itemize}
-
 \subsection{Cálculo de las etapas Sallen-Key}
 \label{subsec:pb-etapas}
 
@@ -168,8 +156,7 @@ $Q_p$ se reformula como una ecuación cuadrática en $x$:
   \label{eq:pb-cuadratica}
 \end{equation}
 
-Para minimizar la sensibilidad de $Q_p$ respecto de tolerancias de componentes, se eligen capacitores comerciales de
-poliéster metalizado MKT de la serie E6 con relaciones $n = C_2 / C_1$:
+Se eligen capacitores comerciales de poliéster metalizado MKT de la serie E6 con relaciones $n = C_2 / C_1$:
 
 \subsubsection{Cálculo de la Celda 1 ($Q_1 = 0{,}5412$, $G_1 = 2$)}
 
@@ -217,6 +204,9 @@ carga de salida $R_b = \SI{10}{\kilo\ohm}$ (película metálica $\SI{1}{\percent
 \begin{equation}
   R_{a1} = R_{b1} = R_{a2} = R_{b2} = \SI{10}{\kilo\ohm}
 \end{equation}
+En cuanto a la estabilidad, de \eqref{eq:pb-sk-prop} cada celda se vuelve inestable recién cuando se anula el
+denominador de $Q_p$, es decir para $G_{osc} = 1 + (m + 1)/(m n)$, que vale 5,72 en la celda 1 y 2,98 en la celda 2;
+con $G = 2$ ambas operan con margen suficiente.
 
 \subsection{Valores comerciales}
 \label{subsec:pb-comerciales}
@@ -315,26 +305,6 @@ $|H| = \SI{9.03}{\decibel}$) se ubica en $f_c = \SI{6140}{\hertz}$, prácticamen
 ($\SI{6144}{\hertz}$). La elevada impedancia de entrada de la etapa JFET ($R_{\text{in}} \approx \SI{1}{\tera\ohm}$)
 y su producto GBW de $\SI{3}{\mega\hertz}$ garantizan que el comportamiento del filtro no se vea degradado por
 corrientes de polarización ni por retardo de fase parásito en el rango de audio considerado.
-
-\subsection{Análisis de sensibilidad}
-\label{subsec:pb-sensibilidad}
-
-Se analizó la sensibilidad analítica de los parámetros $\omega_0$ y $Q_p$ frente a cada componente:
-\begin{equation}
-  S_{R_1}^{\omega_0} = S_{R_2}^{\omega_0} = S_{C_1}^{\omega_0} = S_{C_2}^{\omega_0} = -0{,}50
-\end{equation}
-Para los factores de calidad, las sensibilidades son:
-\begin{itemize}
-  \item Celda 1 ($Q_1 = 0{,}5412$): $S_{R_1}^{Q_1} = +0{,}59$, $S_{R_2}^{Q_1} = -0{,}59$,
-    $S_{C_1}^{Q_1} = -0{,}77$, $S_{C_2}^{Q_1} = +0{,}77$, $S_{R_a}^{Q_1} = -0{,}27$, $S_{R_b}^{Q_1} = +0{,}27$.
-  \item Celda 2 ($Q_2 = 1{,}3066$): $S_{R_3}^{Q_2} = +1{,}18$, $S_{R_4}^{Q_2} = -1{,}18$,
-    $S_{C_3}^{Q_2} = -1{,}52$, $S_{C_4}^{Q_2} = +1{,}52$, $S_{R_a}^{Q_2} = -1{,}02$, $S_{R_b}^{Q_2} = +1{,}02$.
-\end{itemize}
-
-Las sensibilidades de la celda 2 superan la unidad en módulo, por lo que es la etapa más afectada por la dispersión de
-los componentes; en particular, $Q_2$ resulta más sensible a los capacitores que a los resistores. Se recomienda medir
-previamente con capacímetro los componentes pasivos antes del soldado para aproximar los valores a sus centros
-nominales.
 
 \section{Implementación y mediciones}
 \label{sec:pb-mediciones}

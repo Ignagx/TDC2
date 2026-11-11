@@ -4,84 +4,309 @@
 \section{Especificaciones}
 \label{sec:pbd-especificaciones}
 
+De acuerdo con la planilla de asignación de filtros de la cátedra para el Grupo 2, el filtro pasa banda activo debe
+satisfacer los requerimientos de la tabla~\ref{tab:pbd-especificaciones}. Por coherencia con los filtros pasa bajos y
+pasa altos (capítulos~\ref{chap:pasa-bajos} y~\ref{chap:pasa-altos}), se emplea el amplificador operacional TL084
+alimentado con fuente simétrica de $\pm\SI{15}{\volt}$.
+
 \begin{table}[!ht]
   \centering
   \begin{tabular}{|l|c|}
     \hline
     Parámetro & Valor \\
     \hline
-    Orden & 2 \\
-    Atenuación máxima en banda de paso $A_{\max}$ & $\SI{0.1}{\decibel}$ \\
-    Frecuencia central $f_o$ & $\SI{28}{\kilo\hertz}$ \\
-    Ancho de banda $BW = f_{p2} - f_{p1}$ & $\SI{1.7}{\kilo\hertz}$ \\
-    Ganancia en banda de paso & $\SI{9}{\volt/\volt}$ \\
     Aproximación & Butterworth \\
-    Topología & Sallen-Key \\
+    Orden ($n$) & 2 \\
+    Topología & Sallen-Key (celda no inversora) \\
+    Atenuación máxima en banda de paso ($A_{\max}$) & $\SI{0.1}{\decibel}$ \\
+    Frecuencia central ($f_0$) & $\SI{28}{\kilo\hertz}$ \\
+    Ancho de banda de paso ($BW = f_{p2} - f_{p1}$) & $\SI{1.7}{\kilo\hertz}$ \\
+    Ganancia central ($K$) & $\SI{9}{\volt/\volt}$ ($\SI{19.08}{\decibel}$) \\
+    Tensión de alimentación & Simétrica $\pm\SI{15}{\volt}$ \\
+    Amplificador operacional & TL084 (cuádruple JFET) \\
     \hline
   \end{tabular}
-  \caption{Especificaciones del filtro pasa banda.}
+  \caption{Especificaciones de diseño del filtro pasa banda (Grupo 2).}
   \label{tab:pbd-especificaciones}
 \end{table}
+
+Siguiendo el mismo criterio adoptado para la frecuencia de paso $f_p$ de los filtros pasa bajos y pasa altos, las
+frecuencias $f_{p1}$ y $f_{p2}$ que delimitan el ancho de banda son aquellas en las que la atenuación respecto de la
+ganancia central vale exactamente $A_{\max} = \SI{0.1}{\decibel}$. Es decir, la especificación exige que entre
+$f_{p1}$ y $f_{p2}$, con $f_{p2} - f_{p1} = \SI{1.7}{\kilo\hertz}$, el módulo de la transferencia no se aparte en
+más de $\SI{0.1}{\decibel}$ de su valor en $f_0$. Esta es también la forma en que se especifica el filtro pasa banda
+en el ejemplo~10.3 de la bibliografía de la cátedra~\cite[sección~10.5.3]{barbero2024}. El ancho
+de banda a $\SI{-3}{\decibel}$ no es un dato sino un resultado del diseño.
 
 \section{Diseño}
 \label{sec:pbd-diseno}
 
-\subsection{Factor de calidad y función de transferencia}
-\label{subsec:pbd-q}
+\subsection{Factor de rizado y prototipo pasa bajos}
+\label{subsec:pbd-prototipo}
 
-Un pasa banda de segundo orden queda definido por su frecuencia central y su factor de calidad
+El filtro pasa banda de orden 2 se obtiene a partir de un prototipo pasa bajos de orden 1 mediante la transformación
+pasa bajos--pasa banda. Normalizando el prototipo respecto de la pulsación de paso, la función de atenuación de
+Butterworth de orden $n = 1$ es:
 \begin{equation}
-  Q = \frac{f_o}{BW}
-  \label{eq:pbd-q}
+  \alpha(\Omega) = 10 \log_{10} \left( 1 + \varepsilon^2\,\Omega^2 \right)
+  \label{eq:pbd-atenuacion-pb}
 \end{equation}
-y su función de transferencia es
+El factor $\varepsilon$ se calcula exigiendo que en el borde de la banda de paso ($\Omega = 1$) la atenuación sea
+$A_{\max} = \SI{0.1}{\decibel}$:
 \begin{equation}
-  H(s) = \frac{A_m \, \dfrac{\omega_0}{Q} \, s}{s^2 + \dfrac{\omega_0}{Q} s + \omega_0^2}
-  \label{eq:pbd-hs}
+  10 \log_{10} \left( 1 + \varepsilon^2 \right) = A_{\max} \implies
+  \varepsilon = \sqrt{10^{0{,}1 \cdot A_{\max}} - 1} = \sqrt{10^{0{,}01} - 1} = 0{,}15262
+  \label{eq:pbd-epsilon}
 \end{equation}
 
-% TODO: calcular Q y discutir la sensibilidad de la topología Sallen-Key para Q elevados (la ganancia interna K se
-% acerca a 3 y el circuito se vuelve muy sensible a las tolerancias). Relacionar A_max con el ancho de banda definido
-% a -A_max dB en lugar de -3 dB si corresponde.
+La transferencia del prototipo, con polo en $\Omega = 1/\varepsilon$ y ganancia unitaria en continua, resulta:
+\begin{equation}
+  H_{PB}(S) = \frac{1}{1 + \varepsilon\,S}
+  \label{eq:pbd-prototipo}
+\end{equation}
+Por tratarse de orden 1, cualquier aproximación (Butterworth, Chebyshev, etc.) conduce a la misma transferencia; la
+aproximación sólo determina la ubicación del polo a través de $\varepsilon$.
 
-\subsection{Cálculo de la etapa Sallen-Key}
-\label{subsec:pbd-etapa}
+\subsection{Transformación pasa bajos -- pasa banda}
+\label{subsec:pbd-transformacion}
 
-Para la topología de la figura~\ref{crkt:sk-pasa-banda}, con $R_1 = R_3 = R$, $R_2 = 2R$ y $C_1 = C_2 = C$,
-se tiene
-\begin{align*}
-  \omega_0 &= \frac{1}{R C} \\
-  Q &= \frac{1}{3 - K} \\
-  A_m &= \frac{K}{3 - K}
-\end{align*}
-con $K = 1 + R_b / R_a$.
+Se aplica la transformación
+\begin{equation}
+  S \rightarrow \frac{s^2 + \omega_0^2}{s\,\Delta\omega_p}, \qquad
+  \omega_0 = 2\pi f_0, \qquad \Delta\omega_p = 2\pi\,(f_{p2} - f_{p1}) = 2\pi\,BW
+  \label{eq:pbd-transformacion}
+\end{equation}
+que lleva el borde $\Omega = 1$ del prototipo a las frecuencias $f_{p1}$ y $f_{p2}$ del pasa banda. Reemplazando en
+\eqref{eq:pbd-prototipo} y multiplicando numerador y denominador por $s\,\Delta\omega_p / \varepsilon$:
+\begin{equation}
+  H(s) = \frac{1}{1 + \varepsilon\,\dfrac{s^2 + \omega_0^2}{s\,\Delta\omega_p}}
+  = \frac{\dfrac{\Delta\omega_p}{\varepsilon}\,s}{s^2 + \dfrac{\Delta\omega_p}{\varepsilon}\,s + \omega_0^2}
+\end{equation}
+que, afectada de la ganancia central $K$, tiene la forma canónica del pasa banda de segundo orden:
+\begin{equation}
+  H(s) = \frac{K\,\dfrac{\omega_0}{Q_p}\,s}{s^2 + \dfrac{\omega_0}{Q_p}\,s + \omega_0^2}
+  \label{eq:pbd-canonica}
+\end{equation}
+Identificando coeficientes, $\omega_0 / Q_p = \Delta\omega_p / \varepsilon$, por lo que el factor de calidad del par
+de polos y el ancho de banda a $\SI{-3}{\decibel}$ son:
+\begin{equation}
+  Q_p = \varepsilon\,\frac{f_0}{BW} = 0{,}15262 \cdot \frac{\SI{28}{\kilo\hertz}}{\SI{1.7}{\kilo\hertz}}
+  = 2{,}5137, \qquad\qquad
+  BW_{\SI{3}{\decibel}} = \frac{f_0}{Q_p} = \frac{BW}{\varepsilon} = \SI{11138.75}{\hertz}
+  \label{eq:pbd-qp}
+\end{equation}
+El valor de $Q_p$ es moderado: el mismo ancho de banda medido a $\SI{-3}{\decibel}$ hubiese requerido
+$Q_p = 16{,}47$. Que la banda de paso se defina con una atenuación tan pequeña como $\SI{0.1}{\decibel}$ hace que la
+banda a $\SI{-3}{\decibel}$ resulte $1/\varepsilon = 6{,}55$ veces más ancha.
+
+Los parámetros numéricos de la transferencia deseada son:
+\begin{gather*}
+  \omega_0 = 2\pi \cdot \SI{28}{\kilo\hertz} = \SI{175929.19}{\radian/\second}, \qquad
+  \frac{\omega_0}{Q_p} = \SI{69986.80}{\radian/\second} \\
+  \omega_0^2 = \SI{3.09511e10}{\radian^2/\second^2}, \qquad
+  K\,\frac{\omega_0}{Q_p} = 9 \cdot \SI{69986.80}{\radian/\second} = \SI{6.29881e5}{\radian/\second}
+\end{gather*}
+con lo cual:
+\begin{equation}
+  H(s) = \frac{6{,}2988 \times 10^5\,s}{s^2 + 6{,}9987 \times 10^4\,s + 3{,}0951 \times 10^{10}}
+  \label{eq:pbd-transferencia-num}
+\end{equation}
+Los polos son las raíces del denominador:
+\begin{equation}
+  p_{1,2} = -\frac{\omega_0}{2 Q_p} \pm j\,\omega_0 \sqrt{1 - \frac{1}{4 Q_p^2}}
+  = -\num{34993.40} \pm j\,\num{172413.87} \ \si{\radian/\second}
+\end{equation}
+y la transferencia posee un cero en el origen y otro en el infinito, de modo que las asíntotas son de
+$\pm\SI{20}{\decibel/\text{década}}$ a ambos lados de $f_0$.
+
+\subsection{Elección de la topología}
+\label{subsec:pbd-topologia}
+
+Para un pasa banda de bajo $Q$ suele resultar conveniente la cascada de un pasa altos y un pasa bajos. En este caso,
+sin embargo, el orden total es 2: la cascada de un pasa altos y un pasa bajos de primer orden produce un par de polos
+reales, con $Q_p \le 0{,}5$, insuficiente para $Q_p = 2{,}51$. Es necesario entonces un par de polos complejos
+conjugados, que se obtiene con la celda Sallen-Key pasa banda de segundo orden.
+
+La configuración Sallen-Key pasa banda más directa (resistor serie, capacitor serie, resistor a masa en el nodo no
+inversor y capacitor de realimentación) no es aplicable: al analizarla, el coeficiente de $s^2$ del denominador
+resulta proporcional a $(1 - G)$, que es negativo para la ganancia $G > 1$ que se necesita. Esto implica polos en el
+semiplano derecho y, por lo tanto, un circuito inestable. Se adopta por ello la celda Sallen-Key pasa banda
+\emph{topología I} de la bibliografía de la cátedra~\cite{barbero2024}, presentada en la figura~\ref{crkt:pbd-sk}.
 
 \begin{figure}[!ht]
   \centering
-  \input{figures/sallen-key-pasa-banda.tex}
-  \caption{Etapa Sallen-Key pasa banda de segundo orden con ganancia $K$.}
-  \label{crkt:sk-pasa-banda}
+  \input{figures/sallen-key-pasa-banda-topologia-i.tex}
+  \caption{Celda Sallen-Key pasa banda (topología I) con ganancia no inversora $G = 1 + R_b / R_a$.}
+  \label{crkt:pbd-sk}
 \end{figure}
 
-% TODO: desarrollar el cálculo de R, C, R_a y R_b. Si la ganancia A_m resultante no coincide con los 9 V/V pedidos,
-% proponer un atenuador o una etapa de ganancia adicional y justificarlo.
+\subsection{Cálculo de la celda Sallen-Key}
+\label{subsec:pbd-celda}
+
+Aplicando la primera ley de Kirchhoff en los nodos $u_f$ y $u_+$, con $V_o = G\,u_+$:
+\begin{align*}
+  \frac{u_f - V_i}{R_1} + s C_1\,u_f + \frac{u_f - V_o}{R_f} + s C_2\,(u_f - u_+) &= 0 \\
+  s C_2\,(u_+ - u_f) + \frac{u_+}{R_2} &= 0 \implies u_f = u_+ \left( 1 + \frac{1}{s C_2 R_2} \right)
+\end{align*}
+Eliminando $u_f$ y $u_+$ se obtiene la transferencia de la celda:
+\begin{equation}
+  \frac{V_o}{V_i}(s) = \frac{\dfrac{G}{R_1 C_1}\,s}{s^2 + \left[ \dfrac{1 - G}{R_f C_1} + \dfrac{1}{R_1 C_1}
+    + \dfrac{1}{R_2 C_1} + \dfrac{1}{R_2 C_2} \right] s + \dfrac{R_1 + R_f}{R_1 R_2 R_f C_1 C_2}}
+  \label{eq:pbd-sk-h}
+\end{equation}
+Comparando con \eqref{eq:pbd-canonica}:
+\begin{gather}
+  \omega_0^2 = \frac{R_1 + R_f}{R_1 R_2 R_f C_1 C_2}, \qquad
+  \frac{\omega_0}{Q_p} = \frac{1 - G}{R_f C_1} + \frac{1}{R_1 C_1} + \frac{1}{R_2 C_1} + \frac{1}{R_2 C_2},
+  \nonumber \\
+  K = \frac{G}{R_1 C_1} \cdot \frac{Q_p}{\omega_0}
+  \label{eq:pbd-sk-parametros}
+\end{gather}
+A diferencia del pasa bajos y del pasa altos, la ganancia $G$ del amplificador no coincide con la ganancia $K$ del
+filtro en el centro de la banda: el término $(1 - G)/(R_f C_1)$ reduce el amortiguamiento, eleva $Q_p$ y con él la
+ganancia central.
+
+Como hay seis incógnitas ($R_1, R_2, R_f, C_1, C_2, G$) para tres ecuaciones ($\omega_0$, $Q_p$ y $K$), se adopta
+la parametrización propuesta en la bibliografía:
+\begin{equation}
+  R_1 = R_f = R, \qquad R_2 = m R, \qquad C_1 = C_2 = C
+\end{equation}
+con la cual \eqref{eq:pbd-sk-parametros} queda:
+\begin{equation}
+  \omega_0 = \frac{1}{R C}\sqrt{\frac{2}{m}}, \qquad\qquad
+  Q_p = \frac{\sqrt{2 m}}{m\,(2 - G) + 2}, \qquad\qquad
+  K = G\,Q_p\,\sqrt{\frac{m}{2}}
+  \label{eq:pbd-sk-prop}
+\end{equation}
+
+\subsubsection{Elección de $m$ para obtener la ganancia especificada}
+
+En el procedimiento de la bibliografía se fija $m$ (por ejemplo $m = 1{,}5$) y la ganancia central $K$ resulta un
+dato derivado. Con esa elección se obtiene $K = \SI{6.26}{\volt/\volt}$, inferior a la especificada. En lugar de
+agregar una segunda etapa de ganancia, se aprovecha el grado de libertad $m$ para obtener $K = 9$ con una única celda.
+Definiendo $u = \sqrt{2/m}$, de \eqref{eq:pbd-sk-prop}:
+\begin{equation}
+  Q_p = \frac{u}{2 - G + u^2} \implies G = 2 + u^2 - \frac{u}{Q_p}
+  \label{eq:pbd-g}
+\end{equation}
+y reemplazando en $K = G\,Q_p / u$:
+\begin{equation}
+  K = Q_p\,\frac{2 + u^2}{u} - 1 \implies u^2 - \frac{K + 1}{Q_p}\,u + 2 = 0
+  \label{eq:pbd-cuadratica}
+\end{equation}
+Con $K = 9$ y $Q_p = 2{,}5137$:
+\begin{equation}
+  u^2 - 3{,}9781\,u + 2 = 0 \implies
+  \begin{cases}
+    u = 0{,}59036 \implies m = 5{,}7385, \quad G = 2{,}1137 \\
+    u = 3{,}38776 \implies m = 0{,}1743, \quad G = 12{,}129
+  \end{cases}
+\end{equation}
+Se adopta la primera solución, que requiere una ganancia del amplificador mucho menor y una relación de resistores
+razonable:
+\begin{equation}
+  m = 5{,}7385, \qquad G = 2{,}11367 \quad \left( R_b / R_a = 1{,}11367 \right)
+  \label{eq:pbd-m-g}
+\end{equation}
+
+\subsubsection{Estabilidad}
+
+La celda se vuelve inestable cuando el coeficiente de $s$ se anula, lo que de \eqref{eq:pbd-sk-parametros} ocurre
+para
+\begin{equation}
+  G_{osc} = 1 + \frac{R_f}{R_1} + \frac{R_f}{R_2} + \frac{R_f C_1}{R_2 C_2} = 2 + \frac{2}{m} = 2{,}3485
+\end{equation}
+La ganancia adoptada queda un $\SI{10}{\percent}$ por debajo de este límite ($G / G_{osc} = 0{,}900$).
+
+\subsubsection{Cálculo de $R$, $R_2$, $R_a$ y $R_b$}
+
+De \eqref{eq:pbd-sk-prop}, $R = u / (\omega_0 C)$. La tabla~\ref{tab:pbd-barrido-c} muestra los valores obtenidos
+para distintos capacitores de la serie E6. Se adopta $C = \SI{1.5}{\nano\farad}$, porque es el valor cuyos resistores
+resultantes se aproximan mejor a valores normalizados (ver sección~\ref{subsec:pbd-comerciales}).
+
+\begin{table}[!ht]
+  \centering
+  \begin{tabular}{|c|c|c|}
+    \hline
+    $C$ [\si{\nano\farad}] & $R_1 = R_f = R$ [\si{\ohm}] & $R_2 = m R$ [\si{\ohm}] \\
+    \hline
+    1,0 & 3355,67 & 19256,40 \\
+    1,5 & 2237,11 & 12837,60 \\
+    2,2 & 1525,30 & 8752,91 \\
+    3,3 & 1016,87 & 5835,27 \\
+    4,7 & 713,97 & 4097,11 \\
+    \hline
+  \end{tabular}
+  \caption{Resistores de la celda para distintos valores de $C$ ($m = 5{,}7385$, $f_0 = \SI{28}{\kilo\hertz}$).}
+  \label{tab:pbd-barrido-c}
+\end{table}
+
+Con $C = \SI{1.5}{\nano\farad}$:
+\begin{align*}
+  R_1 = R_f = R &= \frac{u}{\omega_0 C} = \frac{0{,}59036}{\SI{175929.19}{\radian/\second} \cdot
+    \SI{1.5}{\nano\farad}} = \SI{2237.11}{\ohm} \\
+  R_2 &= m R = 5{,}7385 \cdot \SI{2237.11}{\ohm} = \SI{12837.60}{\ohm}
+\end{align*}
+y fijando $R_a = \SI{5.6}{\kilo\ohm}$:
+\begin{equation}
+  R_b = (G - 1)\,R_a = 1{,}11367 \cdot \SI{5.6}{\kilo\ohm} = \SI{6236.57}{\ohm}
+\end{equation}
+
+Reemplazando estos valores en \eqref{eq:pbd-sk-h} se obtienen exactamente los coeficientes de
+\eqref{eq:pbd-transferencia-num}: $G/(R_1 C_1) = \SI{6.29881e5}{\per\second}$,
+$\omega_0/Q_p = \SI{6.99868e4}{\per\second}$ y $\omega_0^2 = \SI{3.09511e10}{\per\second\squared}$, es decir
+$f_0 = \SI{28000.0}{\hertz}$, $Q_p = 2{,}5137$ y $K = \SI{9.000}{\volt/\volt}$.
 
 \subsection{Valores comerciales}
 \label{subsec:pbd-comerciales}
+
+Se seleccionan resistores de película metálica de la serie E24 ($\SI{1}{\percent}$) y capacitores de poliéster de la
+serie E6 ($\SI{5}{\percent}$). Siguiendo el procedimiento de la bibliografía, primero se normalizan los elementos que
+fijan $\omega_0$ y luego se recalcula la ganancia $G$ necesaria para el $Q_p$ especificado con los valores ya
+normalizados:
+\begin{itemize}
+  \item $R_1 = R_f = \SI{2237.11}{\ohm} \rightarrow \SI{2.2}{\kilo\ohm}$ ($-\SI{1.66}{\percent}$) y
+    $R_2 = \SI{12837.60}{\ohm} \rightarrow \SI{13}{\kilo\ohm}$ ($+\SI{1.27}{\percent}$), con lo cual
+    $m_S = R_2 / R_1 = 5{,}9091$ y $f_{0S} = \SI{28058.27}{\hertz}$ ($+\SI{0.21}{\percent}$).
+  \item Ganancia requerida: $G = 2 + \dfrac{2}{m_S} - \dfrac{1}{Q_p}\sqrt{\dfrac{2}{m_S}} = 2{,}10702$, que con
+    $R_a = \SI{5.6}{\kilo\ohm}$ exige $R_b = \SI{6199.34}{\ohm} \rightarrow \SI{6.2}{\kilo\ohm}$, es decir
+    $G_S = 2{,}10714$ ($+\SI{0.006}{\percent}$).
+\end{itemize}
+
+Recalculando con \eqref{eq:pbd-sk-parametros} y los valores comerciales:
+\begin{equation}
+  H_{com}(s) = \frac{6{,}3853 \times 10^5\,s}{s^2 + 7{,}0097 \times 10^4\,s + 3{,}1080 \times 10^{10}}
+\end{equation}
+\begin{itemize}
+  \item $f_0 = \SI{28058.27}{\hertz}$ ($+\SI{0.21}{\percent}$) y $Q_p = 2{,}5150$ ($+\SI{0.05}{\percent}$).
+  \item $K = \SI{9.109}{\volt/\volt}$ ($\SI{19.190}{\decibel}$, $+\SI{1.21}{\percent}$, $+\SI{0.105}{\decibel}$).
+  \item $f_{p1} = \SI{27219.85}{\hertz}$, $f_{p2} = \SI{28922.51}{\hertz}$, $BW = \SI{1702.67}{\hertz}$
+    ($+\SI{0.16}{\percent}$).
+  \item $f_{c1} = \SI{23029.26}{\hertz}$, $f_{c2} = \SI{34185.48}{\hertz}$,
+    $BW_{\SI{3}{\decibel}} = \SI{11156.22}{\hertz}$ ($+\SI{0.16}{\percent}$).
+\end{itemize}
+Con amplificador ideal, los valores comerciales prácticamente reproducen el diseño; la ganancia central resulta un
+$\SI{1.2}{\percent}$ mayor.
+
+La tabla~\ref{tab:pbd-componentes} resume los valores calculados y comerciales.
 
 \begin{table}[!ht]
   \centering
   \begin{tabular}{|l|c|c|}
     \hline
-    Componente & Calculado & Comercial \\
+    Componente & Calculado & Comercial (Tol.) \\
     \hline
-    $R_1$ & & \\
-    $R_2$ & & \\
-    $R_3$ & & \\
-    $C_1$ & & \\
-    $C_2$ & & \\
-    $R_a$ & & \\
-    $R_b$ & & \\
+    $R_1$ & $\SI{2237.11}{\ohm}$ & $\SI{2.2}{\kilo\ohm}$ ($\SI{1}{\percent}$) \\
+    $R_f$ & $\SI{2237.11}{\ohm}$ & $\SI{2.2}{\kilo\ohm}$ ($\SI{1}{\percent}$) \\
+    $R_2$ & $\SI{12837.60}{\ohm}$ & $\SI{13}{\kilo\ohm}$ ($\SI{1}{\percent}$) \\
+    $C_1$ / $C_2$ & $\SI{1.5}{\nano\farad}$ & $\SI{1.5}{\nano\farad}$ ($\SI{5}{\percent}$) \\
+    $R_a$ & $\SI{5.6}{\kilo\ohm}$ & $\SI{5.6}{\kilo\ohm}$ ($\SI{1}{\percent}$) \\
+    $R_b$ & $\SI{6236.57}{\ohm}$ & $\SI{6.2}{\kilo\ohm}$ ($\SI{1}{\percent}$) \\
+    \hline
+    $G = 1 + R_b/R_a$ & 2,11367 & 2,10714 \\
+    $f_0$ (AO ideal) & $\SI{28000.0}{\hertz}$ & $\SI{28058.3}{\hertz}$ \\
+    $Q_p$ (AO ideal) & 2,5137 & 2,5150 \\
+    $K$ (AO ideal) & $\SI{9.000}{\volt/\volt}$ & $\SI{9.109}{\volt/\volt}$ \\
     \hline
   \end{tabular}
   \caption{Valores calculados y comerciales del filtro pasa banda.}
@@ -91,35 +316,130 @@ con $K = 1 + R_b / R_a$.
 \section{Simulación}
 \label{sec:pbd-simulacion}
 
+\subsection{Circuitos simulados}
+\label{subsec:pbd-sim-circuitos}
+
+Se realizaron las siguientes simulaciones en LTspice, todas con fuente de excitación de amplitud unitaria
+(\texttt{AC 1}) y análisis \texttt{.ac} logarítmico de 2000 puntos por década entre $\SI{100}{\hertz}$ y
+$\SI{10}{\mega\hertz}$. La resolución es mayor que en el pasa altos porque la medición de los puntos de
+$\SI{-0.1}{\decibel}$ cae sobre la zona más plana de la curva:
+\begin{itemize}
+  \item \texttt{PasaBanda\_Ideal\_vs\_Comercial.cir}: el filtro con valores calculados y comerciales, empleando un
+    operacional ideal (fuente controlada de ganancia $10^7$ y $R_{in} = \SI{1}{\tera\ohm}$).
+  \item \texttt{Filtro\_PasaBanda\_Orden2\_Grupo2.asc}: valores comerciales y macromodelo TL084 de
+    Texas Instruments a $\pm\SI{15}{\volt}$.
+\end{itemize}
+Los resultados se procesaron con el script \texttt{analisis\_pasa\_banda.py}, que superpone las curvas simuladas con la
+respuesta teórica \eqref{eq:pbd-canonica} y mide las frecuencias características mediante interpolación logarítmica.
+Los valores de diseño se calcularon con el script \texttt{diseno\_pasa\_banda.py}. Ambos están en
+\texttt{sources/sim/}.
+
 \subsection{Función de transferencia con elementos ideales}
 \label{subsec:pbd-sim-ideal}
 
-% TODO: diagrama de Bode (módulo y fase) con los valores calculados.
+En la figura~\ref{fig:pbd-bode} se presenta el diagrama de Bode de módulo y fase de todas las simulaciones junto con
+la respuesta teórica.
 
-\subsection{Función de transferencia con valores comerciales}
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=0.92\textwidth]{images/fig7_pbd_bode_comparativo}
+  \caption{Diagrama de Bode de magnitud y fase del filtro pasa banda: respuesta teórica, valores calculados y
+    comerciales con operacional ideal, y valores comerciales con TL084.}
+  \label{fig:pbd-bode}
+\end{figure}
+
+Con los valores calculados y operacional ideal, la curva simulada se superpone exactamente con la teórica. La ganancia
+máxima es de $\SI{19.085}{\decibel}$ ($\SI{9.000}{\volt/\volt}$) en $f_0 = \SI{28.000}{\kilo\hertz}$, los puntos de
+$\SI{-0.1}{\decibel}$ se miden en $f_{p1} = \SI{27162.9}{\hertz}$ y $f_{p2} = \SI{28862.8}{\hertz}$
+($BW = \SI{1700.0}{\hertz}$) y los de $\SI{-3}{\decibel}$ en $f_{c1} = \SI{22979.1}{\hertz}$ y
+$f_{c2} = \SI{34117.9}{\hertz}$, en acuerdo con el diseño. Fuera de la banda, las
+pendientes son de $\pm\SI{20}{\decibel/\text{década}}$ y los módulos en $f_0/10$ y $10 f_0$ valen
+$-\SI{8.84}{\decibel}$. La fase parte de $+\SI{90}{\degree}$ (cero en el
+origen), vale $+\SI{45}{\degree}$ en $f_{c1}$, $\SI{0}{\degree}$ en $f_0$ y $-\SI{45}{\degree}$ en $f_{c2}$, y tiende
+a $-\SI{90}{\degree}$ en alta frecuencia.
+
+Con valores comerciales y operacional ideal se obtiene $f_0 = \SI{28058.3}{\hertz}$ ($+\SI{0.21}{\percent}$),
+$Q_p = 2{,}5150$ y $BW = \SI{1702.4}{\hertz}$ ($+\SI{0.14}{\percent}$), y la ganancia máxima sube a
+$\SI{19.190}{\decibel}$ ($\SI{9.109}{\volt/\volt}$), en acuerdo con el recálculo de la
+sección~\ref{subsec:pbd-comerciales}. El leve corrimiento de $f_0$ hace que la atenuación máxima dentro de la banda
+especificada, de $\SI{27162.9}{\hertz}$ a $\SI{28862.9}{\hertz}$, sea de $\SI{0.114}{\decibel}$.
+
+\subsection{Función de transferencia con valores comerciales y macromodelo TL084}
 \label{subsec:pbd-sim-real}
 
-% TODO: repetir con los valores comerciales y con el modelo real del operacional; comparar f_o, BW y ganancia.
+La figura~\ref{fig:pbd-zoom-banda} muestra el detalle de la banda de paso, con la banda especificada sombreada. La
+tabla~\ref{tab:pbd-resultados} resume las magnitudes medidas en cada simulación.
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=0.92\textwidth]{images/fig8_pbd_zoom_banda_paso}
+  \caption{Detalle ampliado de la banda de paso del filtro pasa banda. La zona sombreada corresponde a la banda
+    especificada $[f_{p1}; f_{p2}]$, dentro de la cual la atenuación no debe superar $A_{\max} = \SI{0.1}{\decibel}$.}
+  \label{fig:pbd-zoom-banda}
+\end{figure}
+
+\begin{table}[!ht]
+  \centering
+  \resizebox{\textwidth}{!}{%
+  \begin{tabular}{|l|c|c|c|c|c|c|c|}
+    \hline
+    Simulación & $G_{\max}$ [\si{\decibel}] & $f_0$ [\si{\hertz}] & $Q_p$ & $f_{p1}$ [\si{\hertz}]
+      & $f_{p2}$ [\si{\hertz}] & $BW$ [\si{\hertz}] & $A$ en banda esp. [\si{\decibel}] \\
+    \hline
+    Especificación / teórica & 19,085 & 28000,0 & 2,5137 & 27162,9 & 28862,9 & 1700,0 & 0,100 \\
+    Calculados, AO ideal & 19,085 & 28000,0 & 2,5137 & 27162,9 & 28862,8 & 1700,0 & 0,100 \\
+    Comerciales, AO ideal & 19,190 & 28058,3 & 2,5150 & 27219,9 & 28922,4 & 1702,4 & 0,114 \\
+    Comerciales, TL084 & 19,181 & 27182,0 & 2,5933 & 26394,0 & 27993,8 & 1599,9 & 0,402 \\
+    \hline
+  \end{tabular}%
+  }
+  \caption{Resultados de las simulaciones del filtro pasa banda. $f_0 = \sqrt{f_{c1} f_{c2}}$,
+    $Q_p = f_0 / (f_{c2} - f_{c1})$; $f_{p1}$ y $f_{p2}$ medidos a $\SI{-0.1}{\decibel}$ de $G_{\max}$; la última
+    columna es la atenuación máxima, respecto de $G_{\max}$, dentro de la banda especificada.}
+  \label{tab:pbd-resultados}
+\end{table}
+
+Con valores comerciales y el macromodelo TL084 se obtiene:
+\begin{itemize}
+  \item La frecuencia central baja a $f_0 = \SI{27182.0}{\hertz}$, un $\SI{3.1}{\percent}$ por debajo de la obtenida
+    con operacional ideal, y $Q_p$ aumenta a $2{,}593$ ($+\SI{3.1}{\percent}$).
+  \item La banda de $\SI{-0.1}{\decibel}$ se desplaza a $[\num{26394.0}; \num{27993.8}]\,\si{\hertz}$ y se angosta a
+    $\SI{1599.9}{\hertz}$ ($-\SI{5.9}{\percent}$). Dentro de la banda especificada, la atenuación alcanza
+    $\SI{0.402}{\decibel}$ en $f_{p2}$, cuatro veces $A_{\max}$, por lo que con el operacional real el filtro
+    \emph{no} cumple la especificación de atenuación en la banda de paso.
+  \item La ganancia máxima prácticamente no cambia ($\SI{19.181}{\decibel}$, $\SI{9.100}{\volt/\volt}$).
+  \item La fase en la frecuencia central es de $-\SI{0.9}{\degree}$, y en $f_{c1}$ y $f_{c2}$ es de
+    $+\SI{44.2}{\degree}$ y $-\SI{46.1}{\degree}$. Por encima de unos $\SI{100}{\kilo\hertz}$ la respuesta se aparta
+    de la ideal: la fase llega a $-\SI{123}{\degree}$ en $\SI{1}{\mega\hertz}$, frente a $-\SI{89}{\degree}$ con
+    operacional ideal, y el módulo cae $\SI{1.4}{\decibel}$ más que el ideal en $\SI{1}{\mega\hertz}$ y unos
+    $\SI{12}{\decibel}$ más en $\SI{5}{\mega\hertz}$.
+\end{itemize}
+
+\section{Análisis de resultados}
+\label{sec:pbd-analisis}
+
+\begin{itemize}
+  \item Cumplimiento teórico. El diseño con valores calculados y operacional ideal reproduce exactamente la
+    especificación: $f_0 = \SI{28}{\kilo\hertz}$, $BW = \SI{1.7}{\kilo\hertz}$ a $\SI{-0.1}{\decibel}$ y
+    $K = \SI{9}{\volt/\volt}$, verificado por simulación. La ganancia especificada se
+    obtiene con una única celda gracias a la elección de $m$, sin etapas adicionales.
+  \item Efecto de los componentes comerciales. Con valores comerciales y operacional ideal, la normalización modifica
+    $f_0$ en $+\SI{0.21}{\percent}$, $Q_p$ en $+\SI{0.05}{\percent}$ y $K$ en $+\SI{1.2}{\percent}$
+    ($+\SI{0.1}{\decibel}$), y la atenuación dentro de la banda especificada resulta de $\SI{0.114}{\decibel}$.
+  \item Operacional real. Con el macromodelo TL084, $f_0$ baja un $\SI{3}{\percent}$ y $Q_p$ sube en la misma
+    proporción, de modo que la atenuación dentro de la banda especificada llega a $\SI{0.40}{\decibel}$ y la
+    especificación de $A_{\max}$ no se cumple. La ganancia central casi no cambia ($\SI{9.100}{\volt/\volt}$).
+  \item Estabilidad. La celda opera con $G / G_{osc} = 0{,}90$, es decir, un $\SI{10}{\percent}$ por debajo de la
+    ganancia de oscilación.
+\end{itemize}
+
+En síntesis, los resultados teóricos y de simulación con elementos ideales coinciden exactamente, y los valores
+comerciales con operacional ideal reproducen el diseño con desvíos menores al $\SI{1.2}{\percent}$. Con el macromodelo
+TL084, la respuesta se desplaza y la atenuación en la banda especificada supera $A_{\max}$.
 
 \section{Implementación y mediciones}
 \label{sec:pbd-mediciones}
 
-% TODO: si este filtro es uno de los dos implementados: armado, fotos en pictures/, tabla de barrido en frecuencia,
-% captura del perfil de frecuencia (FFT) del osciloscopio y comparación medido vs. simulado. Si no se implementa,
-% indicar que se realiza en el TP de filtros digitales.
-
-\begin{table}[!ht]
-  \centering
-  \begin{tabular}{|c|c|c|c|c|}
-    \hline
-    $f$ [\si{\kilo\hertz}] & $V_{in,pp}$ [\si{\volt}] & $V_{out,pp}$ [\si{\volt}] & $|H|$ medido [\si{\decibel}]
-      & $|H|$ simulado [\si{\decibel}] \\
-    \hline
-     & & & & \\
-     & & & & \\
-     & & & & \\
-    \hline
-  \end{tabular}
-  \caption{Relevamiento de la respuesta en frecuencia del filtro pasa banda.}
-  \label{tab:pbd-barrido}
-\end{table}
+De acuerdo con la lista de materiales del anexo, los filtros implementados físicamente en este trabajo son el pasa
+bajos y el pasa altos (Placa 2). El filtro pasa banda no se implementa en esta instancia: según la consigna, el filtro
+no implementado se realizará en el trabajo práctico de filtros digitales.
