@@ -25,42 +25,42 @@ VIN  in   0 DC 0 AC 1
 * ----------------------------------------------------------------------------
 * CIRCUITO 1: IDEAL EXACTO (Valores calculados sin redondear + AO Ideal)
 * Etapa 1: Q1 = 0.541196, f0 = 6143.6965 Hz, G1 = 2
-*   C1 = 2.2 nF, C2 = 3.3 nF => R1 = 3899.07 Ohm, R2 = 23707.18 Ohm, Ra1=Rb1=10k
+*   C1 = 10 nF, C2 = 10 nF => R1 = 1401.99 Ohm, R2 = 4786.69 Ohm, Ra1=Rb1=10k
 * Etapa 2: Q2 = 1.306563, f0 = 6143.6965 Hz, G2 = 2
-*   C3 = 3.3 nF, C4 = 10.0 nF => R3 = 2013.99 Ohm, R4 = 10097.28 Ohm, Ra2=Rb2=10k
+*   C3 = 10 nF, C4 = 10 nF => R3 = 3384.70 Ohm, R4 = 1982.71 Ohm, Ra2=Rb2=10k
 * ----------------------------------------------------------------------------
-R1_id  in     n1_id   3899.07
-R2_id  n1_id  n2_id   23707.18
-C1_id  n2_id  0       2.2n
-C2_id  out1_id n1_id  3.3n
+R1_id  in     n1_id   1401.99
+R2_id  n1_id  n2_id   4786.69
+C1_id  n2_id  0       10n
+C2_id  out1_id n1_id  10n
 RA1_id inv1_id 0      10k
 RB1_id out1_id inv1_id 10k
 XU1_id n2_id  inv1_id out1_id OPAMP_IDEAL
 
-R3_id  out1_id n3_id  2013.99
-R4_id  n3_id  n4_id   10097.28
-C3_id  n4_id  0       3.3n
+R3_id  out1_id n3_id  3384.70
+R4_id  n3_id  n4_id   1982.71
+C3_id  n4_id  0       10n
 C4_id  out_id n3_id   10n
 RA2_id inv2_id 0      10k
 RB2_id out_id inv2_id 10k
 XU2_id n4_id  inv2_id out_id OPAMP_IDEAL
 
 * ----------------------------------------------------------------------------
-* CIRCUITO 2: ELEMENTOS COMERCIALES (E24 1% / Poliester E6) + AO IDEAL
-* Etapa 1: R1 = 3.9 kOhm, R2 = 24 kOhm, C1 = 2.2 nF, C2 = 3.3 nF, Ra1=Rb1=10 kOhm
-* Etapa 2: R3 = 2.0 kOhm, R4 = 10 kOhm, C3 = 3.3 nF, C4 = 10 nF,  Ra2=Rb2=10 kOhm
+* CIRCUITO 2: ELEMENTOS COMERCIALES (E24 1% / Poliester 10nF) + AO IDEAL
+* Etapa 1: R1 = 1.5 kOhm, R2 = 4.7 kOhm, C1 = 10 nF, C2 = 10 nF, Ra1=Rb1=10 kOhm
+* Etapa 2: R3 = 3.3 kOhm, R4 = 2.0 kOhm, C3 = 10 nF, C4 = 10 nF, Ra2=Rb2=10 kOhm
 * ----------------------------------------------------------------------------
-R1_ci  in     n1_ci   3.9k
-R2_ci  n1_ci  n2_ci   24k
-C1_ci  n2_ci  0       2.2n
-C2_ci  out1_ci n1_ci  3.3n
+R1_ci  in     n1_ci   1.5k
+R2_ci  n1_ci  n2_ci   4.7k
+C1_ci  n2_ci  0       10n
+C2_ci  out1_ci n1_ci  10n
 RA1_ci inv1_ci 0      10k
 RB1_ci out1_ci inv1_ci 10k
 XU1_ci n2_ci  inv1_ci out1_ci OPAMP_IDEAL
 
-R3_ci  out1_ci n3_ci  2.0k
-R4_ci  n3_ci  n4_ci   10k
-C3_ci  n4_ci  0       3.3n
+R3_ci  out1_ci n3_ci  3.3k
+R4_ci  n3_ci  n4_ci   2.0k
+C3_ci  n4_ci  0       10n
 C4_ci  out_ci n3_ci   10n
 RA2_ci inv2_ci 0      10k
 RB2_ci out_ci inv2_ci 10k
@@ -69,17 +69,17 @@ XU2_ci n4_ci  inv2_ci out_ci OPAMP_IDEAL
 * ----------------------------------------------------------------------------
 * CIRCUITO 3: ELEMENTOS COMERCIALES + MODELO REAL TL084 (+/-15V, Rload=10k)
 * ----------------------------------------------------------------------------
-R1_re  in     n1_re   3.9k
-R2_re  n1_re  n2_re   24k
-C1_re  n2_re  0       2.2n
-C2_re  out1_re n1_re  3.3n
+R1_re  in     n1_re   1.5k
+R2_re  n1_re  n2_re   4.7k
+C1_re  n2_re  0       10n
+C2_re  out1_re n1_re  10n
 RA1_re inv1_re 0      10k
 RB1_re out1_re inv1_re 10k
 XU1_re n2_re  inv1_re vcc vee out1_re TL084
 
-R3_re  out1_re n3_re  2.0k
-R4_re  n3_re  n4_re   10k
-C3_re  n4_re  0       3.3n
+R3_re  out1_re n3_re  3.3k
+R4_re  n3_re  n4_re   2.0k
+C3_re  n4_re  0       10n
 C4_re  out_re n3_re   10n
 RA2_re inv2_re 0      10k
 RB2_re out_re inv2_re 10k
@@ -89,17 +89,17 @@ RL_re  out_re 0       100k
 * ----------------------------------------------------------------------------
 * CIRCUITO 4: ELEMENTOS COMERCIALES + MODELO REAL TL084 (+/-12V)
 * ----------------------------------------------------------------------------
-R1_12  in     n1_12   3.9k
-R2_12  n1_12  n2_12   24k
-C1_12  n2_12  0       2.2n
-C2_12  out1_12 n1_12  3.3n
+R1_12  in     n1_12   1.5k
+R2_12  n1_12  n2_12   4.7k
+C1_12  n2_12  0       10n
+C2_12  out1_12 n1_12  10n
 RA1_12 inv1_12 0      10k
 RB1_12 out1_12 inv1_12 10k
 XU1_12 n2_12  inv1_12 vcc12 vee12 out1_12 TL084
 
-R3_12  out1_12 n3_12  2.0k
-R4_12  n3_12  n4_12   10k
-C3_12  n4_12  0       3.3n
+R3_12  out1_12 n3_12  3.3k
+R4_12  n3_12  n4_12   2.0k
+C3_12  n4_12  0       10n
 C4_12  out_12 n3_12   10n
 RA2_12 inv2_12 0      10k
 RB2_12 out_12 inv2_12 10k

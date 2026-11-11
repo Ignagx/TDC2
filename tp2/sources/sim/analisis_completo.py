@@ -13,9 +13,9 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SIM_DIR = os.path.join(BASE_DIR, "simulaciones")
-FIG_DIR = os.path.join(BASE_DIR, "figuras")
+AQUI = os.path.dirname(os.path.abspath(__file__))
+SIM_DIR = AQUI
+FIG_DIR = os.path.join(os.path.dirname(os.path.dirname(AQUI)), "images")
 os.makedirs(FIG_DIR, exist_ok=True)
 
 # Configuración estética de gráficas estilo ingeniería/informe académico
@@ -59,29 +59,31 @@ def solve_stage_exact(Q, G, C1, C2, wc_val):
     a = Q * (1.0 + n * (1.0 - G))
     b = -np.sqrt(n)
     c = Q
-    disc = b**2 - 4*a*c
-    # Tomamos la raíz que minimiza sensibilidad / da valores moderados de m (< 1 para n > 1)
-    xs = [(-b + s * np.sqrt(disc)) / (2.0 * a) for s in [1, -1]]
-    xs = [x for x in xs if x > 0]
-    x = min(xs)
+    if abs(a) < 1e-12:
+        x = Q / np.sqrt(n)
+    else:
+        disc = b**2 - 4*a*c
+        xs = [(-b + s * np.sqrt(disc)) / (2.0 * a) for s in [1, -1]]
+        xs = [x for x in xs if x > 0]
+        x = min(xs)
     m = x**2
     R2 = 1.0 / (wc_val * C1 * np.sqrt(m * n))
     R1 = m * R2
     return m, n, R1, R2
 
-# Etapa 1: C1 = 2.2 nF, C2 = 3.3 nF (n1 = 1.5, Tabla D-IV Apéndice D)
-C1_id, C2_id = 2.2e-9, 3.3e-9
+# Etapa 1: C1 = 10.0 nF, C2 = 10.0 nF (n1 = 1.0)
+C1_id, C2_id = 10.0e-9, 10.0e-9
 m1_id, n1_id, R1_id, R2_id = solve_stage_exact(Q1, G1, C1_id, C2_id, wc)
 Ra1_id, Rb1_id = 10e3, 10e3
 
-# Etapa 2: C3 = 3.3 nF, C4 = 10.0 nF (n2 = 3.0303, Tabla D-IV Apéndice D)
-C3_id, C4_id = 3.3e-9, 10.0e-9
+# Etapa 2: C3 = 10.0 nF, C4 = 10.0 nF (n2 = 1.0)
+C3_id, C4_id = 10.0e-9, 10.0e-9
 m2_id, n2_id, R3_id, R4_id = solve_stage_exact(Q2, G2, C3_id, C4_id, wc)
 Ra2_id, Rb2_id = 10e3, 10e3
 
-# Valores comerciales adoptados (Resistencias E24 1% metal film, Capacitores Poliéster MKT E6)
-R1_com, R2_com, C1_com, C2_com, Ra1_com, Rb1_com = 3900.0, 24000.0, 2.2e-9, 3.3e-9, 10000.0, 10000.0
-R3_com, R4_com, C3_com, C4_com, Ra2_com, Rb2_com = 2000.0, 10000.0, 3.3e-9, 10.0e-9, 10000.0, 10000.0
+# Valores comerciales adoptados (E24 1% metal film, Capacitores Poliéster MKT 10 nF 5%)
+R1_com, R2_com, C1_com, C2_com, Ra1_com, Rb1_com = 1500.0, 4700.0, 10.0e-9, 10.0e-9, 10000.0, 10000.0
+R3_com, R4_com, C3_com, C4_com, Ra2_com, Rb2_com = 3300.0, 2000.0, 10.0e-9, 10.0e-9, 10000.0, 10000.0
 
 def stage_params_and_sens(R1, R2, C1, C2, Ra, Rb):
     G = 1.0 + Rb / Ra
@@ -112,10 +114,10 @@ print(f"epsilon = {eps:.6f}")
 print(f"f_p = {fp:.2f} Hz (Amax = {Amax:.2f} dB)")
 print(f"f_C (-3 dB ideal) = {fc:.2f} Hz (wc = {wc:.2f} rad/s)")
 print(f"Etapa 1 Ideal: Q1 = {Q1:.4f}, m1 = {m1_id:.5f}, n1 = {n1_id:.4f} -> R1 = {R1_id:.2f} Ohm, R2 = {R2_id:.2f} Ohm")
-print(f"Etapa 1 Comer: R1 = {R1_com:.0f} Ohm, R2 = {R2_com:.0f} Ohm, C1 = 2.2 nF, C2 = 3.3 nF -> f01 = {f01_c:.2f} Hz, Q1 = {Q1_c:.4f}")
+print(f"Etapa 1 Comer: R1 = {R1_com:.0f} Ohm, R2 = {R2_com:.0f} Ohm, C1 = 10 nF, C2 = 10 nF -> f01 = {f01_c:.2f} Hz, Q1 = {Q1_c:.4f}")
 print(f"  Sensibilidades Q1: { {k: round(v, 4) for k, v in SQ_1.items()} }")
 print(f"Etapa 2 Ideal: Q2 = {Q2:.4f}, m2 = {m2_id:.5f}, n2 = {n2_id:.4f} -> R3 = {R3_id:.2f} Ohm, R4 = {R4_id:.2f} Ohm")
-print(f"Etapa 2 Comer: R3 = {R3_com:.0f} Ohm, R4 = {R4_com:.0f} Ohm, C3 = 3.3 nF, C4 = 10 nF -> f02 = {f02_c:.2f} Hz, Q2 = {Q2_c:.4f}")
+print(f"Etapa 2 Comer: R3 = {R3_com:.0f} Ohm, R4 = {R4_com:.0f} Ohm, C3 = 10 nF, C4 = 10 nF -> f02 = {f02_c:.2f} Hz, Q2 = {Q2_c:.4f}")
 print(f"  Sensibilidades Q2: { {k: round(v, 4) for k, v in SQ_2.items()} }")
 
 # ============================================================================
@@ -280,8 +282,8 @@ ax.plot([11.0], [interp_at(11000.0, mag_re)], "^", color="#222222", ms=6)
 
 ax.text(0.3, K_tot_dB + 0.35, "$G_0 = 12,04$ dB (4,00 V/V)", fontsize=9, color="#222222")
 ax.text(0.3, K_tot_dB - Amax + 0.30, "$G_0 - A_{\\max} = 10,54$ dB ($A_{\\max} = 1,5$ dB @ 5,5 kHz)", fontsize=8.8, color="#b30000")
-ax.text(0.3, K_tot_dB - 3.0103 - 0.85, "$G_0 - 3$ dB = 9,03 dB (@ $f_{-3\\mathrm{dB}} = 6,14$ kHz)", fontsize=8.8, color="#004c99")
-ax.annotate("$2 f_p = 11$ kHz\n$-8,25$ dB", xy=(11.0, interp_at(11000.0, mag_re)),
+ax.text(0.3, K_tot_dB - 3.0103 - 0.85, "$G_0 - 3$ dB = 9,03 dB (@ $f_{-3\\mathrm{dB}} = 6,17$ kHz)", fontsize=8.8, color="#004c99")
+ax.annotate("$2 f_p = 11$ kHz\n$-8,30$ dB", xy=(11.0, interp_at(11000.0, mag_re)),
             xytext=(9.15, -4.5), fontsize=8.8,
             bbox=dict(boxstyle="round,pad=0.25", fc="white", ec="#bbbbbb"),
             arrowprops=dict(arrowstyle="->", color="#444444"))

@@ -156,46 +156,29 @@ $Q_p$ se reformula como una ecuación cuadrática en $x$:
   \label{eq:pb-cuadratica}
 \end{equation}
 
-Se eligen capacitores comerciales de poliéster metalizado MKT de la serie E6 con relaciones $n = C_2 / C_1$:
+Con el fin de estandarizar la compra de componentes y simplificar el montaje, se impone que \textbf{todos los capacitores sean idénticos e iguales a $\SI{10}{\nano\farad}$} ($C_1 = C_2 = C_3 = C_4 = C = \SI{10}{\nano\farad} \implies n_1 = n_2 = 1$). Al hacer $n = 1$, el término cuadrático de \eqref{eq:pb-cuadratica} se anula:
+\begin{equation}
+  Q_p\,(1 - 1)\,x^2 + \sqrt{1}\,x - Q_p = 0 \implies x = Q_p \implies m = x^2 = Q_p^2
+\end{equation}
+
+A partir de las ecuaciones fundamentales de diseño, los valores de resistencia quedan determinados de manera unívoca y desacoplada:
+\begin{equation}
+  R_2 = \frac{1}{\omega_0\,C\,Q_p}, \qquad\qquad R_1 = m\,R_2 = \frac{Q_p}{\omega_0\,C}
+\end{equation}
 
 \subsubsection{Cálculo de la Celda 1 ($Q_1 = 0{,}5412$, $G_1 = 2$)}
-
-Se adoptan capacitores comerciales $C_1 = \SI{2.2}{\nano\farad}$ y $C_2 = \SI{3.3}{\nano\farad}$, resultando
-$n_1 = 3{,}3 / 2{,}2 = 1{,}5$. Reemplazando en \eqref{eq:pb-cuadratica}:
-\begin{equation}
-  0{,}5412\,(1{,}5 - 1)\,x^2 + \sqrt{1{,}5}\,x - 0{,}5412 = 0 \implies 0{,}2706\,x^2 + 1{,}2247\,x - 0{,}5412 = 0
-\end{equation}
-Tomando la raíz físicamente admisible ($x > 0$):
-\begin{equation}
-  x = 0{,}4055 \implies m_1 = x^2 = 0{,}1645
-\end{equation}
-Despejando los resistores calculados a partir de $\omega_0 = \SI{38601.98}{\radian/\second}$:
-\begin{align*}
-  R_2 &= R = \frac{1}{\omega_0\,C_1\,\sqrt{m_1 n_1}}
-    = \frac{1}{\SI{38601.98}{\radian/\second} \cdot \SI{2.2}{\nano\farad} \cdot \sqrt{0{,}1645 \cdot 1{,}5}}
-    = \SI{23707.25}{\ohm} \\
-  R_1 &= m_1 R_2 = 0{,}1645 \cdot \SI{23707.25}{\ohm} = \SI{3899.09}{\ohm}
-\end{align*}
+Con $C_1 = C_2 = \SI{10}{\nano\farad}$ y $m_1 = Q_1^2 = 0{,}5412^2 = 0{,}2929$:
+\begin{align}
+  R_2 &= \frac{1}{\omega_0\,C_1\,Q_1} = \frac{1}{\SI{38601.98}{\radian/\second} \cdot \SI{10}{\nano\farad} \cdot 0{,}5412} = \SI{4786.69}{\ohm} \\
+  R_1 &= \frac{Q_1}{\omega_0\,C_1} = \frac{0{,}5412}{\SI{38601.98}{\radian/\second} \cdot \SI{10}{\nano\farad}} = \SI{1401.99}{\ohm}
+\end{align}
 
 \subsubsection{Cálculo de la Celda 2 ($Q_2 = 1{,}3066$, $G_2 = 2$)}
-
-Se adoptan capacitores comerciales $C_3 = \SI{3.3}{\nano\farad}$ y $C_4 = \SI{10}{\nano\farad}$, lo que define
-$n_2 = 10 / 3{,}3 = 3{,}0303$. Sustituyendo en \eqref{eq:pb-cuadratica}:
-\begin{equation}
-  1{,}3066\,(3{,}0303 - 1)\,x^2 + \sqrt{3{,}0303}\,x - 1{,}3066 = 0 \implies
-  2{,}6527\,x^2 + 1{,}7408\,x - 1{,}3066 = 0
-\end{equation}
-cuya solución positiva es:
-\begin{equation}
-  x = 0{,}4466 \implies m_2 = x^2 = 0{,}1995
-\end{equation}
-Despejando los resistores de la segunda celda:
-\begin{align*}
-  R_4 &= R = \frac{1}{\omega_0\,C_3\,\sqrt{m_2 n_2}}
-    = \frac{1}{\SI{38601.98}{\radian/\second} \cdot \SI{3.3}{\nano\farad} \cdot \sqrt{0{,}1995 \cdot 3{,}0303}}
-    = \SI{10097.28}{\ohm} \\
-  R_3 &= m_2 R_4 = 0{,}1995 \cdot \SI{10097.28}{\ohm} = \SI{2014.01}{\ohm}
-\end{align*}
+Con $C_3 = C_4 = \SI{10}{\nano\farad}$ y $m_2 = Q_2^2 = 1{,}3066^2 = 1{,}7071$:
+\begin{align}
+  R_4 &= \frac{1}{\omega_0\,C_3\,Q_2} = \frac{1}{\SI{38601.98}{\radian/\second} \cdot \SI{10}{\nano\farad} \cdot 1{,}3066} = \SI{1982.71}{\ohm} \\
+  R_3 &= \frac{Q_2}{\omega_0\,C_3} = \frac{1{,}3066}{\SI{38601.98}{\radian/\second} \cdot \SI{10}{\nano\farad}} = \SI{3384.70}{\ohm}
+\end{align}
 
 \subsubsection{Red de ganancia ($R_a$ y $R_b$)}
 
@@ -211,9 +194,7 @@ con $G = 2$ ambas operan con margen suficiente.
 \subsection{Valores comerciales}
 \label{subsec:pb-comerciales}
 
-Se seleccionan resistores comerciales de película metálica de la serie E24 con tolerancia del $\SI{1}{\percent}$ y
-capacitores de poliéster metalizado MKT de la serie E6 con tolerancia del $\SI{5}{\percent}$. La
-tabla~\ref{tab:pb-componentes} resume los valores calculados y los valores comerciales adoptados.
+Se seleccionan resistores comerciales de película metálica de la serie E24 con tolerancia del $1\%$ y capacitores de poliéster metalizado MKT de la serie E6 con tolerancia del $5\%$, todos con valor nominal unificado de $\SI{10}{\nano\farad}$. La tabla~\ref{tab:pb-componentes} resume los valores calculados y los valores comerciales adoptados.
 
 \begin{table}[!ht]
   \centering
@@ -222,33 +203,26 @@ tabla~\ref{tab:pb-componentes} resume los valores calculados y los valores comer
     & \multicolumn{2}{c|}{Etapa 1 ($Q_1 = 0{,}5412$, $G_1 = 2$)}
     & \multicolumn{2}{c|}{Etapa 2 ($Q_2 = 1{,}3066$, $G_2 = 2$)} \\
     \cline{2-5}
-    Componente & Calculado & Comercial (Tol.) & Calculado & Comercial (Tol.) \\
+    \textbf{Componente} & \textbf{Calculado} & \textbf{Comercial E24 (Tol.)} & \textbf{Calculado} & \textbf{Comercial E24 (Tol.)} \\
     \hline
-    $R_1$ / $R_3$ & $\SI{3899.09}{\ohm}$ & $\SI{3.9}{\kilo\ohm}$ ($\SI{1}{\percent}$)
-      & $\SI{2014.01}{\ohm}$ & $\SI{2.0}{\kilo\ohm}$ ($\SI{1}{\percent}$) \\
-    $R_2$ / $R_4$ & $\SI{23707.25}{\ohm}$ & $\SI{24}{\kilo\ohm}$ ($\SI{1}{\percent}$)
-      & $\SI{10097.28}{\ohm}$ & $\SI{10}{\kilo\ohm}$ ($\SI{1}{\percent}$) \\
-    $C_1$ / $C_3$ & $\SI{2.20}{\nano\farad}$ & $\SI{2.2}{\nano\farad}$ ($\SI{5}{\percent}$)
-      & $\SI{3.30}{\nano\farad}$ & $\SI{3.3}{\nano\farad}$ ($\SI{5}{\percent}$) \\
-    $C_2$ / $C_4$ & $\SI{3.30}{\nano\farad}$ & $\SI{3.3}{\nano\farad}$ ($\SI{5}{\percent}$)
-      & $\SI{10.00}{\nano\farad}$ & $\SI{10}{\nano\farad}$ ($\SI{5}{\percent}$) \\
-    $R_{a1}$ / $R_{a2}$ & $\SI{10.00}{\kilo\ohm}$ & $\SI{10}{\kilo\ohm}$ ($\SI{1}{\percent}$)
-      & $\SI{10.00}{\kilo\ohm}$ & $\SI{10}{\kilo\ohm}$ ($\SI{1}{\percent}$) \\
-    $R_{b1}$ / $R_{b2}$ & $\SI{10.00}{\kilo\ohm}$ & $\SI{10}{\kilo\ohm}$ ($\SI{1}{\percent}$)
-      & $\SI{10.00}{\kilo\ohm}$ & $\SI{10}{\kilo\ohm}$ ($\SI{1}{\percent}$) \\
+    $R_1$ / $R_3$ & $\SI{1401.99}{\ohm}$ & $\SI{1.5}{\kilo\ohm}$ ($1\%$) & $\SI{3384.70}{\ohm}$ & $\SI{3.3}{\kilo\ohm}$ ($1\%$) \\
+    $R_2$ / $R_4$ & $\SI{4786.69}{\ohm}$ & $\SI{4.7}{\kilo\ohm}$ ($1\%$) & $\SI{1982.71}{\ohm}$ & $\SI{2.0}{\kilo\ohm}$ ($1\%$) \\
+    $C_1$ / $C_3$ & $\SI{10.00}{\nano\farad}$ & $\SI{10}{\nano\farad}$ ($5\%$) & $\SI{10.00}{\nano\farad}$ & $\SI{10}{\nano\farad}$ ($5\%$) \\
+    $C_2$ / $C_4$ & $\SI{10.00}{\nano\farad}$ & $\SI{10}{\nano\farad}$ ($5\%$) & $\SI{10.00}{\nano\farad}$ & $\SI{10}{\nano\farad}$ ($5\%$) \\
+    $R_{a1}$ / $R_{a2}$ & $\SI{10.00}{\kilo\ohm}$ & $\SI{10}{\kilo\ohm}$ ($1\%$) & $\SI{10.00}{\kilo\ohm}$ & $\SI{10}{\kilo\ohm}$ ($1\%$) \\
+    $R_{b1}$ / $R_{b2}$ & $\SI{10.00}{\kilo\ohm}$ & $\SI{10}{\kilo\ohm}$ ($1\%$) & $\SI{10.00}{\kilo\ohm}$ & $\SI{10}{\kilo\ohm}$ ($1\%$) \\
     \hline
   \end{tabular}
-  \caption{Valores calculados y comerciales del filtro pasa bajos de 4.\textsuperscript{to} orden.}
+  \caption{Valores calculados y comerciales del filtro pasa bajos de 4.\textsuperscript{to} orden con capacitores unificados de $\SI{10}{\nano\farad}$.}
   \label{tab:pb-componentes}
 \end{table}
 
-Recalculando los parámetros característicos con los valores comerciales nominales:
+Recalculando los parámetros característicos con los valores comerciales nominales de la serie E24:
 \begin{itemize}
-  \item Celda 1: $f_{01} = \SI{6105.4}{\hertz}$ (desvío $-\SI{0.62}{\percent}$), $Q_{1} = 0{,}5374$
-    (desvío $-\SI{0.70}{\percent}$).
-  \item Celda 2: $f_{02} = \SI{6195.1}{\hertz}$ (desvío $+\SI{0.84}{\percent}$), $Q_{2} = 1{,}3107$
-    (desvío $+\SI{0.31}{\percent}$).
+  \item \textbf{Celda 1:} $f_{01} = \SI{5994.1}{\hertz}$ (desvío $-2{,}43\%$), $Q_{1} = 0{,}5649$ (desvío $+4{,}38\%$).
+  \item \textbf{Celda 2:} $f_{02} = \SI{6195.1}{\hertz}$ (desvío $+0{,}84\%$), $Q_{2} = 1{,}2845$ (desvío $-1{,}69\%$).
 \end{itemize}
+La respuesta en cascada completa con el modelo macromodelo del TL084 ubica la frecuencia de corte experimental a $-\SI{3}{\decibel}$ en $f_c = \SI{6173.6}{\hertz}$ (desvío de solo $+0{,}49\%$) y una atenuación de $\SI{1.403}{\decibel}$ en $f_p = \SI{5.5}{\kilo\hertz}$ ($A(f_p) \le \SI{1.5}{\decibel}$), satisfaciendo plenamente la plantilla de diseño impuesta.
 
 El esquemático eléctrico completo con los dos bloques en cascada, la asignación de pines del integrado cuádruple
 TL084 y sus capacitores de desacoplo cerámico se ilustra en la figura~\ref{crkt:pb-esquematico-completo}.
@@ -298,13 +272,22 @@ figura~\ref{fig:pb-zoom-banda} presenta el detalle en la banda de paso y zona de
   \label{fig:pb-zoom-banda}
 \end{figure}
 
-La ganancia en continua nominal es de $\SI{12.04}{\decibel}$. En $f_p = \SI{5.5}{\kilo\hertz}$, la ganancia
-resultante con componentes comerciales y modelo TL084 es de $\SI{10.50}{\decibel}$, correspondiendo a una atenuación
-de $\SI{1.54}{\decibel}$ respecto de continua. La frecuencia de corte experimental a $-\SI{3}{\decibel}$ (donde
-$|H| = \SI{9.03}{\decibel}$) se ubica en $f_c = \SI{6140}{\hertz}$, prácticamente idéntica al valor teórico ideal
-($\SI{6144}{\hertz}$). La elevada impedancia de entrada de la etapa JFET ($R_{\text{in}} \approx \SI{1}{\tera\ohm}$)
-y su producto GBW de $\SI{3}{\mega\hertz}$ garantizan que el comportamiento del filtro no se vea degradado por
-corrientes de polarización ni por retardo de fase parásito en el rango de audio considerado.
+La ganancia en continua nominal es de $\SI{12.04}{\decibel}$. En $f_p = \SI{5.5}{\kilo\hertz}$, la ganancia resultante con componentes comerciales y modelo TL084 es de $\SI{10.64}{\decibel}$, correspondiendo a una atenuación de $\SI{1.40}{\decibel}$ respecto de continua. La frecuencia de corte experimental a $-\SI{3}{\decibel}$ (donde $|H| = \SI{9.03}{\decibel}$) se ubica en $f_c = \SI{6174}{\hertz}$, prácticamente coincidente con el valor teórico ideal ($\SI{6144}{\hertz}$). La elevada impedancia de entrada de la etapa JFET ($R_{\text{in}} \approx \SI{1}{\tera\ohm}$) y su producto GBW de $\SI{3}{\mega\hertz}$ garantizan que el comportamiento del filtro no se vea degradado por corrientes de polarización ni por retardo de fase parásito en el rango de audio considerado.
+
+\subsection{Análisis de sensibilidad}
+\label{subsec:pb-sensibilidad}
+
+Se analizó la sensibilidad analítica de los parámetros $\omega_0$ y $Q_p$ frente a cada componente:
+\begin{equation}
+  S_{R_1}^{\omega_0} = S_{R_2}^{\omega_0} = S_{C_1}^{\omega_0} = S_{C_2}^{\omega_0} = -0{,}50
+\end{equation}
+Para los factores de calidad, las sensibilidades con los componentes adoptados son:
+\begin{itemize}
+  \item \textbf{Celda 1 ($Q_1 = 0{,}5649$):} $S_{R_1}^{Q_1} = +0{,}50$, $S_{R_2}^{Q_1} = -0{,}50$, $S_{C_1}^{Q_1} = -0{,}82$, $S_{C_2}^{Q_1} = +0{,}82$, $S_{R_a}^{Q_1} = -0{,}32$, $S_{R_b}^{Q_1} = +0{,}32$.
+  \item \textbf{Celda 2 ($Q_2 = 1{,}2845$):} $S_{R_3}^{Q_2} = +0{,}50$, $S_{R_4}^{Q_2} = -0{,}50$, $S_{C_3}^{Q_2} = -2{,}15$, $S_{C_4}^{Q_2} = +2{,}15$, $S_{R_a}^{Q_2} = -1{,}65$, $S_{R_b}^{Q_2} = +1{,}65$.
+\end{itemize}
+
+Las sensibilidades de la celda 2 superan la unidad en módulo respecto a la capacidad ($|S_C^Q| = 2{,}15$), por lo que es la etapa más afectada por la dispersión de los componentes; en particular, $Q_2$ resulta más sensible a los capacitores que a los resistores. Se recomienda medir previamente con capacímetro los componentes pasivos antes del soldado para aproximar los valores a sus centros nominales.
 
 \section{Implementación y mediciones}
 \label{sec:pb-mediciones}
@@ -342,24 +325,15 @@ las lecturas experimentales de laboratorio.
       & $V_{\text{out}}$ esp. ($\SI{1}{\volt_{\text{pp}}}$) & $V_{\text{out}}$ Med. [\si{\volt_{\text{pp}}}]
       & $|H|$ Med. [\si{\decibel}] \\
     \hline
-    Banda de paso baja & $100$ & $\SI{12.04}{\decibel}$ & $\SI{12.04}{\decibel}$ & $\SI{4.00}{\volt_{\text{pp}}}$
-      & & \\
-    Banda de paso & $1\,000$ & $\SI{12.04}{\decibel}$ & $\SI{12.03}{\decibel}$ & $\SI{4.00}{\volt_{\text{pp}}}$
-      & & \\
-    Pre-corte & $3\,000$ & $\SI{12.03}{\decibel}$ & $\SI{11.97}{\decibel}$ & $\SI{3.97}{\volt_{\text{pp}}}$ & & \\
-    Frecuencia de paso $f_p$ & $5\,500$ & $\SI{10.54}{\decibel}$ ($\alpha=\SI{1.50}{\decibel}$)
-      & $\SI{10.50}{\decibel}$ ($\alpha=\SI{1.54}{\decibel}$) & $\SI{3.35}{\volt_{\text{pp}}}$ & & \\
-    Corte $\SI{-3}{\decibel}$ ($f_c$) & $6\,140$ & $\SI{9.03}{\decibel}$
-      ($\alpha=\SI{3.01}{\decibel}$) & $\SI{9.03}{\decibel}$ ($\alpha=\SI{3.01}{\decibel}$)
-      & $\SI{2.83}{\volt_{\text{pp}}}$ & & \\
-    Zona transición & $8\,000$ & $\SI{2.37}{\decibel}$ & $\SI{2.39}{\decibel}$ & $\SI{1.32}{\volt_{\text{pp}}}$
-      & & \\
-    Rechazo $2 f_p$ & $11\,000$ & $-\SI{8.24}{\decibel}$ ($\alpha=\SI{20.28}{\decibel}$)
-      & $-\SI{8.25}{\decibel}$ ($\alpha=\SI{20.29}{\decibel}$) & $\SI{387}{\milli\volt_{\text{pp}}}$ & & \\
-    Rechazo intermedio & $20\,000$ & $-\SI{28.97}{\decibel}$ & $-\SI{29.02}{\decibel}$
-      & $\SI{35.4}{\milli\volt_{\text{pp}}}$ & & \\
-    Rechazo $10 f_p$ & $55\,000$ & $-\SI{64.11}{\decibel}$ & $-\SI{64.20}{\decibel}$
-      & $\SI{0.62}{\milli\volt_{\text{pp}}}$ & & \\
+    Banda de paso baja & $100$ & $\SI{12.04}{\decibel}$ & $\SI{12.04}{\decibel}$ & $\SI{4.00}{\volt_{\text{pp}}}$ & & \\
+    Banda de paso & $1\,000$ & $\SI{12.04}{\decibel}$ & $\SI{12.06}{\decibel}$ & $\SI{4.01}{\volt_{\text{pp}}}$ & & \\
+    Pre-corte & $3\,000$ & $\SI{12.03}{\decibel}$ & $\SI{12.15}{\decibel}$ & $\SI{4.05}{\volt_{\text{pp}}}$ & & \\
+    \textbf{Frecuencia de paso $f_p$} & $\mathbf{5\,500}$ & $\SI{10.54}{\decibel}$ ($\alpha=\SI{1.50}{\decibel}$) & $\SI{10.64}{\decibel}$ ($\alpha=\SI{1.40}{\decibel}$) & $\SI{3.40}{\volt_{\text{pp}}}$ & & \\
+    \textbf{Corte $-3\,\text{dB}$ ($f_c$)} & $\mathbf{6\,174}$ & $\SI{9.03}{\decibel}$ ($\alpha=\SI{3.01}{\decibel}$) & $\SI{9.03}{\decibel}$ ($\alpha=\SI{3.01}{\decibel}$) & $\SI{2.83}{\volt_{\text{pp}}}$ & & \\
+    Zona transición & $8\,000$ & $\SI{2.37}{\decibel}$ & $\SI{2.43}{\decibel}$ & $\SI{1.32}{\volt_{\text{pp}}}$ & & \\
+    \textbf{Rechazo $2 f_p$} & $\mathbf{11\,000}$ & $-\SI{8.24}{\decibel}$ ($\alpha=\SI{20.28}{\decibel}$) & $-\SI{8.30}{\decibel}$ ($\alpha=\SI{20.34}{\decibel}$) & $\SI{385}{\milli\volt_{\text{pp}}}$ & & \\
+    Rechazo intermedio & $20\,000$ & $-\SI{28.97}{\decibel}$ & $-\SI{29.25}{\decibel}$ & $\SI{34.5}{\milli\volt_{\text{pp}}}$ & & \\
+    \textbf{Rechazo $10 f_p$} & $\mathbf{55\,000}$ & $-\SI{64.11}{\decibel}$ & $-\SI{64.53}{\decibel}$ & $\SI{0.59}{\milli\volt_{\text{pp}}}$ & & \\
     \hline
   \end{tabular}%
   }
