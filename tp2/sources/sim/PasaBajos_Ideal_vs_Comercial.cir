@@ -1,0 +1,45 @@
+* TP2 Teoria de Circuitos II - Grupo 2 - Filtro pasa bajos Butterworth orden 4 (Sallen-Key)
+* Comparacion: (A) valores calculados + AO ideal | (B) valores comerciales + AO ideal
+* (el circuito con valores comerciales + TL084 esta en Filtro_PasaBajos_Solo_TL084.asc)
+.subckt AOIDEAL inp inn out
+Rin inp inn 1e12
+E1 out 0 inp inn 1e7
+.ends
+Vin VIN 0 AC 1
+* ---- (A) Valores calculados ----
+R1a NA1 VIN 1401.99
+R2a NB1 NA1 4786.69
+C1a NB1 0 10n
+C2a VA1 NA1 10n
+Ra1a NM1 0 10k
+Rb1a VA1 NM1 10k
+XU1a NB1 NM1 VA1 AOIDEAL
+R3a NA2 VA1 3384.70
+R4a NB2 NA2 1982.71
+C3a NB2 0 10n
+C4a VOUT_CALC NA2 10n
+Ra2a NM2 0 10k
+Rb2a VOUT_CALC NM2 10k
+XU2a NB2 NM2 VOUT_CALC AOIDEAL
+* ---- (B) Valores comerciales ----
+R1b PA1 VIN 1.5k
+R2b PB1 PA1 4.7k
+C1b PB1 0 10n
+C2b VB1 PA1 10n
+Ra1b PM1 0 10k
+Rb1b VB1 PM1 10k
+XU1b PB1 PM1 VB1 AOIDEAL
+R3b PA2 VB1 3.3k
+R4b PB2 PA2 2.0k
+C3b PB2 0 10n
+C4b VOUT_COM PA2 10n
+Ra2b PM2 0 10k
+Rb2b VOUT_COM PM2 10k
+XU2b PB2 PM2 VOUT_COM AOIDEAL
+.ac dec 400 10 10Meg
+.meas AC fc_calc WHEN mag(V(vout_calc))=4/sqrt(2) FALL=1
+.meas AC fc_com WHEN mag(V(vout_com))=4/sqrt(2) FALL=1
+.meas AC Afp_calc FIND mag(V(vout_calc)) AT 5.5k
+.meas AC Afp_com FIND mag(V(vout_com)) AT 5.5k
+.meas AC Gmax_com MAX mag(V(vout_com)) FROM 10 TO 100k
+.end

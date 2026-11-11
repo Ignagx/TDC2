@@ -32,13 +32,14 @@ En la carpeta \texttt{sources/} del repositorio se disponen los documentos anal�
 
 En la carpeta \texttt{sources/sim/} se alojan los proyectos completos de simulación SPICE y scripts de cálculo:
 \begin{itemize}
-  \item \texttt{Filtro\_PasaBajos\_Orden4\_Grupo2.asc}: Esquemático de simulación en LTspice del filtro pasa bajos de
-    4.\textsuperscript{to} orden con macromodelo real TL084 y desacoplos.
-  \item \texttt{Filtro\_PasaBajos\_Solo\_TL084.asc}: Esquemático simplificado en LTspice para caracterización rápida
-    de respuesta AC.
-  \item \texttt{simulacion\_ngspice.cir}: Netlist para simulación en ngspice en entornos de terminal.
-  \item \texttt{analisis\_completo.py}: Script en Python con NumPy, SciPy y Matplotlib que efectúa el cálculo
-    numérico, ajuste de polos y generación de las figuras de respuesta en frecuencia.
+  \item \texttt{Filtro\_PasaBajos\_Solo\_TL084.asc}: Esquemático de simulación en LTspice del filtro pasa bajos de
+    4.\textsuperscript{to} orden con valores comerciales y macromodelo TL084 (incluye directivas \texttt{.meas} de
+    ganancia, frecuencia de corte y atenuación en $f_p$). Su impresión se encuentra en
+    \texttt{esquematico\_pasa\_bajos\_ltspice.png}.
+  \item \texttt{PasaBajos\_Ideal\_vs\_Comercial.cir}: Netlist de LTspice del filtro pasa bajos con operacional ideal,
+    para valores calculados y comerciales.
+  \item \texttt{analisis\_pasa\_bajos.py}: Script en Python que lee los resultados de LTspice y genera las figuras de
+    respuesta en frecuencia del filtro pasa bajos.
   \item \texttt{TL084.lib}: Biblioteca con el macromodelo oficial de Texas Instruments del amplificador operacional
     TL084.
   \item \texttt{pasa alto.asc} y \texttt{TL082.asy}: Modelos de simulación de la etapa pasa altos.
@@ -50,6 +51,16 @@ En la carpeta \texttt{sources/sim/} se alojan los proyectos completos de simulac
     para valores calculados y comerciales.
   \item \texttt{analisis\_pasa\_altos.py}: Script en Python que lee los resultados de LTspice y genera las figuras de
     respuesta en frecuencia del filtro pasa altos.
+  \item \texttt{Filtro\_PasaBanda\_Orden2\_Grupo2.asc}: Esquemático de simulación en LTspice del filtro pasa banda de
+    2.\textsuperscript{do} orden con valores comerciales y macromodelo TL084 (incluye directivas \texttt{.meas} de
+    ganancia máxima y de los puntos de $\SI{-0.1}{\decibel}$ y $\SI{-3}{\decibel}$). Su impresión se encuentra en
+    \texttt{esquematico\_pasa\_banda\_ltspice.png}.
+  \item \texttt{PasaBanda\_Ideal\_vs\_Comercial.cir}: Netlist de LTspice del filtro pasa banda con operacional ideal,
+    para valores calculados y comerciales.
+  \item \texttt{diseno\_pasa\_banda.py}: Script en Python que calcula los valores de diseño del filtro pasa banda y
+    los recalcula con los componentes comerciales.
+  \item \texttt{analisis\_pasa\_banda.py}: Script en Python que lee los resultados de LTspice, mide las frecuencias
+    características y genera las figuras de respuesta en frecuencia del filtro pasa banda.
 \end{itemize}
 
 \chapter{Lista de materiales (BOM) y balance de compras}

@@ -316,23 +316,30 @@ La tabla~\ref{tab:pbd-componentes} resume los valores calculados y comerciales.
 \section{Simulación}
 \label{sec:pbd-simulacion}
 
-\subsection{Circuitos simulados}
-\label{subsec:pbd-sim-circuitos}
+\subsection{Circuito simulado en LTspice}
+\label{subsec:pbd-sim-circuito}
 
-Se realizaron las siguientes simulaciones en LTspice, todas con fuente de excitación de amplitud unitaria
-(\texttt{AC 1}) y análisis \texttt{.ac} logarítmico de 2000 puntos por década entre $\SI{100}{\hertz}$ y
-$\SI{10}{\mega\hertz}$. La resolución es mayor que en el pasa altos porque la medición de los puntos de
-$\SI{-0.1}{\decibel}$ cae sobre la zona más plana de la curva:
-\begin{itemize}
-  \item \texttt{PasaBanda\_Ideal\_vs\_Comercial.cir}: el filtro con valores calculados y comerciales, empleando un
-    operacional ideal (fuente controlada de ganancia $10^7$ y $R_{in} = \SI{1}{\tera\ohm}$).
-  \item \texttt{Filtro\_PasaBanda\_Orden2\_Grupo2.asc}: valores comerciales y macromodelo TL084 de
-    Texas Instruments a $\pm\SI{15}{\volt}$.
-\end{itemize}
-Los resultados se procesaron con el script \texttt{analisis\_pasa\_banda.py}, que superpone las curvas simuladas con la
-respuesta teórica \eqref{eq:pbd-canonica} y mide las frecuencias características mediante interpolación logarítmica.
-Los valores de diseño se calcularon con el script \texttt{diseno\_pasa\_banda.py}. Ambos están en
-\texttt{sources/sim/}.
+El filtro se implementó en LTspice con los valores comerciales de la tabla~\ref{tab:pbd-componentes} y el
+macromodelo de Texas Instruments del TL084, alimentado a $\pm\SI{15}{\volt}$. El esquemático, obtenido mediante la
+opción de impresión de LTspice, se presenta en la figura~\ref{crkt:pbd-esquematico-ltspice}. Se realizó un análisis
+\texttt{.ac} con barrido logarítmico de 2000 puntos por década entre $\SI{100}{\hertz}$ y $\SI{10}{\mega\hertz}$, con
+una fuente de excitación de amplitud unitaria (\texttt{AC 1}), de modo que $V(\text{vout})$ coincide directamente con
+$H(j\omega)$. La resolución es mayor que en el pasa altos porque los puntos de $\SI{-0.1}{\decibel}$ caen sobre la
+zona más plana de la curva. Las frecuencias características se obtuvieron mediante directivas \texttt{.meas}.
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\textwidth]{sources/sim/esquematico_pasa_banda_ltspice.png}
+  \caption{Esquemático en LTspice del filtro pasa banda Butterworth de 2.\textsuperscript{do} orden: celda Sallen-Key
+    (topología I) con $G = 2{,}107$, valores comerciales y macromodelo TL084.}
+  \label{crkt:pbd-esquematico-ltspice}
+\end{figure}
+
+Para separar el efecto de la normalización de los componentes del efecto del amplificador real, se simularon además,
+en el mismo programa, dos variantes con operacional ideal (fuente controlada de ganancia $10^7$ y
+$R_{in} = \SI{1}{\tera\ohm}$): una con los valores exactos calculados y otra con los valores comerciales. Los
+resultados de las tres simulaciones se procesaron y superpusieron con la respuesta teórica \eqref{eq:pbd-canonica}
+mediante un script, que mide además las frecuencias características por interpolación logarítmica.
 
 \subsection{Función de transferencia con elementos ideales}
 \label{subsec:pbd-sim-ideal}
@@ -362,7 +369,8 @@ Con valores comerciales y operacional ideal se obtiene $f_0 = \SI{28058.3}{\hert
 $Q_p = 2{,}5150$ y $BW = \SI{1702.4}{\hertz}$ ($+\SI{0.14}{\percent}$), y la ganancia máxima sube a
 $\SI{19.190}{\decibel}$ ($\SI{9.109}{\volt/\volt}$), en acuerdo con el recálculo de la
 sección~\ref{subsec:pbd-comerciales}. El leve corrimiento de $f_0$ hace que la atenuación máxima dentro de la banda
-especificada, de $\SI{27162.9}{\hertz}$ a $\SI{28862.9}{\hertz}$, sea de $\SI{0.114}{\decibel}$.
+especificada, de $\SI{27162.9}{\hertz}$ a $\SI{28862.9}{\hertz}$, sea de $\SI{0.114}{\decibel}$, levemente por
+encima de $A_{\max}$.
 
 \subsection{Función de transferencia con valores comerciales y macromodelo TL084}
 \label{subsec:pbd-sim-real}
@@ -372,7 +380,7 @@ tabla~\ref{tab:pbd-resultados} resume las magnitudes medidas en cada simulación
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=0.92\textwidth]{images/fig8_pbd_zoom_banda_paso}
+  \includegraphics[width=0.88\textwidth]{images/fig8_pbd_zoom_banda_paso}
   \caption{Detalle ampliado de la banda de paso del filtro pasa banda. La zona sombreada corresponde a la banda
     especificada $[f_{p1}; f_{p2}]$, dentro de la cual la atenuación no debe superar $A_{\max} = \SI{0.1}{\decibel}$.}
   \label{fig:pbd-zoom-banda}
@@ -399,7 +407,18 @@ tabla~\ref{tab:pbd-resultados} resume las magnitudes medidas en cada simulación
   \label{tab:pbd-resultados}
 \end{table}
 
-Con valores comerciales y el macromodelo TL084 se obtiene:
+A diferencia de lo que ocurre con el operacional ideal, el amplificador no inversor de ganancia $G = 2{,}107$
+construido con el TL084 tiene un ancho de banda finito. Con un producto ganancia-ancho de banda de
+$\SI{3}{\mega\hertz}$, su ancho de banda a lazo cerrado es aproximadamente
+\begin{equation}
+  f_{BW} \approx \frac{\text{GBW}}{G} = \frac{\SI{3}{\mega\hertz}}{2{,}107} \approx \SI{1.42}{\mega\hertz}
+\end{equation}
+unas 50 veces $f_0$. En la frecuencia central el módulo de esa ganancia prácticamente no cambia, pero aparece un
+retardo de fase de aproximadamente $\SI{1.1}{\degree}$. Como la celda funciona con realimentación positiva a través
+de $R_f$ y cerca de la ganancia de oscilación ($G / G_{osc} = 0{,}90$), ese pequeño desfasaje basta para desplazar
+los polos: baja la frecuencia central y aumenta $Q_p$. Modelando el operacional con un único polo dominante
+($\text{GBW} = \SI{3}{\mega\hertz}$) se obtiene $f_0 = \SI{27.10}{\kilo\hertz}$ y $Q_p = 2{,}595$, en buen acuerdo
+con la simulación del macromodelo. Con valores comerciales y el macromodelo TL084 se obtiene:
 \begin{itemize}
   \item La frecuencia central baja a $f_0 = \SI{27182.0}{\hertz}$, un $\SI{3.1}{\percent}$ por debajo de la obtenida
     con operacional ideal, y $Q_p$ aumenta a $2{,}593$ ($+\SI{3.1}{\percent}$).
@@ -415,27 +434,14 @@ Con valores comerciales y el macromodelo TL084 se obtiene:
     $\SI{12}{\decibel}$ más en $\SI{5}{\mega\hertz}$.
 \end{itemize}
 
-\section{Análisis de resultados}
-\label{sec:pbd-analisis}
-
-\begin{itemize}
-  \item Cumplimiento teórico. El diseño con valores calculados y operacional ideal reproduce exactamente la
-    especificación: $f_0 = \SI{28}{\kilo\hertz}$, $BW = \SI{1.7}{\kilo\hertz}$ a $\SI{-0.1}{\decibel}$ y
-    $K = \SI{9}{\volt/\volt}$, verificado por simulación. La ganancia especificada se
-    obtiene con una única celda gracias a la elección de $m$, sin etapas adicionales.
-  \item Efecto de los componentes comerciales. Con valores comerciales y operacional ideal, la normalización modifica
-    $f_0$ en $+\SI{0.21}{\percent}$, $Q_p$ en $+\SI{0.05}{\percent}$ y $K$ en $+\SI{1.2}{\percent}$
-    ($+\SI{0.1}{\decibel}$), y la atenuación dentro de la banda especificada resulta de $\SI{0.114}{\decibel}$.
-  \item Operacional real. Con el macromodelo TL084, $f_0$ baja un $\SI{3}{\percent}$ y $Q_p$ sube en la misma
-    proporción, de modo que la atenuación dentro de la banda especificada llega a $\SI{0.40}{\decibel}$ y la
-    especificación de $A_{\max}$ no se cumple. La ganancia central casi no cambia ($\SI{9.100}{\volt/\volt}$).
-  \item Estabilidad. La celda opera con $G / G_{osc} = 0{,}90$, es decir, un $\SI{10}{\percent}$ por debajo de la
-    ganancia de oscilación.
-\end{itemize}
-
-En síntesis, los resultados teóricos y de simulación con elementos ideales coinciden exactamente, y los valores
-comerciales con operacional ideal reproducen el diseño con desvíos menores al $\SI{1.2}{\percent}$. Con el macromodelo
-TL084, la respuesta se desplaza y la atenuación en la banda especificada supera $A_{\max}$.
+En síntesis, el diseño con valores calculados y operacional ideal reproduce exactamente la especificación
+($f_0 = \SI{28}{\kilo\hertz}$, $BW = \SI{1.7}{\kilo\hertz}$ a $\SI{-0.1}{\decibel}$ y $K = \SI{9}{\volt/\volt}$)
+con una única celda, gracias a la elección de $m$. La normalización de los componentes modifica $f_0$ en
+$+\SI{0.21}{\percent}$, $Q_p$ en $+\SI{0.05}{\percent}$ y $K$ en $+\SI{1.2}{\percent}$, y lleva la atenuación
+dentro de la banda especificada a $\SI{0.114}{\decibel}$. La principal limitación del diseño con TL084 es el
+desplazamiento de los polos causado por el desfasaje del operacional: $f_0$ baja un $\SI{3}{\percent}$, $Q_p$ sube en
+la misma proporción y la atenuación en la banda especificada llega a $\SI{0.40}{\decibel}$, por lo que la
+especificación de $A_{\max}$ no se cumple, aunque la ganancia central casi no cambia ($\SI{9.100}{\volt/\volt}$).
 
 \section{Implementación y mediciones}
 \label{sec:pbd-mediciones}

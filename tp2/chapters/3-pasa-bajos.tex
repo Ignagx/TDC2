@@ -222,72 +222,103 @@ Recalculando los parámetros característicos con los valores comerciales nomina
   \item \textbf{Celda 1:} $f_{01} = \SI{5994.1}{\hertz}$ (desvío $-2{,}43\%$), $Q_{1} = 0{,}5649$ (desvío $+4{,}38\%$).
   \item \textbf{Celda 2:} $f_{02} = \SI{6195.1}{\hertz}$ (desvío $+0{,}84\%$), $Q_{2} = 1{,}2845$ (desvío $-1{,}69\%$).
 \end{itemize}
-La respuesta en cascada completa con el modelo macromodelo del TL084 ubica la frecuencia de corte experimental a $-\SI{3}{\decibel}$ en $f_c = \SI{6173.6}{\hertz}$ (desvío de solo $+0{,}49\%$) y una atenuación de $\SI{1.403}{\decibel}$ en $f_p = \SI{5.5}{\kilo\hertz}$ ($A(f_p) \le \SI{1.5}{\decibel}$), satisfaciendo plenamente la plantilla de diseño impuesta.
-
-El esquemático eléctrico completo con los dos bloques en cascada, la asignación de pines del integrado cuádruple
-TL084 y sus capacitores de desacoplo cerámico se ilustra en la figura~\ref{crkt:pb-esquematico-completo}.
-
-\begin{figure}[!ht]
-  \centering
-  \includegraphics[width=\textwidth]{images/fig4_esquematico_pasa_bajos}
-  \caption{Esquemático completo del filtro pasa bajos Butterworth de 4.\textsuperscript{to} orden con asignación de
-    pines del TL084.}
-  \label{crkt:pb-esquematico-completo}
-\end{figure}
 
 \section{Simulación}
 \label{sec:pb-simulacion}
 
+\subsection{Circuito simulado en LTspice}
+\label{subsec:pb-sim-circuito}
+
+El filtro completo se implementó en LTspice con los valores comerciales de la tabla~\ref{tab:pb-componentes} y el
+macromodelo de Texas Instruments del TL084, alimentado a $\pm\SI{15}{\volt}$. El esquemático, obtenido mediante la
+opción de impresión de LTspice, se presenta en la figura~\ref{crkt:pb-esquematico-ltspice}. Se realizó un análisis
+\texttt{.ac} con barrido logarítmico de 400 puntos por década entre $\SI{10}{\hertz}$ y $\SI{10}{\mega\hertz}$, con
+una fuente de excitación de amplitud unitaria (\texttt{AC 1}), de modo que $V(\text{vout})$ coincide directamente con
+$H(j\omega)$. Las frecuencias características se obtuvieron mediante directivas \texttt{.meas}.
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\textwidth]{sources/sim/esquematico_pasa_bajos_ltspice.png}
+  \caption{Esquemático en LTspice del filtro pasa bajos Butterworth de 4.\textsuperscript{to} orden: dos celdas
+    Sallen-Key con $G = 2$, valores comerciales y macromodelo TL084.}
+  \label{crkt:pb-esquematico-ltspice}
+\end{figure}
+
+Para separar el efecto de la normalización de los componentes del efecto del amplificador real, se simularon además,
+en el mismo programa, dos variantes con operacional ideal (fuente controlada de ganancia $10^7$ y
+$R_{in} = \SI{1}{\tera\ohm}$): una con los valores exactos calculados y otra con los valores comerciales. Los
+resultados de las tres simulaciones se procesaron y superpusieron con la respuesta teórica
+\eqref{eq:pb-transferencia-gral} mediante un script.
+
 \subsection{Función de transferencia con elementos ideales}
 \label{subsec:pb-sim-ideal}
 
-Se implementó el circuito en LTspice y ngspice empleando fuentes de tensión controladas ideales para validar la
-aproximación teórica. En la figura~\ref{fig:pb-bode-ideal} se superpone la respuesta teórica de Butterworth con la
-curva simulada con componentes exactos e ideales.
+En la figura~\ref{fig:pb-bode-ideal} se presenta el diagrama de Bode de módulo y fase de las tres simulaciones junto
+con la respuesta teórica de Butterworth.
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=0.92\textwidth]{images/fig1_bode_comparativo}
-  \caption{Diagrama de Bode de magnitud y fase: comparación teórica, valores calculados y valores comerciales.}
+  \includegraphics[width=0.92\textwidth]{images/fig1_pb_bode_comparativo}
+  \caption{Diagrama de Bode de magnitud y fase del filtro pasa bajos: comparación teórica, valores calculados y
+    valores comerciales (operacional ideal y TL084).}
   \label{fig:pb-bode-ideal}
 \end{figure}
 
-En la banda de paso profunda ($f \le \SI{1}{\kilo\hertz}$), la ganancia responde exactamente a
-$\SI{12.04}{\decibel}$ ($\SI{4}{\volt/\volt}$). En la frecuencia de paso nominal $f_p = \SI{5.5}{\kilo\hertz}$, la
-atenuación respecto a continua es de $\SI{1.50}{\decibel}$, cumpliendo rigurosamente con el requerimiento de
-$A_{\max} \le \SI{1.5}{\decibel}$. A frecuencias elevadas, la pendiente asintótica alcanza los
-$-\SI{80}{\decibel/\text{década}}$ ($-\SI{24}{\decibel/\text{octava}}$), característica de un orden $n=4$.
+Con los valores calculados y operacional ideal, la curva simulada se superpone exactamente con la teórica: la
+frecuencia de corte a $\SI{-3}{\decibel}$ respecto de $K$ se mide en $f_c = \SI{6143.5}{\hertz}$ y la atenuación en
+$f_p$ es de $\SI{1.50}{\decibel}$, en acuerdo con los valores de diseño. En la banda de paso la ganancia se mantiene en
+$\SI{12.04}{\decibel}$ ($\SI{4}{\volt/\volt}$) sin sobrepico, como corresponde a una respuesta maximalmente plana. Por
+encima de $f_c$ la pendiente asintótica es de $-\SI{80}{\decibel/\text{década}}$ ($-\SI{24}{\decibel/\text{octava}}$),
+característica de un orden $n = 4$; en $2 f_p = \SI{11}{\kilo\hertz}$ el módulo es de $-\SI{8.24}{\decibel}$ y en
+$10 f_p = \SI{55}{\kilo\hertz}$ de $-\SI{64.11}{\decibel}$.
 
-\subsection{Función de transferencia con valores comerciales y modelo macromodelo TL084}
+La fase parte de $\SI{0}{\degree}$ en continua, pasa por $-\SI{180}{\degree}$ en $f_0$ y tiende a
+$-\SI{360}{\degree}$ en alta frecuencia (cuatro polos).
+
+Con valores comerciales y operacional ideal, la frecuencia de corte se desplaza a $f_c = \SI{6171.3}{\hertz}$
+($+\SI{0.45}{\percent}$) y la atenuación en $f_p$ baja a $\SI{1.44}{\decibel}$, con un leve sobrepico de
+$\SI{0.09}{\decibel}$ en torno a $\SI{2.9}{\kilo\hertz}$ debido al corrimiento de las frecuencias y factores
+$Q$ de cada celda. La especificación
+$A(f_p) \le A_{\max}$ se sigue cumpliendo.
+
+\subsection{Función de transferencia con valores comerciales y macromodelo TL084}
 \label{subsec:pb-sim-real}
 
-Se simuló la respuesta incorporando los valores normalizados comerciales adoptados (E24/E6) y el modelo macromodelo
-SPICE real de Texas Instruments para el operacional cuádruple JFET TL084, alimentado a $\pm\SI{15}{\volt}$. La
-figura~\ref{fig:pb-zoom-banda} presenta el detalle en la banda de paso y zona de corte.
+La figura~\ref{fig:pb-zoom-banda} muestra el detalle de la banda de paso y de la zona de corte.
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=0.88\textwidth]{images/fig2_zoom_banda_paso}
-  \caption{Detalle ampliado de la banda de paso y frecuencia de corte a $-\SI{3}{\decibel}$.}
+  \includegraphics[width=0.88\textwidth]{images/fig2_pb_zoom_banda_paso}
+  \caption{Detalle ampliado de la banda de paso y frecuencia de corte del filtro pasa bajos.}
   \label{fig:pb-zoom-banda}
 \end{figure}
 
-La ganancia en continua nominal es de $\SI{12.04}{\decibel}$. En $f_p = \SI{5.5}{\kilo\hertz}$, la ganancia resultante con componentes comerciales y modelo TL084 es de $\SI{10.64}{\decibel}$, correspondiendo a una atenuación de $\SI{1.40}{\decibel}$ respecto de continua. La frecuencia de corte experimental a $-\SI{3}{\decibel}$ (donde $|H| = \SI{9.03}{\decibel}$) se ubica en $f_c = \SI{6174}{\hertz}$, prácticamente coincidente con el valor teórico ideal ($\SI{6144}{\hertz}$). La elevada impedancia de entrada de la etapa JFET ($R_{\text{in}} \approx \SI{1}{\tera\ohm}$) y su producto GBW de $\SI{3}{\mega\hertz}$ garantizan que el comportamiento del filtro no se vea degradado por corrientes de polarización ni por retardo de fase parásito en el rango de audio considerado.
-
-\subsection{Análisis de sensibilidad}
-\label{subsec:pb-sensibilidad}
-
-Se analizó la sensibilidad analítica de los parámetros $\omega_0$ y $Q_p$ frente a cada componente:
-\begin{equation}
-  S_{R_1}^{\omega_0} = S_{R_2}^{\omega_0} = S_{C_1}^{\omega_0} = S_{C_2}^{\omega_0} = -0{,}50
-\end{equation}
-Para los factores de calidad, las sensibilidades con los componentes adoptados son:
+A diferencia del pasa altos, la banda de paso del pasa bajos termina a unos pocos kilohertz, muy por debajo del ancho
+de banda a lazo cerrado de cada celda ($\text{GBW}/G \approx \SI{3}{\mega\hertz}/2 = \SI{1.5}{\mega\hertz}$, unas
+240 veces $f_c$), por lo que el operacional real prácticamente no modifica la respuesta en la banda de paso ni en la
+zona de corte. Los resultados de la simulación con TL084 son:
 \begin{itemize}
-  \item \textbf{Celda 1 ($Q_1 = 0{,}5649$):} $S_{R_1}^{Q_1} = +0{,}50$, $S_{R_2}^{Q_1} = -0{,}50$, $S_{C_1}^{Q_1} = -0{,}82$, $S_{C_2}^{Q_1} = +0{,}82$, $S_{R_a}^{Q_1} = -0{,}32$, $S_{R_b}^{Q_1} = +0{,}32$.
-  \item \textbf{Celda 2 ($Q_2 = 1{,}2845$):} $S_{R_3}^{Q_2} = +0{,}50$, $S_{R_4}^{Q_2} = -0{,}50$, $S_{C_3}^{Q_2} = -2{,}15$, $S_{C_4}^{Q_2} = +2{,}15$, $S_{R_a}^{Q_2} = -1{,}65$, $S_{R_b}^{Q_2} = +1{,}65$.
+  \item Ganancia en continua $G_0 = \SI{12.04}{\decibel}$ y ganancia máxima $G_{\max} = \SI{12.15}{\decibel}$ en
+    $\SI{3}{\kilo\hertz}$, es decir un sobrepico de $\SI{0.11}{\decibel}$.
+  \item En $f_p = \SI{5.5}{\kilo\hertz}$: $|H| = \SI{10.64}{\decibel}$, es decir una atenuación de
+    $\SI{1.40}{\decibel}$ respecto de $K$; se cumple $A(f_p) \le A_{\max}$.
+  \item Frecuencia de corte: $f_c = \SI{6173.3}{\hertz}$ tomando como referencia
+    $K - \SI{3}{\decibel} = \SI{9.03}{\decibel}$ ($+\SI{0.48}{\percent}$ respecto del valor teórico).
+  \item En la banda atenuada, el módulo en $2 f_p$ es de $-\SI{8.30}{\decibel}$ y en $10 f_p$ de
+    $-\SI{64.53}{\decibel}$, prácticamente iguales a los del operacional ideal.
+  \item Por encima de unos $\SI{100}{\kilo\hertz}$ la respuesta se aparta de la ideal: el módulo alcanza un mínimo de
+    $-\SI{86.7}{\decibel}$ en $\SI{141}{\kilo\hertz}$ y luego vuelve a crecer hasta $-\SI{47}{\decibel}$ en torno a
+    $\SI{4.5}{\mega\hertz}$. Esto se debe a que en cada celda la señal llega a la salida directamente a través de
+    $R_1$ y $C_2$ (o $R_3$ y $C_4$); a frecuencias altas $C_2$ se comporta como un cortocircuito y la atenuación
+    queda determinada por la impedancia de salida del operacional, que crece a medida que disminuye su ganancia de
+    lazo. Con operacional ideal (impedancia de salida nula) este camino no aparece.
 \end{itemize}
 
-Las sensibilidades de la celda 2 superan la unidad en módulo respecto a la capacidad ($|S_C^Q| = 2{,}15$), por lo que es la etapa más afectada por la dispersión de los componentes; en particular, $Q_2$ resulta más sensible a los capacitores que a los resistores. Se recomienda medir previamente con capacímetro los componentes pasivos antes del soldado para aproximar los valores a sus centros nominales.
+En síntesis, la frecuencia de corte obtenida por simulación ($\SI{6173.3}{\hertz}$) coincide con la calculada
+($\SI{6143.7}{\hertz}$) dentro del $\SI{0.5}{\percent}$, diferencia atribuible a la normalización de los resistores, y
+la condición de atenuación en $f_p$ se verifica con margen ($\SI{1.40}{\decibel}$ frente a $\SI{1.5}{\decibel}$). El
+TL084 no introduce desvíos apreciables en la banda de paso; su efecto se limita a la banda de rechazo por encima de
+$\SI{100}{\kilo\hertz}$, donde la atenuación se mantiene de todos modos por encima de $\SI{47}{\decibel}$.
 
 \section{Implementación y mediciones}
 \label{sec:pb-mediciones}
@@ -329,7 +360,7 @@ las lecturas experimentales de laboratorio.
     Banda de paso & $1\,000$ & $\SI{12.04}{\decibel}$ & $\SI{12.06}{\decibel}$ & $\SI{4.01}{\volt_{\text{pp}}}$ & & \\
     Pre-corte & $3\,000$ & $\SI{12.03}{\decibel}$ & $\SI{12.15}{\decibel}$ & $\SI{4.05}{\volt_{\text{pp}}}$ & & \\
     \textbf{Frecuencia de paso $f_p$} & $\mathbf{5\,500}$ & $\SI{10.54}{\decibel}$ ($\alpha=\SI{1.50}{\decibel}$) & $\SI{10.64}{\decibel}$ ($\alpha=\SI{1.40}{\decibel}$) & $\SI{3.40}{\volt_{\text{pp}}}$ & & \\
-    \textbf{Corte $-3\,\text{dB}$ ($f_c$)} & $\mathbf{6\,174}$ & $\SI{9.03}{\decibel}$ ($\alpha=\SI{3.01}{\decibel}$) & $\SI{9.03}{\decibel}$ ($\alpha=\SI{3.01}{\decibel}$) & $\SI{2.83}{\volt_{\text{pp}}}$ & & \\
+    \textbf{Corte $-3\,\text{dB}$ ($f_c$)} & $\mathbf{6\,174}$ & $\SI{8.94}{\decibel}$ ($\alpha=\SI{3.10}{\decibel}$) & $\SI{9.03}{\decibel}$ ($\alpha=\SI{3.01}{\decibel}$) & $\SI{2.83}{\volt_{\text{pp}}}$ & & \\
     Zona transición & $8\,000$ & $\SI{2.37}{\decibel}$ & $\SI{2.43}{\decibel}$ & $\SI{1.32}{\volt_{\text{pp}}}$ & & \\
     \textbf{Rechazo $2 f_p$} & $\mathbf{11\,000}$ & $-\SI{8.24}{\decibel}$ ($\alpha=\SI{20.28}{\decibel}$) & $-\SI{8.30}{\decibel}$ ($\alpha=\SI{20.34}{\decibel}$) & $\SI{385}{\milli\volt_{\text{pp}}}$ & & \\
     Rechazo intermedio & $20\,000$ & $-\SI{28.97}{\decibel}$ & $-\SI{29.25}{\decibel}$ & $\SI{34.5}{\milli\volt_{\text{pp}}}$ & & \\
