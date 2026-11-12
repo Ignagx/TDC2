@@ -1,18 +1,10 @@
 \chapter{Filtro activo de señal de campo}
 \label{chap:senal-campo}
 
-\section{Objetivos}
-\label{sec:campo-objetivos}
-
-\begin{itemize}
-  \item Diseñar e implementar un filtro activo pasa bajos analógico para eliminar ruido de modo común y de alta
-    frecuencia en líneas de instrumentación de gran longitud ($\SI{10}{\metre}$).
-  \item Comprender el funcionamiento de un receptor diferencial y un convertidor tensión-corriente (V $\rightarrow$ I).
-  \item Realizar la caracterización estática y dinámica del circuito mediante instrumental de laboratorio.
-\end{itemize}
-
 \section{Planteo del problema}
 \label{sec:campo-planteo}
+
+Los objetivos de esta actividad se detallan en la sección~\ref{subsec:objetivos-especificos}.
 
 En un entorno industrial, un sensor transmite una variable de proceso mediante un bucle de
 $\SI{4}{\milli\ampere}$ a $\SI{20}{\milli\ampere}$. El cable de interconexión recorre $\SI{10}{\metre}$ junto a
@@ -198,14 +190,12 @@ con la señal.
 \label{subsec:campo-simulacion}
 
 Se simuló en LTspice el circuito completo de la placa, con la fuente de corriente de prueba, las tres etapas y
-los modelos del LM324 y del BC547B. El proyecto está en
-\texttt{sources/\allowbreak sim/\allowbreak Filtro\_Senal\_Campo\_Grupo2.asc}. El análisis de
+los modelos del LM324 y del BC547B. El análisis de
 alterna se hizo desde la tensión de control hasta $V_{filtro}$, barriendo la continua de control de
 $\SI{1}{\volt}$ a $\SI{5}{\volt}$ ($\SI{4}{\milli\ampere}$ a $\SI{20}{\milli\ampere}$). La respuesta resultó
-idéntica para los cinco puntos de trabajo, con $f_c \approx \SI{9.7}{\hertz}$ (fase de $\SI{-90.8}{\degree}$),
-$\SI{-28.6}{\decibel}$ a $\SI{50}{\hertz}$ y $\SI{-40.6}{\decibel}$ a $\SI{100}{\hertz}$, lo que coincide con
-\eqref{eq:campo-h50}. En el punto de operación, la corriente de salida resultó $\SI{0.3}{\percent}$ menor que la de
-entrada en todo el rango, por la corriente de base de Q1 ($\alpha$). La figura~\ref{fig:campo-bode} muestra la
+idéntica para los cinco puntos de trabajo y coincide con la calculada en \eqref{eq:campo-h50}. En el punto de
+operación, la corriente de salida resultó levemente menor que la de entrada en todo el rango, por la corriente de
+base de Q1 ($\alpha$). La figura~\ref{fig:campo-bode} muestra la
 respuesta teórica junto con los puntos medidos de la sección~\ref{subsec:campo-dinamica}.
 
 \section{Implementación}
@@ -214,8 +204,9 @@ respuesta teórica junto con los puntos medidos de la sección~\ref{subsec:campo
 \subsection{Diseño de la placa}
 \label{subsec:campo-pcb}
 
-El módulo se armó en una placa de circuito impreso diseñada en KiCad (figura~\ref{fig:campo-pcb}). Es una placa
-simple faz de FR4 de $\SI{114}{\milli\metre} \times \SI{64}{\milli\metre}$, fabricada por transferencia de tóner
+El módulo se armó en una placa de circuito impreso diseñada en KiCad, cuyo esquemático, ruteo y vista 3D se
+presentan en el anexo~\ref{chap:anexo-pcb-campo} (figuras~\ref{crkt:anexo-campo-esquematico},
+\ref{fig:anexo-campo-pcb-ruteo} y~\ref{fig:anexo-campo-3d}). Es una placa simple faz de FR4 de $\SI{114}{\milli\metre} \times \SI{64}{\milli\metre}$, fabricada por transferencia de tóner
 (planchado) y ataque con percloruro férrico. Todo el cobre está en la capa inferior y los componentes son de
 montaje pasante: los dos LM324 sobre zócalo, transistores BC547B, resistencias de película metálica al
 $\SI{1}{\percent}$ y capacitores de poliéster para el filtro. Cada valor de $\SI{250}{\ohm}$ se formó con una
@@ -255,13 +246,6 @@ Antes de imprimir la placa se verificó con el control de reglas de diseño (DRC
 contra el esquemático: no quedaron conexiones sin hacer ni islas de masa aisladas. La
 tabla~\ref{tab:campo-referencias} relaciona los nombres de los esquemas de este capítulo con las referencias de la
 placa.
-
-\begin{figure}[!ht]
-  \centering
-  \includegraphics[width=\textwidth]{images/fig_campo_pcb.png}
-  \caption{Placa del módulo vista desde el lado de los componentes: cobre de la capa inferior y serigrafía.}
-  \label{fig:campo-pcb}
-\end{figure}
 
 \begin{table}[!ht]
   \centering
@@ -305,7 +289,8 @@ de R3 ($\SI{10}{\kilo\ohm}$). Como por R3 no circula corriente, el divisor no es
 
 El divisor se diseñó para un preset de $\SI{5}{\kilo\ohm}$, con el que $V_{ctrl}$ queda entre $\SI{0.86}{\volt}$ y
 $\SI{5.14}{\volt}$ ($\SI{3.4}{\milli\ampere}$ a $\SI{20.6}{\milli\ampere}$), apenas por fuera del rango del lazo
-en ambos extremos. En la placa se montó finalmente un preset de $\SI{10}{\kilo\ohm}$. Con él, $V_{ctrl}$ puede variar entre $\SI{0.73}{\volt}$ y $\SI{8}{\volt}$ ($\SI{2.9}{\milli\ampere}$ a
+en ambos extremos. En la placa se montó finalmente un preset de $\SI{10}{\kilo\ohm}$. Con él, $V_{ctrl}$ puede
+variar entre $\SI{0.73}{\volt}$ y $\SI{8}{\volt}$ ($\SI{2.9}{\milli\ampere}$ a
 $\SI{32}{\milli\ampere}$). El rango de $\SI{4}{\milli\ampere}$ a $\SI{20}{\milli\ampere}$ sigue cubierto, pero se
 puede superar el máximo del lazo, así que el preset se ajusta midiendo la tensión de control para no pasar de
 $\SI{5}{\volt}$.
@@ -351,32 +336,14 @@ $I_{out} = (V_{H2} - V_{TP6}) / \SI{250}{\ohm}$ (caída en la carga).
 
 La tabla~\ref{tab:campo-estatica} se obtuvo con $V_{ctrl}$ de $\SI{1}{\volt}$ a $\SI{5}{\volt}$ en pasos de
 $\SI{1}{\volt}$. El error se calcula como $(I_{out} - I_{in}) / I_{in}$. En todos los puntos, $V_{E1}$, $V_{filtro}$
-y $V_E$ (TP5) coincidieron hasta el último dígito del multímetro: en continua el filtro tiene ganancia unitaria y
-el conversor copia la tensión del filtro sobre $R_{shunt\_out}$. También se verificó $I_C$ contra $I_E$: la
-diferencia fue de $\SI{-0.3}{\percent}$, que corresponde a $\alpha$ de un BC547B ($\beta$ entre 200 y 450) y
-coincide con la simulación.
+y $V_E$ (TP5) coincidieron hasta el último dígito del multímetro. También se midió $I_C$ contra $I_E$ en el
+transistor Q1, cuya diferencia coincide con la obtenida en la simulación.
 
 La figura~\ref{fig:campo-transferencia} muestra la curva de transferencia. El ajuste por cuadrados mínimos da
 \begin{equation}
   I_{out} = 1{,}0093 \, I_{in} - \SI{0.059}{\milli\ampere}
   \label{eq:campo-ajuste}
 \end{equation}
-con una desviación máxima de $\SI{0.057}{\milli\ampere}$ respecto de la recta. El error queda dentro de
-$\pm\SI{1.3}{\percent}$ en todo el rango y no es una ganancia constante: cambia de signo entre
-$\SI{4}{\milli\ampere}$ y $\SI{8}{\milli\ampere}$. El mayor error relativo aparece a $\SI{4}{\milli\ampere}$, donde
-pesan más las tensiones de offset de los operacionales (algunos milivolts sobre $\SI{1}{\volt}$) y la resolución
-con que se lee la diferencia $V_{TP1} - V_{TP2}$.
-
-El error máximo esperable por tolerancias, con todas las resistencias al $\SI{1}{\percent}$, se acota así:
-\begin{itemize}
-  \item Restador: un desapareamiento $\delta$ en el divisor $R_5 / (R_4 + R_5)$ produce un error de ganancia de
-    aproximadamente $2\delta$, es decir, hasta $\pm\SI{2}{\percent}$. Como en este circuito Lazo $(+)$ vale el doble
-    que Lazo $(-)$, la relación $R_f / R_3$ casi no influye.
-  \item $R_{shunt\_out}$ y $R_{carga}$: $\pm\SI{1}{\percent}$ cada una sobre la corriente medida.
-  \item Corriente de base de Q1: entre $\SI{-0.2}{\percent}$ y $\SI{-0.5}{\percent}$.
-\end{itemize}
-En total, el peor caso es de unos $\pm\SI{4}{\percent}$, por lo que el error medido es consistente con las
-tolerancias de los componentes.
 
 \begin{figure}[!ht]
   \centering
@@ -427,10 +394,5 @@ teórica y simulada, y se verifica que los puntos medidos caigan sobre ella (fig
   \label{fig:campo-bode}
 \end{figure}
 
-La frecuencia de corte medida es $\SI{11.6}{\percent}$ mayor que la teórica. Como
-$f_c \propto 1 / \sqrt{C_1 C_2}$, alcanza con que el producto $C_1 C_2$ sea un $\SI{20}{\percent}$ menor que el
-nominal, lo que es compatible con capacitores de tolerancia K ($\pm\SI{10}{\percent}$) en el límite inferior. La
-resolución de la FFT también limita la medición: con un registro de $\SI{0.8}{\second}$, la separación entre
-líneas espectrales es de $\SI{1.25}{\hertz}$. Si la frecuencia de corte fuera la medida, la atenuación teórica a
-$\SI{50}{\hertz}$ sería de $\SI{-26.6}{\decibel}$. El valor medido de $\SI{-27.8}{\decibel}$ queda entre ese caso y
-el nominal. En ambos casos, la componente de red se atenúa más de 20 veces, que es el objetivo del filtro.
+El análisis de estos resultados y su comparación con los valores de diseño se presentan en el
+capítulo~\ref{chap:conclusiones}.

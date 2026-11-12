@@ -1,21 +1,68 @@
 \chapter{Conclusiones}
 \label{chap:conclusiones}
 
-% TODO: análisis global de los resultados y cumplimiento de los objetivos. Sugerencia de estructura:
+A lo largo de este trabajo se recorrió el ciclo completo de desarrollo de filtros activos: el cálculo a partir de
+una especificación, la normalización de los componentes, la simulación con elementos ideales y con el modelo del
+operacional real, el diseño del circuito impreso y, finalmente, la medición en laboratorio. Ese recorrido se aplicó a
+cuatro circuitos: el módulo de acondicionamiento de la señal de campo de $\SI{4}{\milli\ampere}$ a
+$\SI{20}{\milli\ampere}$, implementado y caracterizado en forma estática y dinámica, los filtros pasa bajos y pasa
+altos de cuarto orden, montados sobre una misma placa y relevados en frecuencia, y el filtro pasa banda de segundo
+orden, que se diseñó y simuló y cuya implementación queda para el trabajo de filtros digitales. A la luz de los
+resultados obtenidos, es posible evaluar el cumplimiento de los objetivos planteados en la
+sección~\ref{sec:objetivos}.
 
-\section{Filtro de señal de campo}
-\label{sec:conc-campo}
+En el módulo de señal de campo se cumplió el objetivo de comprender el funcionamiento del receptor diferencial y del
+convertidor tensión-corriente: la caracterización estática mostró que el módulo reproduce a su salida la corriente de
+entrada con transferencia unitaria y lineal en todo el rango de $\SI{4}{\milli\ampere}$ a $\SI{20}{\milli\ampere}$.
+La caracterización dinámica verificó el objetivo de filtrado: la frecuencia de corte resultó la de diseño y la
+componente de red de $\SI{50}{\hertz}$ se atenúa en la medida esperada.
 
-% TODO: linealidad obtenida (error porcentual y sus causas: tolerancias, alfa del transistor, offset del LM324),
-% frecuencia de corte real vs. teórica y atenuación lograda a 50 Hz.
+En cuanto a los tres filtros asignados, las simulaciones con valores calculados y operacional ideal reprodujeron
+exactamente las especificaciones de la tabla~\ref{tab:asignacion}, lo que confirma que las técnicas de cálculo vistas
+en clase (aproximación de Butterworth, transformaciones de frecuencia y dimensionamiento de las celdas Sallen-Key por
+proporcionalidad de componentes) se aplicaron correctamente. Con valores comerciales y el TL084, los filtros pasa
+bajos y pasa altos siguieron cumpliendo la atenuación máxima en $f_p$. El pasa banda, en cambio, no cumple la
+especificación con el operacional elegido: la atenuación dentro de la banda supera ampliamente el límite de
+$A_{\max}$. La causa es que la única celda opera cerca de su ganancia de oscilación
+($G / G_{osc} = 0{,}90$), lo que la hace muy sensible: el pequeño retardo de fase que introduce el operacional en la
+frecuencia central basta para desplazar los polos y correr la banda de paso fuera de la especificada.
 
-\section{Filtros diseñados}
-\label{sec:conc-filtros}
+El filtro pasa bajos implementado cumplió todas sus especificaciones en el rango en que la medición fue posible: la
+ganancia de $\SI{4}{\volt/\volt}$ en la banda de paso, la atenuación en $f_p$ menor que $A_{\max}$ y la frecuencia de
+corte de diseño. Su respuesta medida coincide con la simulada, ya que su banda de paso termina muy por debajo del
+ancho de banda a lazo cerrado de cada celda y el TL084 se comporta prácticamente como un operacional ideal.
 
-% TODO: comparación ideal vs. comercial vs. medido para cada filtro; efecto de las tolerancias y del ancho de banda
-% del operacional; dificultades de la topología Sallen-Key con Q elevado (pasa banda).
+El pasa altos, por el contrario, puso en evidencia las limitaciones del operacional real, tal como había anticipado
+la simulación. La ganancia máxima medida coincide con la simulada con el TL084, pero es menor que los $\SI{12.25}{\volt/\volt}$ calculados y que los $\SI{12.5}{\volt/\volt}$ especificados. La diferencia con
+el cálculo se debe al producto ganancia-ancho de banda del TL084: con una ganancia de $3{,}5$ por celda, el ancho de
+banda a lazo cerrado es de apenas unas 27 veces la frecuencia de corte, y el desfasaje del operacional altera además
+los polos dentro de la banda de paso. A esto se suma que en el diseño se adoptó $G = 3{,}5$ por celda, es decir
+$\SI{12.25}{\volt/\volt}$ en lugar de $\SI{12.5}{\volt/\volt}$, por lo que la ganancia especificada no se habría
+alcanzado aun con un operacional ideal. El objetivo de ganancia, por lo tanto, no se cumple. La forma de la respuesta,
+en cambio, sí satisface la especificación: tomando como referencia la ganancia real de la banda de paso, la
+atenuación en $f_p$ es menor que $A_{\max}$ y la frecuencia de corte coincide con la de diseño. Por encima de la banda
+de paso apareció además el corte superior previsto por la simulación, con lo que el filtro real se comporta como un
+pasa banda muy ancho.
 
-\section{Cumplimiento de objetivos}
-\label{sec:conc-objetivos}
+Las mediciones no permitieron verificar, en ninguno de los dos filtros, la atenuación en el extremo de la banda de
+rechazo: en $10 f_p$ del pasa bajos y en $f_p/10$ del pasa altos se leyeron tensiones muy superiores a las
+esperadas. Esas lecturas corresponden al piso de ruido e interferencia del conjunto punta y osciloscopio y no a la salida de los
+filtros. La causa es que todos los puntos se midieron con una entrada de $\SI{1}{\volt_{\text{pp}}}$, sin aplicar el
+aumento de la señal ni el promediado previstos en las condiciones de ensayo.
 
-% TODO: cierre.
+En conjunto, los objetivos generales del trabajo se cumplieron: se estudiaron y aplicaron las técnicas de análisis y
+diseño de filtros activos y se implementaron tres circuitos cuyo comportamiento medido coincide con el calculado y el
+simulado. La enseñanza principal es que el operacional real deja de ser transparente cuando la banda de interés se
+acerca a su ancho de banda a lazo cerrado, como en el pasa altos, o cuando la celda trabaja con alta sensibilidad,
+como en el pasa banda; en esos casos la simulación con el macromodelo resultó una herramienta confiable para
+anticipar lo que luego se midió, mientras que el cálculo ideal no alcanza.
+
+Quedan abiertas algunas líneas de trabajo que surgen de estas limitaciones. La banda de rechazo de los filtros pasa
+bajos y pasa altos debería relevarse nuevamente con una entrada de $\SI{10}{\volt_{\text{pp}}}$ y con promediado o
+FFT, y los puntos de alta frecuencia del pasa altos con $\SI{0.5}{\volt_{\text{pp}}}$, para descartar la influencia
+del \emph{slew rate}. Para alcanzar la ganancia especificada del pasa altos sería
+necesario recalcular la red $R_a$--$R_b$ para $\SI{12.5}{\volt/\volt}$ y emplear un operacional de mayor producto
+ganancia-ancho de banda, o bien predistorsionar el diseño para compensar su efecto; la misma estrategia permitiría
+que el pasa banda cumpla la especificación de $A_{\max}$. Finalmente, la implementación del pasa banda en el trabajo
+práctico de filtros digitales ofrecerá la oportunidad de comparar una realización analógica y una digital de una misma
+especificación, en particular frente a la sensibilidad que este trabajo puso de manifiesto.

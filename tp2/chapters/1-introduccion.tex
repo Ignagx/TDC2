@@ -4,10 +4,41 @@
 \section{Objetivos}
 \label{sec:objetivos}
 
+\subsection{Objetivos generales}
+\label{subsec:objetivos-generales}
+
 \begin{itemize}
   \item Estudiar los conceptos básicos sobre el análisis y diseño de filtros activos.
   \item Aplicar las técnicas explicadas en clase para el cálculo de filtros activos.
   \item Implementar filtros activos.
+\end{itemize}
+
+\subsection{Objetivos específicos}
+\label{subsec:objetivos-especificos}
+
+Para el filtro activo de señal de campo (capítulo~\ref{chap:senal-campo}):
+\begin{itemize}
+  \item Diseñar e implementar un filtro activo pasa bajos analógico para eliminar ruido de modo común y de alta
+    frecuencia en líneas de instrumentación de gran longitud ($\SI{10}{\metre}$), con frecuencia de corte
+    $f_c = \SI{10}{\hertz}$ y aproximación Butterworth, que atenúe la componente de red de $\SI{50}{\hertz}$.
+  \item Comprender el funcionamiento de un receptor diferencial y un convertidor tensión-corriente (V $\rightarrow$ I),
+    de modo que el módulo completo reproduzca a su salida la corriente de entrada de $\SI{4}{\milli\ampere}$ a
+    $\SI{20}{\milli\ampere}$ con transferencia unitaria.
+  \item Realizar la caracterización estática (linealidad) y dinámica (frecuencia de corte y atenuación a
+    $\SI{50}{\hertz}$) del circuito mediante instrumental de laboratorio.
+\end{itemize}
+
+Para los filtros pasa bajos, pasa altos y pasa banda (capítulos~\ref{chap:pasa-bajos} a~\ref{chap:pasa-banda}):
+\begin{itemize}
+  \item Diseñar cada filtro con la aproximación, el orden, la topología, la atenuación máxima en la banda de paso
+    $A_{\max}$, la frecuencia de paso (o central y ancho de banda) y la ganancia asignadas en la
+    tabla~\ref{tab:asignacion}.
+  \item Verificar por simulación, con elementos ideales y con valores comerciales y el macromodelo del TL084, que
+    cada filtro cumpla esas especificaciones, y determinar cuánto se apartan de ellas por efecto de la normalización
+    de los componentes y del amplificador operacional real.
+  \item Implementar los filtros pasa bajos y pasa altos en un circuito impreso y relevar su respuesta en frecuencia,
+    verificando la ganancia en la banda de paso, la atenuación en $f_p$ y la frecuencia de corte frente a los valores
+    calculados y simulados.
 \end{itemize}
 
 \section{Descripción del trabajo práctico}
@@ -21,7 +52,9 @@ segundo orden y un convertidor tensión-corriente, todo alimentado con una fuent
 La segunda actividad (capítulos~\ref{chap:pasa-bajos} a~\ref{chap:pasa-banda}) consiste en el diseño de tres filtros
 con los parámetros asignados al grupo, resumidos en la tabla~\ref{tab:asignacion}. Para cada uno se realizan los
 cálculos, las simulaciones con elementos ideales y con valores comerciales, y para dos de ellos la implementación
-física y el relevamiento de la respuesta en frecuencia.
+física y el relevamiento de la respuesta en frecuencia. Los filtros implementados son el pasa bajos y el pasa altos,
+montados en una misma placa con un único TL084; el pasa banda se diseña y simula en este trabajo y, de acuerdo con la
+consigna, su implementación se realizará en el trabajo práctico de filtros digitales.
 
 \begin{table}[!ht]
   \centering
@@ -39,4 +72,3 @@ física y el relevamiento de la respuesta en frecuencia.
   \label{tab:asignacion}
 \end{table}
 
-% TODO: indicar cuáles dos filtros se implementan físicamente y cuál queda para el TP de filtros digitales.

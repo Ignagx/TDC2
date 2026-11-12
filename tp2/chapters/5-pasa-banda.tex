@@ -253,9 +253,8 @@ y fijando $R_a = \SI{5.6}{\kilo\ohm}$:
 \end{equation}
 
 Reemplazando estos valores en \eqref{eq:pbd-sk-h} se obtienen exactamente los coeficientes de
-\eqref{eq:pbd-transferencia-num}: $G/(R_1 C_1) = \SI{6.29881e5}{\per\second}$,
-$\omega_0/Q_p = \SI{6.99868e4}{\per\second}$ y $\omega_0^2 = \SI{3.09511e10}{\per\second\squared}$, es decir
-$f_0 = \SI{28000.0}{\hertz}$, $Q_p = 2{,}5137$ y $K = \SI{9.000}{\volt/\volt}$.
+\eqref{eq:pbd-transferencia-num}, es decir $f_0 = \SI{28}{\kilo\hertz}$, $Q_p \approx 2{,}51$ y
+$K = \SI{9}{\volt/\volt}$.
 
 \subsection{Valores comerciales}
 \label{subsec:pbd-comerciales}
@@ -263,30 +262,10 @@ $f_0 = \SI{28000.0}{\hertz}$, $Q_p = 2{,}5137$ y $K = \SI{9.000}{\volt/\volt}$.
 Se seleccionan resistores de película metálica de la serie E24 ($\SI{1}{\percent}$) y capacitores de poliéster de la
 serie E6 ($\SI{5}{\percent}$). Siguiendo el procedimiento de la bibliografía, primero se normalizan los elementos que
 fijan $\omega_0$ y luego se recalcula la ganancia $G$ necesaria para el $Q_p$ especificado con los valores ya
-normalizados:
-\begin{itemize}
-  \item $R_1 = R_f = \SI{2237.11}{\ohm} \rightarrow \SI{2.2}{\kilo\ohm}$ ($-\SI{1.66}{\percent}$) y
-    $R_2 = \SI{12837.60}{\ohm} \rightarrow \SI{13}{\kilo\ohm}$ ($+\SI{1.27}{\percent}$), con lo cual
-    $m_S = R_2 / R_1 = 5{,}9091$ y $f_{0S} = \SI{28058.27}{\hertz}$ ($+\SI{0.21}{\percent}$).
-  \item Ganancia requerida: $G = 2 + \dfrac{2}{m_S} - \dfrac{1}{Q_p}\sqrt{\dfrac{2}{m_S}} = 2{,}10702$, que con
-    $R_a = \SI{5.6}{\kilo\ohm}$ exige $R_b = \SI{6199.34}{\ohm} \rightarrow \SI{6.2}{\kilo\ohm}$, es decir
-    $G_S = 2{,}10714$ ($+\SI{0.006}{\percent}$).
-\end{itemize}
-
-Recalculando con \eqref{eq:pbd-sk-parametros} y los valores comerciales:
-\begin{equation}
-  H_{com}(s) = \frac{6{,}3853 \times 10^5\,s}{s^2 + 7{,}0097 \times 10^4\,s + 3{,}1080 \times 10^{10}}
-\end{equation}
-\begin{itemize}
-  \item $f_0 = \SI{28058.27}{\hertz}$ ($+\SI{0.21}{\percent}$) y $Q_p = 2{,}5150$ ($+\SI{0.05}{\percent}$).
-  \item $K = \SI{9.109}{\volt/\volt}$ ($\SI{19.190}{\decibel}$, $+\SI{1.21}{\percent}$, $+\SI{0.105}{\decibel}$).
-  \item $f_{p1} = \SI{27219.85}{\hertz}$, $f_{p2} = \SI{28922.51}{\hertz}$, $BW = \SI{1702.67}{\hertz}$
-    ($+\SI{0.16}{\percent}$).
-  \item $f_{c1} = \SI{23029.26}{\hertz}$, $f_{c2} = \SI{34185.48}{\hertz}$,
-    $BW_{\SI{3}{\decibel}} = \SI{11156.22}{\hertz}$ ($+\SI{0.16}{\percent}$).
-\end{itemize}
-Con amplificador ideal, los valores comerciales prácticamente reproducen el diseño; la ganancia central resulta un
-$\SI{1.2}{\percent}$ mayor.
+normalizados. Así, $R_1$, $R_f$ y $R_2$ se llevan a los valores de la serie E24 más cercanos y, con ellos, la ganancia
+requerida se obtiene con $R_a = \SI{5.6}{\kilo\ohm}$ y $R_b = \SI{6.2}{\kilo\ohm}$. Con amplificador ideal, los
+valores comerciales prácticamente reproducen el diseño: la frecuencia central, el factor de calidad y el ancho de
+banda casi no cambian, y la ganancia central resulta levemente mayor ($\SI{9.11}{\volt/\volt}$).
 
 La tabla~\ref{tab:pbd-componentes} resume los valores calculados y comerciales.
 
@@ -338,8 +317,7 @@ zona más plana de la curva. Las frecuencias características se obtuvieron medi
 Para separar el efecto de la normalización de los componentes del efecto del amplificador real, se simularon además,
 en el mismo programa, dos variantes con operacional ideal (fuente controlada de ganancia $10^7$ y
 $R_{in} = \SI{1}{\tera\ohm}$): una con los valores exactos calculados y otra con los valores comerciales. Los
-resultados de las tres simulaciones se procesaron y superpusieron con la respuesta teórica \eqref{eq:pbd-canonica}
-mediante un script, que mide además las frecuencias características por interpolación logarítmica.
+resultados de las tres simulaciones se superponen con la respuesta teórica \eqref{eq:pbd-canonica}.
 
 \subsection{Función de transferencia con elementos ideales}
 \label{subsec:pbd-sim-ideal}
@@ -355,22 +333,13 @@ la respuesta teórica.
   \label{fig:pbd-bode}
 \end{figure}
 
-Con los valores calculados y operacional ideal, la curva simulada se superpone exactamente con la teórica. La ganancia
-máxima es de $\SI{19.085}{\decibel}$ ($\SI{9.000}{\volt/\volt}$) en $f_0 = \SI{28.000}{\kilo\hertz}$, los puntos de
-$\SI{-0.1}{\decibel}$ se miden en $f_{p1} = \SI{27162.9}{\hertz}$ y $f_{p2} = \SI{28862.8}{\hertz}$
-($BW = \SI{1700.0}{\hertz}$) y los de $\SI{-3}{\decibel}$ en $f_{c1} = \SI{22979.1}{\hertz}$ y
-$f_{c2} = \SI{34117.9}{\hertz}$, en acuerdo con el diseño. Fuera de la banda, las
-pendientes son de $\pm\SI{20}{\decibel/\text{década}}$ y los módulos en $f_0/10$ y $10 f_0$ valen
-$-\SI{8.84}{\decibel}$. La fase parte de $+\SI{90}{\degree}$ (cero en el
-origen), vale $+\SI{45}{\degree}$ en $f_{c1}$, $\SI{0}{\degree}$ en $f_0$ y $-\SI{45}{\degree}$ en $f_{c2}$, y tiende
-a $-\SI{90}{\degree}$ en alta frecuencia.
+Con los valores calculados y operacional ideal, la curva simulada se superpone exactamente con la teórica: la ganancia
+máxima, la frecuencia central y el ancho de banda medido entre los puntos de $\SI{-0.1}{\decibel}$ coinciden con los
+de diseño, y las pendientes y la fase fuera de la banda son las de un pasa banda de segundo orden.
 
-Con valores comerciales y operacional ideal se obtiene $f_0 = \SI{28058.3}{\hertz}$ ($+\SI{0.21}{\percent}$),
-$Q_p = 2{,}5150$ y $BW = \SI{1702.4}{\hertz}$ ($+\SI{0.14}{\percent}$), y la ganancia máxima sube a
-$\SI{19.190}{\decibel}$ ($\SI{9.109}{\volt/\volt}$), en acuerdo con el recálculo de la
-sección~\ref{subsec:pbd-comerciales}. El leve corrimiento de $f_0$ hace que la atenuación máxima dentro de la banda
-especificada, de $\SI{27162.9}{\hertz}$ a $\SI{28862.9}{\hertz}$, sea de $\SI{0.114}{\decibel}$, levemente por
-encima de $A_{\max}$.
+Con valores comerciales y operacional ideal, la frecuencia central y el ancho de banda casi no cambian y la ganancia
+máxima aumenta levemente. Sin embargo, el pequeño corrimiento de $f_0$ basta para que la atenuación dentro de la banda
+especificada quede apenas por encima de $A_{\max}$, lo que muestra lo exigente de la especificación.
 
 \subsection{Función de transferencia con valores comerciales y macromodelo TL084}
 \label{subsec:pbd-sim-real}
@@ -414,38 +383,17 @@ $\SI{3}{\mega\hertz}$, su ancho de banda a lazo cerrado es aproximadamente
   f_{BW} \approx \frac{\text{GBW}}{G} = \frac{\SI{3}{\mega\hertz}}{2{,}107} \approx \SI{1.42}{\mega\hertz}
 \end{equation}
 unas 50 veces $f_0$. En la frecuencia central el módulo de esa ganancia prácticamente no cambia, pero aparece un
-retardo de fase de aproximadamente $\SI{1.1}{\degree}$. Como la celda funciona con realimentación positiva a través
-de $R_f$ y cerca de la ganancia de oscilación ($G / G_{osc} = 0{,}90$), ese pequeño desfasaje basta para desplazar
-los polos: baja la frecuencia central y aumenta $Q_p$. Modelando el operacional con un único polo dominante
-($\text{GBW} = \SI{3}{\mega\hertz}$) se obtiene $f_0 = \SI{27.10}{\kilo\hertz}$ y $Q_p = 2{,}595$, en buen acuerdo
-con la simulación del macromodelo. Con valores comerciales y el macromodelo TL084 se obtiene:
-\begin{itemize}
-  \item La frecuencia central baja a $f_0 = \SI{27182.0}{\hertz}$, un $\SI{3.1}{\percent}$ por debajo de la obtenida
-    con operacional ideal, y $Q_p$ aumenta a $2{,}593$ ($+\SI{3.1}{\percent}$).
-  \item La banda de $\SI{-0.1}{\decibel}$ se desplaza a $[\num{26394.0}; \num{27993.8}]\,\si{\hertz}$ y se angosta a
-    $\SI{1599.9}{\hertz}$ ($-\SI{5.9}{\percent}$). Dentro de la banda especificada, la atenuación alcanza
-    $\SI{0.402}{\decibel}$ en $f_{p2}$, cuatro veces $A_{\max}$, por lo que con el operacional real el filtro
-    \emph{no} cumple la especificación de atenuación en la banda de paso.
-  \item La ganancia máxima prácticamente no cambia ($\SI{19.181}{\decibel}$, $\SI{9.100}{\volt/\volt}$).
-  \item La fase en la frecuencia central es de $-\SI{0.9}{\degree}$, y en $f_{c1}$ y $f_{c2}$ es de
-    $+\SI{44.2}{\degree}$ y $-\SI{46.1}{\degree}$. Por encima de unos $\SI{100}{\kilo\hertz}$ la respuesta se aparta
-    de la ideal: la fase llega a $-\SI{123}{\degree}$ en $\SI{1}{\mega\hertz}$, frente a $-\SI{89}{\degree}$ con
-    operacional ideal, y el módulo cae $\SI{1.4}{\decibel}$ más que el ideal en $\SI{1}{\mega\hertz}$ y unos
-    $\SI{12}{\decibel}$ más en $\SI{5}{\mega\hertz}$.
-\end{itemize}
+pequeño retardo de fase. Como la celda funciona con realimentación positiva a través de $R_f$ y cerca de la ganancia
+de oscilación ($G / G_{osc} = 0{,}90$), ese desfasaje basta para desplazar los polos: la frecuencia central baja y
+$Q_p$ aumenta. Un modelo del operacional con un único polo dominante reproduce este resultado.
 
-En síntesis, el diseño con valores calculados y operacional ideal reproduce exactamente la especificación
-($f_0 = \SI{28}{\kilo\hertz}$, $BW = \SI{1.7}{\kilo\hertz}$ a $\SI{-0.1}{\decibel}$ y $K = \SI{9}{\volt/\volt}$)
-con una única celda, gracias a la elección de $m$. La normalización de los componentes modifica $f_0$ en
-$+\SI{0.21}{\percent}$, $Q_p$ en $+\SI{0.05}{\percent}$ y $K$ en $+\SI{1.2}{\percent}$, y lleva la atenuación
-dentro de la banda especificada a $\SI{0.114}{\decibel}$. La principal limitación del diseño con TL084 es el
-desplazamiento de los polos causado por el desfasaje del operacional: $f_0$ baja un $\SI{3}{\percent}$, $Q_p$ sube en
-la misma proporción y la atenuación en la banda especificada llega a $\SI{0.40}{\decibel}$, por lo que la
-especificación de $A_{\max}$ no se cumple, aunque la ganancia central casi no cambia ($\SI{9.100}{\volt/\volt}$).
+Como consecuencia, con el TL084 la banda de $\SI{-0.1}{\decibel}$ se corre hacia frecuencias más bajas y se angosta, y
+la atenuación dentro de la banda especificada supera ampliamente a $A_{\max}$: con el operacional real, el filtro no
+cumple la especificación de atenuación en la banda de paso. La ganancia central, en cambio, prácticamente no cambia.
+Muy por encima de la banda de paso la respuesta se aparta de la ideal, con un retraso de fase y una caída del módulo
+mayores, efecto que no afecta a la banda de interés.
 
-\section{Implementación y mediciones}
-\label{sec:pbd-mediciones}
-
-De acuerdo con la lista de materiales del anexo, los filtros implementados físicamente en este trabajo son el pasa
-bajos y el pasa altos (Placa 2). El filtro pasa banda no se implementa en esta instancia: según la consigna, el filtro
-no implementado se realizará en el trabajo práctico de filtros digitales.
+En síntesis, el diseño con valores calculados y operacional ideal reproduce exactamente la especificación con una
+única celda, gracias a la elección de $m$, y la normalización de los componentes apenas la modifica. La principal
+limitación del diseño con TL084 es el desplazamiento de los polos causado por el desfasaje del operacional, que hace
+que no se cumpla $A_{\max}$.

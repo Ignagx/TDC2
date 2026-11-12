@@ -16,52 +16,112 @@ en la bibliografía técnica del proyecto:
   \item BC337: Transistor bipolar NPN para la etapa 3 sumidero de corriente en el lazo industrial.
 \end{itemize}
 
-\chapter{Cálculos auxiliares}
-\label{chap:anexo-calculos}
+\chapter{Placa del filtro de señal de campo}
+\label{chap:anexo-pcb-campo}
 
-En la carpeta \texttt{sources/} del repositorio se disponen los documentos analíticos de soporte:
-\begin{itemize}
-  \item \texttt{Calculos\_PasaBajos\_Pedro.pdf}: Deducción matemática formal de la aproximación Butterworth de orden
-    4, transformación de impedancias y resolución de la ecuación cuadrática para Sallen-Key.
-  \item \texttt{Informe\_PasaBajos\_y\_Compras\_Pedro\_Grupo2.pdf}: Informe extendido de diseño del filtro pasa bajos
-    y especificación técnica de compras.
-\end{itemize}
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[angle=90,height=0.82\textheight]{images/fig_campo_kicad_esquematico.pdf}
+  \caption{Esquemático en KiCad de la placa del filtro de señal de campo.}
+  \label{crkt:anexo-campo-esquematico}
+\end{figure}
 
-\chapter{Archivos de simulación}
-\label{chap:anexo-simulacion}
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\textwidth]{images/fig_campo_pcb_ruteo.pdf}
+  \caption{Ruteo de la placa del filtro de señal de campo, espejado: capa inferior B.Cu (azul) y serigrafía
+    (amarillo).}
+  \label{fig:anexo-campo-pcb-ruteo}
+\end{figure}
 
-En la carpeta \texttt{sources/sim/} se alojan los proyectos completos de simulación SPICE y scripts de cálculo:
-\begin{itemize}
-  \item \texttt{Filtro\_PasaBajos\_Solo\_TL084.asc}: Esquemático de simulación en LTspice del filtro pasa bajos de
-    4.\textsuperscript{to} orden con valores comerciales y macromodelo TL084 (incluye directivas \texttt{.meas} de
-    ganancia, frecuencia de corte y atenuación en $f_p$). Su impresión se encuentra en
-    \texttt{esquematico\_pasa\_bajos\_ltspice.png}.
-  \item \texttt{PasaBajos\_Ideal\_vs\_Comercial.cir}: Netlist de LTspice del filtro pasa bajos con operacional ideal,
-    para valores calculados y comerciales.
-  \item \texttt{analisis\_pasa\_bajos.py}: Script en Python que lee los resultados de LTspice y genera las figuras de
-    respuesta en frecuencia del filtro pasa bajos.
-  \item \texttt{TL084.lib}: Biblioteca con el macromodelo oficial de Texas Instruments del amplificador operacional
-    TL084.
-  \item \texttt{pasa alto.asc} y \texttt{TL082.asy}: Modelos de simulación de la etapa pasa altos.
-  \item \texttt{Filtro\_PasaAltos\_Orden4\_Grupo2.asc}: Esquemático de simulación en LTspice del filtro pasa altos de
-    4.\textsuperscript{to} orden con valores comerciales y macromodelo TL084 (incluye directivas \texttt{.meas} de
-    frecuencias de corte y atenuación en $f_p$). Su impresión se encuentra en
-    \texttt{esquematico\_pasa\_altos\_ltspice.png}.
-  \item \texttt{PasaAltos\_Ideal\_vs\_Comercial.cir}: Netlist de LTspice del filtro pasa altos con operacional ideal,
-    para valores calculados y comerciales.
-  \item \texttt{analisis\_pasa\_altos.py}: Script en Python que lee los resultados de LTspice y genera las figuras de
-    respuesta en frecuencia del filtro pasa altos.
-  \item \texttt{Filtro\_PasaBanda\_Orden2\_Grupo2.asc}: Esquemático de simulación en LTspice del filtro pasa banda de
-    2.\textsuperscript{do} orden con valores comerciales y macromodelo TL084 (incluye directivas \texttt{.meas} de
-    ganancia máxima y de los puntos de $\SI{-0.1}{\decibel}$ y $\SI{-3}{\decibel}$). Su impresión se encuentra en
-    \texttt{esquematico\_pasa\_banda\_ltspice.png}.
-  \item \texttt{PasaBanda\_Ideal\_vs\_Comercial.cir}: Netlist de LTspice del filtro pasa banda con operacional ideal,
-    para valores calculados y comerciales.
-  \item \texttt{diseno\_pasa\_banda.py}: Script en Python que calcula los valores de diseño del filtro pasa banda y
-    los recalcula con los componentes comerciales.
-  \item \texttt{analisis\_pasa\_banda.py}: Script en Python que lee los resultados de LTspice, mide las frecuencias
-    características y genera las figuras de respuesta en frecuencia del filtro pasa banda.
-\end{itemize}
+\begin{figure}[!ht]
+  \centering
+  \begin{subfigure}[t]{0.49\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{images/fig_campo_3d_top.png}
+    \caption{Vista superior.}
+    \label{fig:anexo-campo-3d-top}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[t]{0.49\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{images/fig_campo_3d_iso.png}
+    \caption{Vista isométrica.}
+    \label{fig:anexo-campo-3d-iso}
+  \end{subfigure}
+  \caption{Vista 3D en KiCad de la placa del filtro de señal de campo.}
+  \label{fig:anexo-campo-3d}
+\end{figure}
+
+\chapter{Placa de los filtros pasa bajos y pasa altos}
+\label{chap:anexo-pcb}
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[angle=90,height=0.82\textheight]{images/fig_filtros_kicad_esquematico.pdf}
+  \caption{Esquemático en KiCad de la placa de filtros: pasa bajos (izquierda), pasa altos (derecha) y alimentación
+    del TL084 (arriba).}
+  \label{crkt:anexo-filtros-esquematico}
+\end{figure}
+
+\begin{table}[!ht]
+  \centering
+  \begin{tabular}{|l|c|c|c|}
+    \hline
+    Filtro & Informe & KiCad & Valor \\
+    \hline
+    \multirow{8}{*}{Pasa bajos} & $R_1$ & R9 & $\SI{1.5}{\kilo\ohm}$ \\
+    & $R_2$ & R10 & $\SI{4.7}{\kilo\ohm}$ \\
+    & $R_3$ & R13 & $\SI{3.3}{\kilo\ohm}$ \\
+    & $R_4$ & R14 & $\SI{2.0}{\kilo\ohm}$ \\
+    & $R_{a1}$ / $R_{b1}$ & R12 / R11 & $\SI{10}{\kilo\ohm}$ \\
+    & $R_{a2}$ / $R_{b2}$ & R15 / R16 & $\SI{10}{\kilo\ohm}$ \\
+    & $C_1$, $C_2$ (celda 1) & C7, C8 & $\SI{10}{\nano\farad}$ \\
+    & $C_3$, $C_4$ (celda 2) & C9, C10 & $\SI{10}{\nano\farad}$ \\
+    \hline
+    \multirow{8}{*}{Pasa altos} & $R_1$ (a masa) & R3 & $\SI{3.0}{\kilo\ohm}$ \\
+    & $R_2$ (realim.) & R4 & $\SI{8.2}{\kilo\ohm}$ \\
+    & $R_3$ (a masa) & R5 & $\SI{3.9}{\kilo\ohm}$ \\
+    & $R_4$ (realim.) & R7 & $\SI{6.8}{\kilo\ohm}$ \\
+    & $R_{a1}$ / $R_{b1}$ & R2 / R1 & $\SI{12}{\kilo\ohm}$ / $\SI{30}{\kilo\ohm}$ \\
+    & $R_{a2}$ / $R_{b2}$ & R6 / R8 & $\SI{12}{\kilo\ohm}$ / $\SI{30}{\kilo\ohm}$ \\
+    & $C_1$, $C_2$ (celda 1) & C2, C1 & $\SI{1}{\nano\farad}$ \\
+    & $C_3$, $C_4$ (celda 2) & C3, C4 & $\SI{1}{\nano\farad}$ \\
+    \hline
+    \multirow{2}{*}{Común} & Desacople & C5, C6 & $\SI{100}{\nano\farad}$ \\
+    & Operacional & U1 & TL084 \\
+    \hline
+  \end{tabular}
+  \caption{Correspondencia entre la designación de componentes del informe y la del esquemático de KiCad.}
+  \label{tab:anexo-designadores}
+\end{table}
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=0.8\textwidth]{images/fig_filtros_pcb_ruteo.pdf}
+  \caption{Ruteo de la placa de filtros, espejado: capa inferior B.Cu (azul), puentes en F.Cu (rojo) y serigrafía
+    (amarillo).}
+  \label{fig:anexo-filtros-pcb-ruteo}
+\end{figure}
+
+\begin{figure}[!ht]
+  \centering
+  \begin{subfigure}[t]{0.49\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{images/fig_filtros_3d_top.png}
+    \caption{Vista superior.}
+    \label{fig:anexo-filtros-3d-top}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[t]{0.49\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{images/fig_filtros_3d_iso.png}
+    \caption{Vista isométrica.}
+    \label{fig:anexo-filtros-3d-iso}
+  \end{subfigure}
+  \caption{Vista 3D en KiCad de la placa de los filtros pasa bajos y pasa altos.}
+  \label{fig:anexo-filtros-3d}
+\end{figure}
 
 \chapter{Lista de materiales (BOM) y balance de compras}
 \label{chap:anexo-bom}

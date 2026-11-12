@@ -97,12 +97,12 @@ La ganancia total se reparte de forma simétrica entre ambas celdas, adoptando $
   \label{eq:pa-ganancia}
 \end{equation}
 
-La ganancia especificada es de $\SI{12.5}{\volt/\volt}$ ($\SI{21.94}{\decibel}$); el reparto simétrico
-exacto requeriría $G_1 = G_2 = \sqrt{12{,}5} = 3{,}536$. Con el valor redondeado $G = 3{,}5$ adoptado en los cálculos
-de diseño, la ganancia total resulta un $\SI{2}{\percent}$ inferior ($-\SI{0.18}{\decibel}$). Esta diferencia no
-afecta la forma de la respuesta (frecuencia de corte ni factores $Q$, que se calculan para $G = 3{,}5$) y se mantiene
-en el resto del capítulo; si se quisiera ajustar exactamente la ganancia, alcanzaría con modificar la red
-$R_a$--$R_b$ y recalcular $m$ con \eqref{eq:pa-cuadratica}.
+La ganancia especificada es de $\SI{12.5}{\volt/\volt}$; el reparto simétrico exacto requeriría
+$G_1 = G_2 = \sqrt{12{,}5} \approx 3{,}54$. Con el valor redondeado $G = 3{,}5$ adoptado en el diseño, la ganancia
+total resulta levemente inferior ($\SI{12.25}{\volt/\volt}$). Esta diferencia no afecta la forma de la respuesta, ya
+que la frecuencia de corte y los factores $Q$ se calculan para $G = 3{,}5$, y se mantiene en el resto del capítulo;
+para ajustar exactamente la ganancia alcanzaría con modificar la red $R_a$--$R_b$ y recalcular $m$ con
+\eqref{eq:pa-cuadratica}.
 
 La función de transferencia analítica total desnormalizada resulta:
 \begin{equation}
@@ -267,16 +267,9 @@ adoptados.
   \label{tab:pa-componentes}
 \end{table}
 
-Recalculando los parámetros característicos con \eqref{eq:pa-sk-w0-qp} y los valores comerciales nominales:
-\begin{itemize}
-  \item Celda 1: $f_{01} = \SI{32.09}{\kilo\hertz}$ (desvío $+\SI{2.06}{\percent}$), $Q_{1} = 0{,}5573$
-    (desvío $+\SI{2.97}{\percent}$).
-  \item Celda 2: $f_{02} = \SI{30.91}{\kilo\hertz}$ (desvío $-\SI{1.70}{\percent}$), $Q_{2} = 1{,}3376$
-    (desvío $+\SI{2.37}{\percent}$).
-\end{itemize}
-
-Los desvíos son mayores que en el pasa bajos porque los valores calculados quedan más alejados de los normalizados
-(por ejemplo, $\SI{8462.86}{\ohm} \rightarrow \SI{8.2}{\kilo\ohm}$, $-\SI{3.1}{\percent}$).
+Con los valores comerciales, las frecuencias naturales y los factores de calidad de ambas celdas se apartan unos
+pocos por ciento de los de diseño. Los desvíos son algo mayores que en el pasa bajos porque los valores calculados
+quedan más alejados de los normalizados (por ejemplo, $\SI{8462.86}{\ohm} \rightarrow \SI{8.2}{\kilo\ohm}$).
 
 \section{Simulación}
 \label{sec:pa-simulacion}
@@ -302,8 +295,7 @@ $H(j\omega)$. Las frecuencias características se obtuvieron mediante directivas
 Para separar el efecto de la normalización de los componentes del efecto del amplificador real, se simularon además,
 en el mismo programa, dos variantes con operacional ideal (fuente controlada de ganancia $10^7$ y
 $R_{in} = \SI{1}{\tera\ohm}$): una con los valores exactos calculados y otra con los valores comerciales. Los
-resultados de las tres simulaciones se procesaron y superpusieron con la respuesta teórica
-\eqref{eq:pa-transferencia-gral} mediante un script.
+resultados de las tres simulaciones se superponen con la respuesta teórica \eqref{eq:pa-transferencia-gral}.
 
 \subsection{Función de transferencia con elementos ideales}
 \label{subsec:pa-sim-ideal}
@@ -320,22 +312,12 @@ respuesta teórica de Butterworth.
 \end{figure}
 
 Con los valores calculados y operacional ideal, la curva simulada se superpone exactamente con la teórica: la
-frecuencia de corte a $\SI{-3}{\decibel}$ respecto de $K$ se mide en $f_c = \SI{31.440}{\kilo\hertz}$ y la
-atenuación en $f_p$ es de $\SI{2.25}{\decibel}$, idénticas a los valores de \eqref{eq:pa-fc} y
-\eqref{eq:pa-epsilon}. En la banda de paso la ganancia se mantiene en $\SI{21.76}{\decibel}$
-($\SI{12.25}{\volt/\volt}$) sin sobrepico, como corresponde a una respuesta maximalmente plana. Por debajo de $f_c$
-la pendiente asintótica es de $+\SI{80}{\decibel/\text{década}}$ ($+\SI{24}{\decibel/\text{octava}}$),
-característica de un orden $n = 4$; en $f_p/10 = \SI{3.3}{\kilo\hertz}$ el módulo es de
-$-\SI{56.55}{\decibel}$.
+frecuencia de corte y la atenuación en $f_p$ coinciden con las de diseño, la banda de paso es plana, sin sobrepico, y
+la pendiente y la variación total de fase son las que corresponden a un filtro de orden 4, de forma simétrica (en
+escala logarítmica) a las del pasa bajos.
 
-La fase parte de $+\SI{360}{\degree}$ a muy baja frecuencia (cuatro ceros en el origen), pasa por
-$\SI{180}{\degree}$ en $f_0$ y tiende a $\SI{0}{\degree}$ en alta frecuencia, comportamiento simétrico (en escala
-logarítmica) al del pasa bajos.
-
-Con valores comerciales y operacional ideal, la frecuencia de corte se desplaza a $f_c = \SI{30.69}{\kilo\hertz}$
-($-\SI{2.4}{\percent}$) y la atenuación en $f_p$ baja a $\SI{1.88}{\decibel}$, con un leve sobrepico de
-$\SI{0.07}{\decibel}$ en torno a $\SI{64}{\kilo\hertz}$ debido al aumento de los factores $Q$. La especificación
-$A(f_p) \le A_{\max}$ se sigue cumpliendo con margen.
+Con valores comerciales y operacional ideal, la frecuencia de corte baja levemente y aparece un sobrepico muy pequeño
+por el aumento de los factores $Q$; la especificación $A(f_p) \le A_{\max}$ se sigue cumpliendo con margen.
 
 \subsection{Función de transferencia con valores comerciales y macromodelo TL084}
 \label{subsec:pa-sim-real}
@@ -358,52 +340,98 @@ aproximadamente
   f_{BW} \approx \frac{\text{GBW}}{G} = \frac{\SI{3}{\mega\hertz}}{3{,}5} \approx \SI{857}{\kilo\hertz}
 \end{equation}
 apenas 27 veces la frecuencia de corte. Además, el desfasaje introducido por el operacional modifica la
-realimentación positiva de la celda y altera los polos también dentro de la banda de paso. Los resultados de la simulación con TL084 son:
-\begin{itemize}
-  \item Ganancia máxima $G_{\max} = \SI{20.75}{\decibel}$ en $\SI{48.7}{\kilo\hertz}$, es decir
-    $\SI{1.01}{\decibel}$ por debajo de la ganancia nominal $K$; en $\SI{200}{\kilo\hertz}$ el módulo ya cae a
-    $\SI{20.27}{\decibel}$.
-  \item En $f_p = \SI{33}{\kilo\hertz}$: $|H| = \SI{19.58}{\decibel}$, es decir una atenuación de
-    $\SI{2.18}{\decibel}$ respecto de $K$ y de $\SI{1.17}{\decibel}$ respecto de $G_{\max}$; se cumple
-    $A(f_p) \le A_{\max}$.
-  \item Frecuencia de corte inferior: $f_c = \SI{30.84}{\kilo\hertz}$ tomando como referencia
-    $K - \SI{3}{\decibel} = \SI{18.75}{\decibel}$ ($-\SI{1.9}{\percent}$ respecto del valor teórico) y
-    $f_c = \SI{29.06}{\kilo\hertz}$ tomando como referencia $G_{\max} - \SI{3}{\decibel}$.
-  \item Frecuencia de corte superior (efecto del GBW): $f_{c,\text{sup}} = \SI{761}{\kilo\hertz}$
-    ($G_{\max} - \SI{3}{\decibel}$). Por encima de ella la respuesta decae y el filtro se comporta, en la práctica,
-    como un pasa banda muy ancho.
-  \item En la banda atenuada, el módulo en $f_p/10$ es de $-\SI{56.58}{\decibel}$ y la pendiente se mantiene en
-    $+\SI{80}{\decibel/\text{década}}$: el operacional no influye en la zona de rechazo.
-  \item La fase sigue a la teórica por debajo de $f_c$, pero en la banda de paso presenta un retraso creciente: cruza
-    $\SI{0}{\degree}$ cerca de $\SI{200}{\kilo\hertz}$ y alcanza $-\SI{95}{\degree}$ en $\SI{1}{\mega\hertz}$.
-\end{itemize}
+realimentación positiva de la celda y altera los polos también dentro de la banda de paso.
 
-En síntesis, la frecuencia de corte obtenida por simulación ($\SI{30.84}{\kilo\hertz}$) coincide con la calculada
-($\SI{31.44}{\kilo\hertz}$) dentro del $\SI{2}{\percent}$, diferencia atribuible principalmente a la normalización de
-los resistores, y la condición de atenuación en $f_p$ se verifica. La principal limitación del diseño con TL084 es la
-reducción de la ganancia en banda de paso (aproximadamente $\SI{1}{\decibel}$) y su caída por encima de algunos
-cientos de kilohertz; si se requiriera una banda de paso plana en un rango más amplio, convendría emplear un
-operacional de mayor GBW o repartir la ganancia de modo de reducir la exigencia sobre la celda de mayor $Q$.
+Como consecuencia, con el TL084 la ganancia en la banda de paso queda por debajo de la nominal y comienza a caer por
+encima de algunos cientos de kilohertz, hasta un corte superior; en la práctica, el filtro se comporta como un pasa
+banda muy ancho. La atenuación en $f_p$ sigue siendo menor que $A_{\max}$ y la frecuencia de corte inferior
+prácticamente no cambia. En la banda de rechazo el operacional no influye. La fase sigue a la teórica por debajo de
+$f_c$, pero en la banda de paso presenta un retraso que crece con la frecuencia.
+
+La principal limitación del diseño con TL084 es, entonces, la reducción de la ganancia en la banda de paso y su caída
+por encima de algunos cientos de kilohertz. Si se requiriera una banda de paso plana en un rango más amplio, convendría
+emplear un operacional de mayor GBW o repartir la ganancia de modo de reducir la exigencia sobre cada celda.
 
 \section{Implementación y mediciones}
 \label{sec:pa-mediciones}
 
-% TODO: si este filtro es uno de los dos implementados: armado, fotos en pictures/, tabla de barrido en frecuencia,
-% captura del perfil de frecuencia (FFT) del osciloscopio y comparación medido vs. simulado. Si no se implementa,
-% indicar que se realiza en el TP de filtros digitales.
+\subsection{Implementación en circuito impreso}
+\label{subsec:pa-pcb}
+
+El filtro pasa altos se montó en la misma placa que el pasa bajos (sección~\ref{subsec:pb-pcb}), empleando las
+secciones B y C del TL084. El esquemático, el ruteo y la vista 3D de la placa se encuentran en el
+anexo~\ref{chap:anexo-pcb} (figuras~\ref{crkt:anexo-filtros-esquematico}, \ref{fig:anexo-filtros-pcb-ruteo}
+y~\ref{fig:anexo-filtros-3d}), y la correspondencia de designadores en la
+tabla~\ref{tab:anexo-designadores}.
+
+\subsection{Condiciones de ensayo en laboratorio}
+\label{subsec:pa-condiciones}
+
+Para el ensayo y caracterización experimental en el banco de trabajo, se establecen las siguientes condiciones:
+\begin{itemize}
+  \item Alimentación: Fuente regulada doble simétrica fijada en $\pm\SI{15}{\volt}$, verificando conexión de masa
+    común entre fuente, generador de funciones y osciloscopio.
+  \item Señal de prueba: Onda senoidal pura de baja distorsión con amplitud de referencia
+    $V_{\text{in}} = \SI{1.00}{\volt_{\text{pp}}}$ sin tensión de offset continuo. En banda de paso la salida
+    esperada es de $\SI{10.3}{}$ a $\SI{10.9}{\volt_{\text{pp}}}$ (nominal ideal $\SI{12.25}{\volt_{\text{pp}}}$),
+    lejos de los límites de excursión de salida del TL084 ($\approx \SI{26}{\volt_{\text{pp}}}$).
+  \item Medición en baja frecuencia ($f_p/10$): Por debajo de $\SI{10}{\kilo\hertz}$, debido a la fuerte atenuación
+    ($> \SI{40}{\decibel}$), se incrementa la señal del generador a $\SI{5.00}{\volt_{\text{pp}}}$ o
+    $\SI{10.0}{\volt_{\text{pp}}}$ y se activa el promediado (Average) o la transformada rápida de Fourier (FFT) del
+    osciloscopio digital.
+  \item Medición en alta frecuencia: Por encima de unos $\SI{300}{\kilo\hertz}$, una salida de
+    $\SI{10}{\volt_{\text{pp}}}$ exige una velocidad de variación $2\pi f V_{\text{p}}$ cercana o superior al
+    \emph{slew rate} del TL084 ($\SI{13}{\volt/\micro\second}$), lo que distorsionaría la salida y falsearía la
+    medición del efecto del GBW. En esa zona se reduce la señal de entrada a $\SI{0.50}{\volt_{\text{pp}}}$.
+\end{itemize}
+
+En la práctica, todos los puntos del barrido, incluidos los de baja y alta frecuencia, se midieron con
+$V_{\text{in}} = \SI{1.00}{\volt_{\text{pp}}}$, leyendo la tensión pico a pico de salida con el osciloscopio. Se
+agregó además un punto en $\SI{1.5}{\mega\hertz}$ para caracterizar la caída de la respuesta por encima del corte
+superior.
+
+\subsection{Resultados de las mediciones}
+\label{subsec:pa-tabla-visado}
+
+La tabla~\ref{tab:pa-barrido} compara, para cada frecuencia ensayada, la tensión de salida y el módulo de la transferencia
+simulados con componentes comerciales y modelo TL084 con los medidos, donde
+$|H| = 20 \log_{10} \left( V_{\text{out}} / V_{\text{in}} \right)$, junto con la diferencia entre ambos.
 
 \begin{table}[!ht]
   \centering
-  \begin{tabular}{|c|c|c|c|c|}
+  \begin{tabular}{|l|c|c|c|c|c|c|}
     \hline
-    $f$ [\si{\kilo\hertz}] & $V_{in,pp}$ [\si{\volt}] & $V_{out,pp}$ [\si{\volt}] & $|H|$ medido [\si{\decibel}]
-      & $|H|$ simulado [\si{\decibel}] \\
+    \multirow{2}{*}{Punto} & \multirow{2}{*}{$f$ [\si{\hertz}]} & \multicolumn{2}{c|}{$V_{\text{out}}$ [\si{\volt_{\text{pp}}}]}
+      & \multicolumn{2}{c|}{$|H|$ [\si{\decibel}]} & Med. $-$ sim. \\
+    \cline{3-6}
+    & & Sim. & Med. & Sim. & Med. & [\si{\decibel}] \\
     \hline
-     & & & & \\
-     & & & & \\
-     & & & & \\
+    $f_p/10$ & $3\,300$ & $0{,}00148$ & $0{,}025$ & $-56{,}58$ & $-32{,}04$ & $+24{,}54$\textsuperscript{$*$} \\
+    Rechazo & $10\,000$ & $0{,}128$ & $0{,}135$ & $-17{,}83$ & $-17{,}39$ & $+0{,}43$ \\
+    $f_p/2$ & $16\,500$ & $0{,}991$ & $0{,}845$ & $-0{,}08$ & $-1{,}46$ & $-1{,}38$ \\
+    Transición & $25\,000$ & $5{,}03$ & $4{,}27$ & $14{,}03$ & $12{,}61$ & $-1{,}42$ \\
+    $f_c$ & $31\,440$ & $8{,}93$ & $8{,}2$ & $19{,}02$ & $18{,}28$ & $-0{,}75$ \\
+    $f_p$ & $33\,000$ & $9{,}53$ & $8{,}93$ & $19{,}58$ & $19{,}02$ & $-0{,}56$ \\
+    Máximo & $48\,700$ & $10{,}9$ & $10{,}7$ & $20{,}75$ & $20{,}59$ & $-0{,}16$ \\
+    Banda de paso & $200\,000$ & $10{,}3$ & $10{,}325$ & $20{,}27$ & $20{,}28$ & $+0{,}01$ \\
+    Corte superior & $761\,000$ & $7{,}71$ & $8{,}1$ & $17{,}74$ & $18{,}17$ & $+0{,}43$ \\
+    Sobre corte sup. & $1\,500\,000$ & $4{,}03$ & $3{,}74$ & $12{,}10$ & $11{,}46$ & $-0{,}65$ \\
     \hline
   \end{tabular}
-  \caption{Relevamiento de la respuesta en frecuencia del filtro pasa altos.}
+  \caption{Valores simulados (componentes comerciales y TL084) y medidos del filtro pasa altos ($V_{\text{in}} = \SI{1}{\volt_{\text{pp}}}$). \textsuperscript{$*$}Lectura limitada por el piso de medición del osciloscopio.}
   \label{tab:pa-barrido}
 \end{table}
+
+En la figura~\ref{fig:pa-medido-vs-simulado} se superponen los puntos medidos con la respuesta teórica Butterworth y con la
+simulación en LTspice (valores comerciales y TL084); en el panel inferior se grafica la diferencia entre la medición y
+la simulación en cada frecuencia. El análisis de estos resultados frente a los objetivos del trabajo se presenta
+en el capítulo~\ref{chap:conclusiones}.
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=0.92\textwidth]{images/fig10_pa_medido_vs_simulado}
+  \caption{Respuesta en frecuencia medida del filtro pasa altos comparada con la teórica y la simulada (arriba) y
+    desvío entre medición y simulación (abajo). El marcador hueco corresponde a una lectura limitada por el piso de
+    medición.}
+  \label{fig:pa-medido-vs-simulado}
+\end{figure}
