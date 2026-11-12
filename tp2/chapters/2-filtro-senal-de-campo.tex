@@ -317,29 +317,8 @@ entre dos agujeros, donde se engancha la punta del osciloscopio o un cocodrilo.
 
 Antes de imprimir la placa se verificó con el control de reglas de diseño (DRC) de KiCad, con el plano rellenado y
 contra el esquemático: no quedaron conexiones sin hacer ni islas de masa aisladas. La
-tabla~\ref{tab:campo-referencias} relaciona los nombres de los esquemas de este capítulo con las referencias de la
-placa.
-
-\begin{table}[!ht]
-  \centering
-  \resizebox{\textwidth}{!}{\begin{tabular}{|l|c|c|c|}
-    \hline
-    Función & Esquema & Placa & Punto de prueba \\
-    \hline
-    Seguidor de Lazo $(-)$ & U1A & U1A & TP2 (Lazo $-$) \\
-    Seguidor de Lazo $(+)$ & U1B & U1C & TP1 (Lazo $+$) \\
-    Restador ($R_3$, $R_4$, $R_5$, $R_f$) & U1C & U1D (R16, R17, R18, R19) & TP3 ($V_{E1}$) \\
-    Shunt de entrada y $R_{CM}$ & $R_{shunt\_in}$, $R_{CM}$ & R14 + R13, R15 & -- \\
-    Filtro ($R_1$, $R_2$, $C_1$, $C_2$) & U1D & U2D (R20, R21, C3, C4) & TP4 ($V_{filtro}$) \\
-    Conversor V $\rightarrow$ I ($R_B$, $R_{shunt\_out}$) & U2A, Q1 & U2A, Q1 (R5, R9 + R10) & TP5 ($V_E$) \\
-    Carga (PLC) & $R_{carga}$ & R8 + R7 & TP6 ($V_C$) \\
-    Fuente de corriente de prueba & -- & U1B, Q2 (R6 + R11, R12) & -- \\
-    Secciones sin uso & U2B a U2D & U2B, U2C & -- \\
-    \hline
-  \end{tabular}}
-  \caption{Correspondencia entre los esquemas y las referencias de la placa.}
-  \label{tab:campo-referencias}
-\end{table}
+tabla~\ref{tab:campo-referencias}, en el anexo~\ref{chap:anexo-pcb-campo}, relaciona los nombres de los esquemas
+de este capítulo con las referencias de la placa.
 
 \subsection{Generación de la corriente de lazo}
 \label{subsec:campo-fuente-prueba}
