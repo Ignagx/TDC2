@@ -132,7 +132,7 @@ realimentación positiva. Para obtener una respuesta pasa altos se intercambian 
 pasa bajos: $Z_1 = \frac{1}{s C_1}$, $Z_2 = \frac{1}{s C_2}$, $Z_3 = R_1$ (a masa) y $Z_4 = R_2$ (realimentación),
 resultando el circuito de la figura~\ref{crkt:sk-pasa-altos}.
 
-\begin{figure}[!ht]
+\begin{figure}[H]
   \centering
   \input{figures/sallen-key-pasa-altos.tex}
   \caption{Etapa Sallen-Key pasa altos de segundo orden con ganancia $G = 1 + R_b / R_a$.}
@@ -284,7 +284,7 @@ opción de impresión de LTspice, se presenta en la figura~\ref{crkt:pa-esquemat
 una fuente de excitación de amplitud unitaria (\texttt{AC 1}), de modo que $V(\text{vout})$ coincide directamente con
 $H(j\omega)$. Las frecuencias características se obtuvieron mediante directivas \texttt{.meas}.
 
-\begin{figure}[!ht]
+\begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{sources/sim/esquematico_pasa_altos_ltspice.png}
   \caption{Esquemático en LTspice del filtro pasa altos Butterworth de 4.\textsuperscript{to} orden: dos celdas
@@ -303,7 +303,7 @@ resultados de las tres simulaciones se superponen con la respuesta teórica \eqr
 En la figura~\ref{fig:pa-bode} se presenta el diagrama de Bode de módulo y fase de las tres simulaciones junto con la
 respuesta teórica de Butterworth.
 
-\begin{figure}[!ht]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.92\textwidth]{images/fig5_pa_bode_comparativo}
   \caption{Diagrama de Bode de magnitud y fase del filtro pasa altos: comparación teórica, valores calculados y
@@ -325,7 +325,7 @@ por el aumento de los factores $Q$; la especificación $A(f_p) \le A_{\max}$ se 
 La figura~\ref{fig:pa-zoom-banda} muestra el detalle de la banda de paso y de la zona de corte, donde se aprecia el
 efecto del operacional real.
 
-\begin{figure}[!ht]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.88\textwidth]{images/fig6_pa_zoom_banda_paso}
   \caption{Detalle ampliado de la banda de paso y frecuencia de corte del filtro pasa altos.}
@@ -359,9 +359,9 @@ emplear un operacional de mayor GBW o repartir la ganancia de modo de reducir la
 \label{subsec:pa-pcb}
 
 El filtro pasa altos se montó en la misma placa que el pasa bajos (sección~\ref{subsec:pb-pcb}), empleando las
-secciones B y C del TL084. El esquemático, el ruteo y la vista 3D de la placa se encuentran en el
-anexo~\ref{chap:anexo-pcb} (figuras~\ref{crkt:anexo-filtros-esquematico}, \ref{fig:anexo-filtros-pcb-ruteo}
-y~\ref{fig:anexo-filtros-3d}), y la correspondencia de designadores en la
+secciones B y C del TL084. El esquemático, el ruteo, la vista 3D y las fotografías de la placa construida se
+encuentran en el anexo~\ref{chap:anexo-pcb} (figuras~\ref{crkt:anexo-filtros-esquematico},
+\ref{fig:anexo-filtros-pcb-ruteo}, \ref{fig:anexo-filtros-3d} y~\ref{fig:anexo-filtros-fotos}), y la correspondencia de designadores en la
 tabla~\ref{tab:anexo-designadores}.
 
 \subsection{Condiciones de ensayo en laboratorio}
@@ -427,7 +427,7 @@ simulación en LTspice (valores comerciales y TL084); en el panel inferior se gr
 la simulación en cada frecuencia. El análisis de estos resultados frente a los objetivos del trabajo se presenta
 en el capítulo~\ref{chap:conclusiones}.
 
-\begin{figure}[!ht]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.92\textwidth]{images/fig10_pa_medido_vs_simulado}
   \caption{Respuesta en frecuencia medida del filtro pasa altos comparada con la teórica y la simulada (arriba) y
@@ -435,3 +435,46 @@ en el capítulo~\ref{chap:conclusiones}.
     medición.}
   \label{fig:pa-medido-vs-simulado}
 \end{figure}
+
+\subsection{Frecuencia de corte a partir de la FFT}
+\label{subsec:pa-fft}
+
+Como verificación adicional de la frecuencia de corte, se aplicó a la entrada un barrido de frecuencia con el
+generador y se observó en el osciloscopio la FFT de la salida del filtro pasa altos. Primero, con los cursores de
+amplitud, se ubicó el nivel de la banda de paso y el nivel $\SI{3}{\decibel}$ por debajo
+(figura~\ref{fig:pa-fft-amplitud}). Después se llevó el cursor de frecuencia hasta el punto en que el perfil de la
+FFT cae a ese nivel y se leyó allí la frecuencia de corte (figura~\ref{fig:pa-fft-frecuencia}). La
+tabla~\ref{tab:pa-fft} resume las lecturas junto con los valores de diseño.
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[t]{0.49\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{images/fig_pa_fft_barrido_amplitud.png}
+    \caption{Cursores de amplitud en el nivel de la banda de paso y $\SI{3}{\decibel}$ por debajo.}
+    \label{fig:pa-fft-amplitud}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[t]{0.49\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{images/fig_pa_fft_barrido_frecuencia.png}
+    \caption{Cursores de frecuencia en el punto que cae $\SI{3}{\decibel}$ respecto de la banda de paso.}
+    \label{fig:pa-fft-frecuencia}
+  \end{subfigure}
+  \caption{FFT de la salida del filtro pasa altos durante el barrido de frecuencia.}
+  \label{fig:pa-fft}
+\end{figure}
+
+\begin{table}[!ht]
+  \centering
+  \begin{tabular}{|l|c|c|}
+    \hline
+    Parámetro & Diseño & FFT \\
+    \hline
+    Caída entre cursores de amplitud & $\SI{3}{\decibel}$ & $\SI{3.2}{\decibel}$ \\
+    $f_c$ ($\SI{-3}{\decibel}$) & $\SI{31440}{\hertz}$ & $\SI{28000}{\hertz}$ \\
+    \hline
+  \end{tabular}
+  \caption{Frecuencia de corte del filtro pasa altos leída sobre la FFT, comparada con la de diseño.}
+  \label{tab:pa-fft}
+\end{table}

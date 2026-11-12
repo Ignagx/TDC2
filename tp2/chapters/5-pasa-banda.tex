@@ -133,7 +133,7 @@ resulta proporcional a $(1 - G)$, que es negativo para la ganancia $G > 1$ que s
 semiplano derecho y, por lo tanto, un circuito inestable. Se adopta por ello la celda Sallen-Key pasa banda
 \emph{topología I} de la bibliografía de la cátedra~\cite{barbero2024}, presentada en la figura~\ref{crkt:pbd-sk}.
 
-\begin{figure}[!ht]
+\begin{figure}[H]
   \centering
   \input{figures/sallen-key-pasa-banda-topologia-i.tex}
   \caption{Celda Sallen-Key pasa banda (topología I) con ganancia no inversora $G = 1 + R_b / R_a$.}
@@ -306,7 +306,7 @@ una fuente de excitación de amplitud unitaria (\texttt{AC 1}), de modo que $V(\
 $H(j\omega)$. La resolución es mayor que en el pasa altos porque los puntos de $\SI{-0.1}{\decibel}$ caen sobre la
 zona más plana de la curva. Las frecuencias características se obtuvieron mediante directivas \texttt{.meas}.
 
-\begin{figure}[!ht]
+\begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{sources/sim/esquematico_pasa_banda_ltspice.png}
   \caption{Esquemático en LTspice del filtro pasa banda Butterworth de 2.\textsuperscript{do} orden: celda Sallen-Key
@@ -325,7 +325,7 @@ resultados de las tres simulaciones se superponen con la respuesta teórica \eqr
 En la figura~\ref{fig:pbd-bode} se presenta el diagrama de Bode de módulo y fase de todas las simulaciones junto con
 la respuesta teórica.
 
-\begin{figure}[!ht]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.92\textwidth]{images/fig7_pbd_bode_comparativo}
   \caption{Diagrama de Bode de magnitud y fase del filtro pasa banda: respuesta teórica, valores calculados y
@@ -347,7 +347,7 @@ especificada quede apenas por encima de $A_{\max}$, lo que muestra lo exigente d
 La figura~\ref{fig:pbd-zoom-banda} muestra el detalle de la banda de paso, con la banda especificada sombreada. La
 tabla~\ref{tab:pbd-resultados} resume las magnitudes medidas en cada simulación.
 
-\begin{figure}[!ht]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.88\textwidth]{images/fig8_pbd_zoom_banda_paso}
   \caption{Detalle ampliado de la banda de paso del filtro pasa banda. La zona sombreada corresponde a la banda

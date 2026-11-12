@@ -13,7 +13,7 @@ señal pueda ser procesada por la entrada analógica diferencial de corriente de
 intermedio de filtrado activo alimentado con la fuente industrial de $\SI{24}{\volt}$, compuesto por las tres etapas
 en cascada de la figura~\ref{fig:diagrama-bloques}.
 
-\begin{figure}[!ht]
+\begin{figure}[H]
   \centering
   \input{figures/diagrama-bloques.tex}
   \caption{Diagrama en bloques del módulo de filtrado.}
@@ -61,7 +61,7 @@ $\SI{-1.23}{\percent}$. El restador U1C tiene ganancia unitaria con $R_3 = R_4 =
   \label{eq:ve1}
 \end{equation}
 
-\begin{figure}[!ht]
+\begin{figure}[H]
   \centering
   \input{figures/etapa1-instrumentacion.tex}
   \caption{Etapa 1: amplificador de instrumentación de ganancia unitaria.}
@@ -83,7 +83,7 @@ $\SI{20}{\milli\ampere}$, donde $\alpha = \beta / (\beta + 1)$. Con $\beta \appr
 corriente de base es de $\SI{-0.5}{\percent}$ a $\SI{-1}{\percent}$, y debe tenerse en cuenta en el análisis de
 error de la caracterización estática.
 
-\begin{figure}[!ht]
+\begin{figure}[H]
   \centering
   \input{figures/etapa3-conversor-vi.tex}
   \caption{Etapa 3: convertidor tensión-corriente.}
@@ -139,7 +139,7 @@ por lo que $R_1$ y $R_2$ son las raíces de $x^2 - \SI{22.5}{\kilo\ohm} \, x + \
 \end{equation}
 Como $Q$ es simétrico en $R_1$ y $R_2$, también podrían intercambiarse.
 
-\begin{figure}[!ht]
+\begin{figure}[H]
   \centering
   \input{figures/sallen-key-pasa-bajos-unitario.tex}
   \caption{Etapa 2: filtro pasa bajos Sallen-Key de ganancia unitaria.}
@@ -203,7 +203,7 @@ modo que $V_{filtro}$ (nodo \texttt{salida2}) coincide con la transferencia desd
 para $V_{ctrl} = 1$, 2, 3, 4 y $\SI{5}{\volt}$ ($\SI{4}{\milli\ampere}$ a $\SI{20}{\milli\ampere}$), y las
 frecuencias características se obtuvieron mediante directivas \texttt{.meas}.
 
-\begin{figure}[!ht]
+\begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{sources/sim/esquematico_senal_campo_ltspice.png}
   \caption{Esquemático en LTspice del módulo completo: fuente de corriente de prueba, receptor diferencial,
@@ -223,7 +223,7 @@ valores comerciales. Los resultados de las simulaciones se superponen con la res
 En la figura~\ref{fig:campo-bode-ideal} se presenta el diagrama de Bode de módulo y fase de las simulaciones junto
 con la respuesta teórica de Butterworth.
 
-\begin{figure}[!ht]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.92\textwidth]{images/fig_campo_bode_comparativo}
   \caption{Diagrama de Bode de magnitud y fase del filtro de señal de campo: comparación teórica, valores
@@ -247,7 +247,7 @@ Butterworth, no aparece sobrepico.
 La figura~\ref{fig:campo-zoom-banda} muestra el detalle de la banda de paso y de la zona de corte del circuito
 completo para los cinco valores de $V_{ctrl}$.
 
-\begin{figure}[!ht]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.88\textwidth]{images/fig_campo_zoom_banda_paso}
   \caption{Detalle ampliado de la banda de paso y de la frecuencia de corte del filtro de señal de campo, para los
@@ -277,8 +277,10 @@ $\SI{4}{\milli\ampere}$ y $\SI{-0.26}{\percent}$ a $\SI{20}{\milli\ampere}$.
 
 El módulo se armó en una placa de circuito impreso diseñada en KiCad, cuyo esquemático, ruteo y vista 3D se
 presentan en el anexo~\ref{chap:anexo-pcb-campo} (figuras~\ref{crkt:anexo-campo-esquematico},
-\ref{fig:anexo-campo-pcb-ruteo} y~\ref{fig:anexo-campo-3d}). Es una placa simple faz de FR4 de $\SI{114}{\milli\metre} \times \SI{64}{\milli\metre}$, fabricada por transferencia de tóner
-(planchado) y ataque con percloruro férrico. Todo el cobre está en la capa inferior y los componentes son de
+\ref{fig:anexo-campo-pcb-ruteo} y~\ref{fig:anexo-campo-3d}), junto con las fotografías de la placa construida
+(figura~\ref{fig:anexo-campo-fotos}). Es una placa simple faz de FR4 de
+$\SI{114}{\milli\metre} \times \SI{64}{\milli\metre}$, fabricada por transferencia de tóner (planchado) y ataque
+con percloruro férrico. Todo el cobre está en la capa inferior y los componentes son de
 montaje pasante: los dos LM324 sobre zócalo, transistores BC547B, resistencias de película metálica al
 $\SI{1}{\percent}$ y capacitores de poliéster para el filtro. Cada valor de $\SI{250}{\ohm}$ se formó con una
 resistencia de $\SI{100}{\ohm}$ y una de $\SI{150}{\ohm}$ en serie, porque $\SI{250}{\ohm}$ no es un valor de la
@@ -379,8 +381,6 @@ Las corrientes se miden con el multímetro en volts de continua sobre las resist
 $I_{in} = (V_{TP1} - V_{TP2}) / \SI{250}{\ohm}$ (caída en el shunt de entrada) e
 $I_{out} = (V_{H2} - V_{TP6}) / \SI{250}{\ohm}$ (caída en la carga).
 
-% TODO: agregar fotos de la placa armada en pictures/.
-
 \section{Mediciones}
 \label{sec:campo-mediciones}
 
@@ -416,7 +416,7 @@ La figura~\ref{fig:campo-transferencia} muestra la curva de transferencia. El aj
   \label{eq:campo-ajuste}
 \end{equation}
 
-\begin{figure}[!ht]
+\begin{figure}[H]
   \centering
   \input{figures/campo-transferencia-estatica.tex}
   \caption{Curva de transferencia estática $I_{out}$ en función de $I_{in}$.}
@@ -436,7 +436,7 @@ Se registraron los dos parámetros que caracterizan al filtro: la frecuencia de 
 de red. El resto de la curva no se relevó punto a punto. Para ese tramo se toma como referencia la respuesta
 teórica y simulada, y se verifica que los puntos medidos caigan sobre ella (figura~\ref{fig:campo-medido-simulado}).
 
-\begin{figure}[!ht]
+\begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{images/fig_campo_fft_barrido.png}
   \caption{Barrido de frecuencia: entrada del filtro (canal 1, amarillo), salida (canal 2, celeste) y FFT de la

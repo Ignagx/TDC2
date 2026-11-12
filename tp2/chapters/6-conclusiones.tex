@@ -44,6 +44,19 @@ atenuación en $f_p$ es menor que $A_{\max}$ y la frecuencia de corte coincide c
 de paso apareció además el corte superior previsto por la simulación, con lo que el filtro real se comporta como un
 pasa banda muy ancho.
 
+La FFT de la salida durante el barrido de frecuencia mostró en ambos filtros el perfil característico buscado: en el
+pasa bajos, un nivel plano en la banda de paso que cae por encima del corte, y en el pasa altos, la banda de rechazo
+en baja frecuencia seguida de la subida hasta el nivel de la banda de paso. Esto confirma de forma cualitativa el tipo
+de respuesta de cada placa. La lectura de la frecuencia de corte sobre esa FFT dio, en cambio, en los dos filtros un
+valor menor que el de diseño, con un corrimiento más marcado en el pasa bajos que en el pasa altos. Este resultado no coincide con
+el relevamiento punto a punto, que ubicó la caída de la respuesta en la frecuencia de corte de diseño, y se atribuye
+al método más que a los filtros. El perfil que muestra la FFT durante el barrido no es solo el módulo de la
+transferencia: incluye también la forma en que el barrido reparte su energía en frecuencia y el ensanchamiento propio
+de superponer muchos espectros, por lo que su envolvente no es plana aun en la banda de paso. A esto se suma que la
+lectura con cursores es gruesa, al punto que la separación entre los cursores de amplitud no quedó exactamente en el
+valor buscado. El método resulta útil para obtener rápidamente una estimación de la frecuencia de corte, pero para
+verificar la especificación se toma como válido el relevamiento punto a punto.
+
 Las mediciones no permitieron verificar, en ninguno de los dos filtros, la atenuación en el extremo de la banda de
 rechazo: en $10 f_p$ del pasa bajos y en $f_p/10$ del pasa altos se leyeron tensiones muy superiores a las
 esperadas. Esas lecturas corresponden al piso de ruido e interferencia del conjunto punta y osciloscopio y no a la salida de los

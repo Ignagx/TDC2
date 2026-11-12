@@ -115,7 +115,7 @@ Reemplazando los valores numéricos de diseño:
 La topología Sallen-Key para un filtro pasa bajos de segundo orden con ganancia no inversora $G = 1 + R_b / R_a$ se
 presenta en la figura~\ref{crkt:sk-pasa-bajos}.
 
-\begin{figure}[!ht]
+\begin{figure}[H]
   \centering
   \input{figures/sallen-key-pasa-bajos.tex}
   \caption{Etapa Sallen-Key pasa bajos de segundo orden con ganancia $G = 1 + R_b / R_a$.}
@@ -233,7 +233,7 @@ opción de impresión de LTspice, se presenta en la figura~\ref{crkt:pb-esquemat
 una fuente de excitación de amplitud unitaria (\texttt{AC 1}), de modo que $V(\text{vout})$ coincide directamente con
 $H(j\omega)$. Las frecuencias características se obtuvieron mediante directivas \texttt{.meas}.
 
-\begin{figure}[!ht]
+\begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{sources/sim/esquematico_pasa_bajos_ltspice.png}
   \caption{Esquemático en LTspice del filtro pasa bajos Butterworth de 4.\textsuperscript{to} orden: dos celdas
@@ -252,7 +252,7 @@ resultados de las tres simulaciones se superponen con la respuesta teórica \eqr
 En la figura~\ref{fig:pb-bode-ideal} se presenta el diagrama de Bode de módulo y fase de las tres simulaciones junto
 con la respuesta teórica de Butterworth.
 
-\begin{figure}[!ht]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.92\textwidth]{images/fig1_pb_bode_comparativo}
   \caption{Diagrama de Bode de magnitud y fase del filtro pasa bajos: comparación teórica, valores calculados y
@@ -273,7 +273,7 @@ $A(f_p) \le A_{\max}$ se sigue cumpliendo.
 
 La figura~\ref{fig:pb-zoom-banda} muestra el detalle de la banda de paso y de la zona de corte.
 
-\begin{figure}[!ht]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.88\textwidth]{images/fig2_pb_zoom_banda_paso}
   \caption{Detalle ampliado de la banda de paso y frecuencia de corte del filtro pasa bajos.}
@@ -299,8 +299,9 @@ El filtro pasa bajos se implementó en una placa de circuito impreso compartida 
 altos las secciones B y C. La entrada $v_i$ es común a ambos filtros y cada uno dispone de su propia salida
 ($v_{o,pb}$ y $v_{o,pa}$), además de puntos de prueba en la salida de la primera celda de cada filtro. El esquemático
 completo se presenta en la figura~\ref{crkt:anexo-filtros-esquematico}, el ruteo del cobre en la
-figura~\ref{fig:anexo-filtros-pcb-ruteo} y la vista 3D de la placa en la
-figura~\ref{fig:anexo-filtros-3d}, todas en el anexo~\ref{chap:anexo-pcb}. La correspondencia entre la designación de
+figura~\ref{fig:anexo-filtros-pcb-ruteo}, la vista 3D de la placa en la
+figura~\ref{fig:anexo-filtros-3d} y las fotografías de la placa construida en la
+figura~\ref{fig:anexo-filtros-fotos}, todas en el anexo~\ref{chap:anexo-pcb}. La correspondencia entre la designación de
 los componentes en este informe y en el esquemático de KiCad se resume en la tabla~\ref{tab:anexo-designadores}.
 
 \subsection{Condiciones de ensayo en laboratorio}
@@ -368,3 +369,46 @@ en el capítulo~\ref{chap:conclusiones}.
     medición.}
   \label{fig:pb-medido-vs-simulado}
 \end{figure}
+
+\subsection{Frecuencia de corte a partir de la FFT}
+\label{subsec:pb-fft}
+
+Como verificación adicional de la frecuencia de corte, se aplicó a la entrada un barrido de frecuencia con el
+generador y se observó en el osciloscopio la FFT de la salida del filtro pasa bajos. Primero, con los cursores de
+amplitud, se ubicó el nivel de la banda de paso y el nivel $\SI{3}{\decibel}$ por debajo
+(figura~\ref{fig:pb-fft-amplitud}). Después se llevó el cursor de frecuencia hasta el punto en que el perfil de la
+FFT cae a ese nivel y se leyó allí la frecuencia de corte (figura~\ref{fig:pb-fft-frecuencia}). La
+tabla~\ref{tab:pb-fft} resume las lecturas junto con los valores de diseño.
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[t]{0.49\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{images/fig_pb_fft_barrido_amplitud.png}
+    \caption{Cursores de amplitud en el nivel de la banda de paso y $\SI{3}{\decibel}$ por debajo.}
+    \label{fig:pb-fft-amplitud}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[t]{0.49\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{images/fig_pb_fft_barrido_frecuencia.png}
+    \caption{Cursor de frecuencia A en el punto que cae $\SI{3}{\decibel}$ respecto de la banda de paso.}
+    \label{fig:pb-fft-frecuencia}
+  \end{subfigure}
+  \caption{FFT de la salida del filtro pasa bajos durante el barrido de frecuencia.}
+  \label{fig:pb-fft}
+\end{figure}
+
+\begin{table}[!ht]
+  \centering
+  \begin{tabular}{|l|c|c|}
+    \hline
+    Parámetro & Diseño & FFT \\
+    \hline
+    Caída entre cursores de amplitud & $\SI{3}{\decibel}$ & $\SI{3.2}{\decibel}$ \\
+    $f_c$ ($\SI{-3}{\decibel}$) & $\SI{6174}{\hertz}$ & $\SI{4960}{\hertz}$ \\
+    \hline
+  \end{tabular}
+  \caption{Frecuencia de corte del filtro pasa bajos leída sobre la FFT, comparada con la de diseño.}
+  \label{tab:pb-fft}
+\end{table}
