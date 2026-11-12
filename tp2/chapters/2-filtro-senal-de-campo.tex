@@ -48,7 +48,11 @@ El circuito completo requiere cinco amplificadores operacionales, por lo que se 
 El pin 4 de cada integrado se conecta a $+\SI{24}{\volt}$ y el pin 11 a GND, con un capacitor de desacople de
 $\SI{100}{\nano\farad}$ lo más cerca posible de cada integrado.
 
-% TODO: justificar brevemente por qué el TL084 no es apto con fuente simple (rango de entrada y excursión de salida).
+El TL084 no es apto con fuente simple. Su rango de modo común de entrada no llega al terminal negativo: con
+alimentación entre $\SI{0}{\volt}$ y $\SI{24}{\volt}$ las entradas deben quedar varios volts por encima de masa,
+y puede haber inversión de fase si se acercan a ella. Además, su salida no se acerca a menos de
+$\SI{1.5}{\volt}$ a $\SI{2}{\volt}$ de los rieles. Las señales de este módulo valen $\SI{1}{\volt}$ a
+$\SI{5}{\volt}$ (y $\SI{0}{\volt}$ con el lazo abierto), por lo que quedarían fuera de ambos rangos.
 
 \subsection{Etapa 1: receptor diferencial e instrumentación (I \texorpdfstring{$\rightarrow$}{->} V)}
 \label{subsec:campo-etapa1}
@@ -94,7 +98,16 @@ error de la caracterización estática.
   \label{crkt:etapa3}
 \end{figure}
 
-% TODO: verificación de márgenes a 20 mA: caída en R_shunt_out y R_carga, V_CE y P_D del BC337.
+A $\SI{20}{\milli\ampere}$ caen $\SI{5}{\volt}$ en $R_{shunt\_out}$ y otros $\SI{5}{\volt}$ en $R_{carga}$, por lo
+que $V_E = \SI{5}{\volt}$, $V_C = \SI{19}{\volt}$ y
+\begin{gather*}
+  V_{CE} = \SI{19}{\volt} - \SI{5}{\volt} = \SI{14}{\volt} \\
+  P_D = V_{CE} \, I_C = \SI{14}{\volt} \cdot \SI{20}{\milli\ampere} = \SI{280}{\milli\watt}
+\end{gather*}
+valor por debajo de los $\SI{500}{\milli\watt}$ admisibles para el BC547B o el BC337 en encapsulado TO-92. El
+transistor se mantiene en zona activa mientras $V_C > V_E + \SI{0.3}{\volt}$, es decir, con una carga total de
+hasta $(\SI{24}{\volt} - \SI{5.3}{\volt}) / \SI{20}{\milli\ampere} \approx \SI{935}{\ohm}$, con amplio margen
+respecto de los $\SI{250}{\ohm}$ de la entrada del PLC.
 
 \section{Diseño del filtro activo}
 \label{sec:campo-diseno}
@@ -117,7 +130,22 @@ Para la topología Sallen-Key de ganancia unitaria de la figura~\ref{crkt:sk-uni
   Q &= \frac{\sqrt{R_1 R_2 C_1 C_2}}{C_2 \left( R_1 + R_2 \right)}
 \end{align*}
 
-% TODO: desarrollar el cálculo (p. ej. R_1 = R_2 = R, C_1 = 2 C_2 para Q = 1/sqrt(2)) y obtener los valores teóricos.
+Se fijan primero los capacitores, porque los de poliéster tienen menos valores comerciales que las resistencias:
+$C_1 = \SI{2.2}{\micro\farad}$ y $C_2 = \SI{1}{\micro\farad}$. Para que las dos resistencias resulten reales debe
+cumplirse $C_1 / C_2 \geq 4 Q^2 = 2$, condición que se verifica con la relación de $2{,}2$. De las expresiones
+anteriores se obtienen el producto y la suma de las resistencias:
+\begin{align*}
+  R_1 R_2 &= \frac{1}{\omega_0^2 C_1 C_2} = \frac{1}{(2 \pi \cdot \SI{10}{\hertz})^2 \cdot \SI{2.2}{\micro\farad}
+    \cdot \SI{1}{\micro\farad}} = \num{1.151e8}\,\si{\ohm\squared} \\
+  R_1 + R_2 &= \frac{\sqrt{R_1 R_2}}{Q} \sqrt{\frac{C_1}{C_2}} = \frac{\SI{10.73}{\kilo\ohm}}{0{,}7071}
+    \cdot 1{,}483 = \SI{22.5}{\kilo\ohm}
+\end{align*}
+por lo que $R_1$ y $R_2$ son las raíces de $x^2 - \SI{22.5}{\kilo\ohm} \, x + \num{1.151e8}\,\si{\ohm\squared} = 0$:
+\begin{equation}
+  R_1 = \SI{7.86}{\kilo\ohm} \qquad R_2 = \SI{14.65}{\kilo\ohm}
+  \label{eq:campo-r1r2}
+\end{equation}
+Como $Q$ es simétrico en $R_1$ y $R_2$, también podrían intercambiarse.
 
 \begin{figure}[!ht]
   \centering
@@ -129,8 +157,26 @@ Para la topología Sallen-Key de ganancia unitaria de la figura~\ref{crkt:sk-uni
 \subsection{Selección de componentes}
 \label{subsec:campo-componentes}
 
-% TODO: proponer valores comerciales normalizados (serie E12/E24), recalcular f_c y Q resultantes y justificar el
-% uso de capacitores de poliéster o film (no electrolíticos).
+Las resistencias se redondean a la serie E24 al $\SI{1}{\percent}$ (tabla~\ref{tab:campo-componentes}). Con los
+valores comerciales resultan
+\begin{gather*}
+  f_0 = \frac{1}{2 \pi \sqrt{\SI{8.2}{\kilo\ohm} \cdot \SI{15}{\kilo\ohm} \cdot \SI{2.2}{\micro\farad} \cdot
+    \SI{1}{\micro\farad}}} = \SI{9.68}{\hertz} \\
+  Q = \frac{\sqrt{R_1 R_2 C_1 C_2}}{C_2 (R_1 + R_2)} = 0{,}709 \qquad f_c(\SI{-3}{\decibel}) = \SI{9.70}{\hertz}
+\end{gather*}
+y la atenuación a la frecuencia de red es
+\begin{equation}
+  |H(j 2 \pi \cdot \SI{50}{\hertz})| = \frac{1}{\sqrt{\left(1 - x^2\right)^2 + \left(x / Q\right)^2}}
+  \bigg|_{x = 50 / 9{,}68} = \SI{-28.5}{\decibel}
+  \label{eq:campo-h50}
+\end{equation}
+mientras que a $\SI{100}{\hertz}$ es de $\SI{-40.6}{\decibel}$.
+
+Los capacitores son de poliéster metalizado (MKT): C1 de $\SI{2.2}{\micro\farad}$ ($\pm\SI{10}{\percent}$,
+$\SI{250}{\volt}$) y C2 de $\SI{1}{\micro\farad}$. No se usan electrolíticos porque tienen tolerancias de
+$\SI{20}{\percent}$ o más, corriente de fuga (que circularía por $R_1$ y $R_2$ y correría el nivel de continua de
+$V_{filtro}$) y polaridad: la tensión sobre $C_1$, conectado entre el nodo intermedio y la salida, cambia de signo
+con la señal.
 
 \begin{table}[!ht]
   \centering
@@ -138,10 +184,10 @@ Para la topología Sallen-Key de ganancia unitaria de la figura~\ref{crkt:sk-uni
     \hline
     Componente & Valor calculado & Valor comercial \\
     \hline
-    $R_1$ & & \\
-    $R_2$ & & \\
-    $C_1$ & & \\
-    $C_2$ & & \\
+    $R_1$ & $\SI{7.86}{\kilo\ohm}$ & $\SI{8.2}{\kilo\ohm}$ \\
+    $R_2$ & $\SI{14.65}{\kilo\ohm}$ & $\SI{15}{\kilo\ohm}$ \\
+    $C_1$ & $\SI{2.2}{\micro\farad}$ (fijado) & $\SI{2.2}{\micro\farad}$ \\
+    $C_2$ & $\SI{1}{\micro\farad}$ (fijado) & $\SI{1}{\micro\farad}$ \\
     \hline
   \end{tabular}
   \caption{Valores calculados y comerciales del filtro Sallen-Key.}
@@ -151,15 +197,67 @@ Para la topología Sallen-Key de ganancia unitaria de la figura~\ref{crkt:sk-uni
 \subsection{Simulación}
 \label{subsec:campo-simulacion}
 
-% TODO: simular el circuito completo (etapa 1 + filtro + etapa 3), incluir el diagrama de Bode y verificar
-% analíticamente la atenuación a 50 Hz. Guardar el proyecto de simulación en sources/.
+Se simuló en LTspice el circuito completo de la placa, con la fuente de corriente de prueba, las tres etapas y
+los modelos del LM324 y del BC547B. El proyecto está en
+\texttt{sources/\allowbreak sim/\allowbreak Filtro\_Senal\_Campo\_Grupo2.asc}. El análisis de
+alterna se hizo desde la tensión de control hasta $V_{filtro}$, barriendo la continua de control de
+$\SI{1}{\volt}$ a $\SI{5}{\volt}$ ($\SI{4}{\milli\ampere}$ a $\SI{20}{\milli\ampere}$). La respuesta resultó
+idéntica para los cinco puntos de trabajo, con $f_c \approx \SI{9.7}{\hertz}$ (fase de $\SI{-90.8}{\degree}$),
+$\SI{-28.6}{\decibel}$ a $\SI{50}{\hertz}$ y $\SI{-40.6}{\decibel}$ a $\SI{100}{\hertz}$, lo que coincide con
+\eqref{eq:campo-h50}. En el punto de operación, la corriente de salida resultó $\SI{0.3}{\percent}$ menor que la de
+entrada en todo el rango, por la corriente de base de Q1 ($\alpha$). La figura~\ref{fig:campo-bode} muestra la
+respuesta teórica junto con los puntos medidos de la sección~\ref{subsec:campo-dinamica}.
 
 \section{Implementación}
 \label{sec:campo-implementacion}
 
-% TODO: descripción del armado en protoboard (dos LM324 + BC337/2N2222), fotos en pictures/, y cómo se generó la
-% señal de 4-20 mA para la caracterización estática (fuente + resistencia/potenciómetro) y dinámica (generador +
-% resistencia serie).
+El módulo se armó en una placa simple faz hecha por planchado, con los dos LM324 sobre zócalo, transistores BC547B,
+resistencias de película metálica al $\SI{1}{\percent}$ y capacitores de desacople de $\SI{100}{\nano\farad}$
+pegados al pin 4 de cada integrado. Cada valor de $\SI{250}{\ohm}$ se formó con una de $\SI{100}{\ohm}$ y una de
+$\SI{150}{\ohm}$ en serie. La placa tiene seis puntos de prueba (TP1 a TP6) y tres pads para cocodrilo: GND (H1),
+$+\SI{24}{\volt}$ (H2) y la entrada de control (H3). La tabla~\ref{tab:campo-referencias} relaciona los nombres de
+los esquemas de este capítulo con las referencias de la placa.
+
+\begin{table}[!ht]
+  \centering
+  \resizebox{\textwidth}{!}{\begin{tabular}{|l|c|c|c|}
+    \hline
+    Función & Esquema & Placa & Punto de prueba \\
+    \hline
+    Seguidor de Lazo $(-)$ & U1A & U1A & TP2 (Lazo $-$) \\
+    Seguidor de Lazo $(+)$ & U1B & U1C & TP1 (Lazo $+$) \\
+    Restador ($R_3$, $R_4$, $R_5$, $R_f$) & U1C & U1D (R16, R17, R18, R19) & TP3 ($V_{E1}$) \\
+    Shunt de entrada y $R_{CM}$ & $R_{shunt\_in}$, $R_{CM}$ & R14 + R13, R15 & -- \\
+    Filtro ($R_1$, $R_2$, $C_1$, $C_2$) & U1D & U2D (R20, R21, C3, C4) & TP4 ($V_{filtro}$) \\
+    Conversor V $\rightarrow$ I ($R_B$, $R_{shunt\_out}$) & U2A, Q1 & U2A, Q1 (R5, R9 + R10) & TP5 ($V_E$) \\
+    Carga (PLC) & $R_{carga}$ & R8 + R7 & TP6 ($V_C$) \\
+    Fuente de corriente de prueba & -- & U1B, Q2 (R6 + R11, R12) & -- \\
+    Secciones sin uso & U2B a U2D & U2B, U2C & -- \\
+    \hline
+  \end{tabular}}
+  \caption{Correspondencia entre los esquemas y las referencias de la placa.}
+  \label{tab:campo-referencias}
+\end{table}
+
+La corriente de lazo se genera en la misma placa con una fuente de corriente de prueba: U1B fuerza la tensión de
+Lazo $(-)$ a ser igual a la tensión de control $V_{ctrl}$ aplicada en H3, y Q2 entrega la corriente desde
+$+\SI{24}{\volt}$ a través del shunt de entrada y de $R_s = R_6 + R_{11} = \SI{250}{\ohm}$ a masa, de modo que
+\begin{equation}
+  I_{in} = \frac{V_{ctrl}}{R_s} = \frac{V_{ctrl}}{\SI{250}{\ohm}}
+  \label{eq:campo-iin}
+\end{equation}
+Para la caracterización estática, $V_{ctrl}$ se toma del cursor de un preset multivuelta conectado entre
+$+\SI{24}{\volt}$ y masa en serie con R2 ($\SI{22}{\kilo\ohm}$) y R1 ($\SI{1}{\kilo\ohm}$), y llega a H3 a través
+de R3 ($\SI{10}{\kilo\ohm}$). Con el preset de $\SI{10}{\kilo\ohm}$ montado, $V_{ctrl}$ puede variar entre
+$\SI{0.73}{\volt}$ y $\SI{8}{\volt}$, rango que cubre los $\SI{4}{\milli\ampere}$ a $\SI{20}{\milli\ampere}$.
+Para la caracterización dinámica, el generador de funciones se conecta directamente en H3; como su impedancia de
+salida es mucho menor que R3, impone la tensión de control.
+
+Las corrientes se miden con el multímetro en volts de continua sobre las resistencias de $\SI{250}{\ohm}$:
+$I_{in} = (V_{TP1} - V_{TP2}) / \SI{250}{\ohm}$ (caída en el shunt de entrada) e
+$I_{out} = (V_{H2} - V_{TP6}) / \SI{250}{\ohm}$ (caída en la carga).
+
+% TODO: agregar fotos de la placa armada en pictures/.
 
 \section{Mediciones}
 \label{sec:campo-mediciones}
@@ -174,39 +272,99 @@ Para la topología Sallen-Key de ganancia unitaria de la figura~\ref{crkt:sk-uni
     $I_{in}$ [\si{\milli\ampere}] & $V_{E1}$ [\si{\volt}] & $V_{filtro}$ [\si{\volt}] & $I_{out}$ [\si{\milli\ampere}]
       & Error [\si{\percent}] \\
     \hline
-    4  & & & & \\
-    8  & & & & \\
-    12 & & & & \\
-    16 & & & & \\
-    20 & & & & \\
+    \num{4.044}  & \num{1.0008} & \num{1.0009} & \num{3.992}  & \num{-1.29} \\
+    \num{7.994}  & \num{2.0006} & \num{2.0006} & \num{8.002}  & \num{0.11} \\
+    \num{11.872} & \num{2.995}  & \num{2.995}  & \num{11.980} & \num{0.91} \\
+    \num{15.884} & \num{4.000}  & \num{4.000}  & \num{16.000} & \num{0.73} \\
+    \num{19.920} & \num{5.000}  & \num{5.000}  & \num{20.000} & \num{0.40} \\
     \hline
   \end{tabular}
   \caption{Caracterización estática del módulo.}
   \label{tab:campo-estatica}
 \end{table}
 
-% TODO: graficar la curva de transferencia I_out vs I_in y calcular el error porcentual por tolerancias.
+La tabla~\ref{tab:campo-estatica} se obtuvo con $V_{ctrl}$ de $\SI{1}{\volt}$ a $\SI{5}{\volt}$ en pasos de
+$\SI{1}{\volt}$. El error se calcula como $(I_{out} - I_{in}) / I_{in}$. En todos los puntos, $V_{E1}$, $V_{filtro}$
+y $V_E$ (TP5) coincidieron hasta el último dígito del multímetro: en continua el filtro tiene ganancia unitaria y
+el conversor copia la tensión del filtro sobre $R_{shunt\_out}$. También se verificó $I_C$ contra $I_E$: la
+diferencia fue de $\SI{-0.3}{\percent}$, que corresponde a $\alpha$ de un BC547B ($\beta$ entre 200 y 450) y
+coincide con la simulación.
+
+La figura~\ref{fig:campo-transferencia} muestra la curva de transferencia. El ajuste por cuadrados mínimos da
+\begin{equation}
+  I_{out} = 1{,}0093 \, I_{in} - \SI{0.059}{\milli\ampere}
+  \label{eq:campo-ajuste}
+\end{equation}
+con una desviación máxima de $\SI{0.057}{\milli\ampere}$ respecto de la recta. El error queda dentro de
+$\pm\SI{1.3}{\percent}$ en todo el rango y no es una ganancia constante: cambia de signo entre
+$\SI{4}{\milli\ampere}$ y $\SI{8}{\milli\ampere}$. El mayor error relativo aparece a $\SI{4}{\milli\ampere}$, donde
+pesan más las tensiones de offset de los operacionales (algunos milivolts sobre $\SI{1}{\volt}$) y la resolución
+con que se lee la diferencia $V_{TP1} - V_{TP2}$.
+
+El error máximo esperable por tolerancias, con todas las resistencias al $\SI{1}{\percent}$, se acota así:
+\begin{itemize}
+  \item Restador: un desapareamiento $\delta$ en el divisor $R_5 / (R_4 + R_5)$ produce un error de ganancia de
+    aproximadamente $2\delta$, es decir, hasta $\pm\SI{2}{\percent}$. Como en este circuito Lazo $(+)$ vale el doble
+    que Lazo $(-)$, la relación $R_f / R_3$ casi no influye.
+  \item $R_{shunt\_out}$ y $R_{carga}$: $\pm\SI{1}{\percent}$ cada una sobre la corriente medida.
+  \item Corriente de base de Q1: entre $\SI{-0.2}{\percent}$ y $\SI{-0.5}{\percent}$.
+\end{itemize}
+En total, el peor caso es de unos $\pm\SI{4}{\percent}$, por lo que el error medido es consistente con las
+tolerancias de los componentes.
+
+\begin{figure}[!ht]
+  \centering
+  \input{figures/campo-transferencia-estatica.tex}
+  \caption{Curva de transferencia estática $I_{out}$ en función de $I_{in}$.}
+  \label{fig:campo-transferencia}
+\end{figure}
 
 \subsection{Caracterización dinámica (respuesta en frecuencia)}
 \label{subsec:campo-dinamica}
 
+Para el ensayo dinámico se aplicó en H3 una señal con offset de continua, de modo que $V_{ctrl}$ se mantuviera
+dentro de $\SI{1}{\volt}$ a $\SI{5}{\volt}$. Se observó $V_{E1}$ (TP3, entrada del filtro) en el canal 1 del
+osciloscopio y $V_{filtro}$ (TP4, salida) en el canal 2. La frecuencia de corte se determinó aplicando un barrido de
+frecuencia y midiendo con cursores sobre la FFT del canal 2 (figura~\ref{fig:campo-fft}). La atenuación a
+$\SI{50}{\hertz}$ se midió con una senoidal de esa frecuencia, como $20 \log (V_{out,pp} / V_{in,pp})$.
+
+Se registraron los dos parámetros que caracterizan al filtro: la frecuencia de corte y la atenuación a la frecuencia
+de red. El resto de la curva no se relevó punto a punto. Para ese tramo se toma como referencia la respuesta
+teórica y simulada, y se verifica que los puntos medidos caigan sobre ella (figura~\ref{fig:campo-bode}).
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\textwidth]{images/fig_campo_fft_barrido.png}
+  \caption{Barrido de frecuencia: entrada del filtro (canal 1, amarillo), salida (canal 2, celeste) y FFT de la
+    salida con los cursores en la frecuencia de corte.}
+  \label{fig:campo-fft}
+\end{figure}
+
 \begin{table}[!ht]
   \centering
-  \begin{tabular}{|c|c|c|c|}
+  \begin{tabular}{|l|c|c|c|}
     \hline
-    $f$ [\si{\hertz}] & $V_{in,pp}$ [\si{\volt}] & $V_{out,pp}$ [\si{\volt}] & $|H|$ [\si{\decibel}] \\
+    Parámetro & Teórico & Simulado & Medido \\
     \hline
-    1   & & & \\
-    2   & & & \\
-    5   & & & \\
-    10  & & & \\
-    20  & & & \\
-    50  & & & \\
-    100 & & & \\
+    $f_c$ ($\SI{-3}{\decibel}$) & $\SI{9.70}{\hertz}$ & $\SI{9.7}{\hertz}$ & $\SI{10.83}{\hertz}$ \\
+    $|H|$ a $\SI{50}{\hertz}$ & $\SI{-28.5}{\decibel}$ & $\SI{-28.6}{\decibel}$ & $\SI{-27.8}{\decibel}$ \\
     \hline
   \end{tabular}
-  \caption{Barrido en frecuencia del módulo (señal senoidal con offset de continua).}
+  \caption{Respuesta en frecuencia: valores teóricos, simulados y medidos.}
   \label{tab:campo-dinamica}
 \end{table}
 
-% TODO: determinar la frecuencia de corte real a -3 dB y la atenuación exacta a 50 Hz; comparar con la simulación.
+\begin{figure}[!ht]
+  \centering
+  \input{figures/campo-bode.tex}
+  \caption{Módulo de la respuesta en frecuencia teórica del filtro y puntos medidos.}
+  \label{fig:campo-bode}
+\end{figure}
+
+La frecuencia de corte medida es $\SI{11.6}{\percent}$ mayor que la teórica. Como
+$f_c \propto 1 / \sqrt{C_1 C_2}$, alcanza con que el producto $C_1 C_2$ sea un $\SI{20}{\percent}$ menor que el
+nominal, lo que es compatible con capacitores de tolerancia K ($\pm\SI{10}{\percent}$) en el límite inferior. La
+resolución de la FFT también limita la medición: con un registro de $\SI{0.8}{\second}$, la separación entre
+líneas espectrales es de $\SI{1.25}{\hertz}$. Si la frecuencia de corte fuera la medida, la atenuación teórica a
+$\SI{50}{\hertz}$ sería de $\SI{-26.6}{\decibel}$. El valor medido de $\SI{-27.8}{\decibel}$ queda entre ese caso y
+el nominal. En ambos casos, la componente de red se atenúa más de 20 veces, que es el objetivo del filtro.
