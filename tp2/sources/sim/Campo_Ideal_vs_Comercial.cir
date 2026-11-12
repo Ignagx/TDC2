@@ -1,0 +1,29 @@
+* TP2 Teoria de Circuitos II - Grupo 2 - Filtro de senal de campo: Sallen-Key pasa bajos de ganancia unitaria
+* Comparacion: (A) valores calculados + AO ideal | (B) valores comerciales + AO ideal
+* (el circuito completo de la placa, con LM324 y BC547B, esta en Filtro_Senal_Campo_Grupo2.asc)
+* C1 = 2,2 uF entre el nodo intermedio y la salida; C2 = 1 uF del + del AO a masa
+.subckt AOIDEAL inp inn out
+Rin inp inn 1e12
+E1 out 0 inp inn 1e7
+.ends
+Vin VIN 0 AC 1
+* ---- (A) Valores calculados ----
+R1a NA VIN 7860.76
+R2a NB NA 14647.15
+C2a NB 0 1u
+C1a VOUT_CALC NA 2.2u
+XUa NB VOUT_CALC VOUT_CALC AOIDEAL
+* ---- (B) Valores comerciales ----
+R1b PA VIN 8.2k
+R2b PB PA 15k
+C2b PB 0 1u
+C1b VOUT_COM PA 2.2u
+XUb PB VOUT_COM VOUT_COM AOIDEAL
+.ac dec 400 0.1 1k
+.meas AC fc_calc WHEN mag(V(vout_calc))=1/sqrt(2) FALL=1
+.meas AC fc_com WHEN mag(V(vout_com))=1/sqrt(2) FALL=1
+.meas AC H50_calc FIND V(vout_calc) AT 50
+.meas AC H50_com FIND V(vout_com) AT 50
+.meas AC H100_com FIND V(vout_com) AT 100
+.meas AC Gmax_com MAX mag(V(vout_com)) FROM 0.1 TO 1k
+.end

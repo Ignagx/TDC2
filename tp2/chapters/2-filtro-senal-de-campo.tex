@@ -186,17 +186,88 @@ con la señal.
   \label{tab:campo-componentes}
 \end{table}
 
-\subsection{Simulación}
-\label{subsec:campo-simulacion}
+\section{Simulación}
+\label{sec:campo-simulacion}
 
-Se simuló en LTspice el circuito completo de la placa, con la fuente de corriente de prueba, las tres etapas y
-los modelos del LM324 y del BC547B. El análisis de
-alterna se hizo desde la tensión de control hasta $V_{filtro}$, barriendo la continua de control de
-$\SI{1}{\volt}$ a $\SI{5}{\volt}$ ($\SI{4}{\milli\ampere}$ a $\SI{20}{\milli\ampere}$). La respuesta resultó
-idéntica para los cinco puntos de trabajo y coincide con la calculada en \eqref{eq:campo-h50}. En el punto de
-operación, la corriente de salida resultó levemente menor que la de entrada en todo el rango, por la corriente de
-base de Q1 ($\alpha$). La figura~\ref{fig:campo-bode} muestra la
-respuesta teórica junto con los puntos medidos de la sección~\ref{subsec:campo-dinamica}.
+\subsection{Circuito simulado en LTspice}
+\label{subsec:campo-sim-circuito}
+
+Se simuló en LTspice el circuito completo de la placa: la fuente de corriente de prueba, el receptor diferencial,
+el filtro Sallen-Key con los valores comerciales de la tabla~\ref{tab:campo-componentes} y el convertidor V
+$\rightarrow$ I, con los macromodelos del LM324 y del BC547B y alimentación simple de $\SI{24}{\volt}$. El
+esquemático, obtenido de LTspice, se presenta en la figura~\ref{crkt:campo-esquematico-ltspice}; los nombres de
+los componentes son los del archivo de simulación y no coinciden con las referencias de la placa. Se realizó un
+análisis \texttt{.ac} con barrido logarítmico de 400 puntos por década entre $\SI{0.1}{\hertz}$ y
+$\SI{1}{\kilo\hertz}$, con una excitación de amplitud unitaria (\texttt{AC 1}) sobre la tensión de control, de
+modo que $V_{filtro}$ (nodo \texttt{salida2}) coincide con la transferencia desde $V_{ctrl}$. El análisis se repitió
+para $V_{ctrl} = 1$, 2, 3, 4 y $\SI{5}{\volt}$ ($\SI{4}{\milli\ampere}$ a $\SI{20}{\milli\ampere}$), y las
+frecuencias características se obtuvieron mediante directivas \texttt{.meas}.
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\textwidth]{sources/sim/esquematico_senal_campo_ltspice.png}
+  \caption{Esquemático en LTspice del módulo completo: fuente de corriente de prueba, receptor diferencial,
+    filtro Sallen-Key de ganancia unitaria y convertidor V $\rightarrow$ I, con LM324 y BC547B.}
+  \label{crkt:campo-esquematico-ltspice}
+\end{figure}
+
+Para separar el efecto de la normalización de los componentes del efecto del resto del circuito, se simuló además,
+en el mismo programa, el filtro Sallen-Key aislado con operacional ideal (fuente controlada de ganancia $10^7$ y
+$R_{in} = \SI{1}{\tera\ohm}$): una variante con los valores calculados en \eqref{eq:campo-r1r2} y otra con los
+valores comerciales. Los resultados de las simulaciones se superponen con la respuesta teórica
+\eqref{eq:campo-hs}.
+
+\subsection{Función de transferencia con elementos ideales}
+\label{subsec:campo-sim-ideal}
+
+En la figura~\ref{fig:campo-bode-ideal} se presenta el diagrama de Bode de módulo y fase de las simulaciones junto
+con la respuesta teórica de Butterworth.
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=0.92\textwidth]{images/fig_campo_bode_comparativo}
+  \caption{Diagrama de Bode de magnitud y fase del filtro de señal de campo: comparación teórica, valores
+    calculados y valores comerciales (operacional ideal) y circuito completo con LM324.}
+  \label{fig:campo-bode-ideal}
+\end{figure}
+
+Con los valores calculados y operacional ideal, la curva simulada se superpone exactamente con la teórica: la
+frecuencia de corte es de $\SI{10.00}{\hertz}$ con una fase de $\SI{-90}{\degree}$, la banda de paso es plana, sin
+sobrepico, y la pendiente de caída es de $\SI{-40}{\decibel}$ por década, la que corresponde a un filtro de
+orden 2.
+
+Con valores comerciales y operacional ideal, la frecuencia de corte baja a $\SI{9.70}{\hertz}$ y la atenuación es de
+$\SI{-28.5}{\decibel}$ a $\SI{50}{\hertz}$ y de $\SI{-40.6}{\decibel}$ a $\SI{100}{\hertz}$, los mismos valores
+calculados en la sección~\ref{subsec:campo-componentes}. Como $Q = 0{,}709$ queda prácticamente en el valor de
+Butterworth, no aparece sobrepico.
+
+\subsection{Función de transferencia con valores comerciales y macromodelo LM324}
+\label{subsec:campo-sim-real}
+
+La figura~\ref{fig:campo-zoom-banda} muestra el detalle de la banda de paso y de la zona de corte del circuito
+completo para los cinco valores de $V_{ctrl}$.
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=0.88\textwidth]{images/fig_campo_zoom_banda_paso}
+  \caption{Detalle ampliado de la banda de paso y de la frecuencia de corte del filtro de señal de campo, para los
+    cinco puntos de trabajo del circuito completo.}
+  \label{fig:campo-zoom-banda}
+\end{figure}
+
+La ganancia de continua desde $V_{ctrl}$ hasta $V_{filtro}$ resultó de $0{,}996$ ($\SI{-0.03}{\decibel}$), por
+lo que, para comparar la forma de la respuesta, las curvas del circuito completo se normalizaron a ese valor. Las
+cinco curvas se superponen: en todos los puntos de trabajo la frecuencia de corte es de $\SI{9.70}{\hertz}$ y la
+atenuación es de $\SI{-28.5}{\decibel}$ a $\SI{50}{\hertz}$ y de $\SI{-40.6}{\decibel}$ a $\SI{100}{\hertz}$, con
+diferencias menores que $\SI{0.001}{\decibel}$. La banda de interés termina muy por debajo del ancho de banda del
+LM324 ($\text{GBW} \approx \SI{1}{\mega\hertz}$) y el operacional del filtro trabaja como seguidor, por lo que el
+macromodelo prácticamente no modifica la respuesta: la curva del circuito completo coincide con la de valores
+comerciales y operacional ideal. Sólo por encima de unos $\SI{500}{\hertz}$ la fase del circuito completo se atrasa
+algunos grados respecto de la ideal, lejos de la banda de interés.
+
+En el punto de operación, la relación entre la corriente de colector y la de emisor de Q1 resultó de $0{,}997$
+($\alpha$ del BC547B), y la corriente de salida difiere de la de entrada entre $\SI{+0.07}{\percent}$ a
+$\SI{4}{\milli\ampere}$ y $\SI{-0.26}{\percent}$ a $\SI{20}{\milli\ampere}$.
 
 \section{Implementación}
 \label{sec:campo-implementacion}
@@ -363,7 +434,7 @@ $\SI{50}{\hertz}$ se midió con una senoidal de esa frecuencia, como $20 \log (V
 
 Se registraron los dos parámetros que caracterizan al filtro: la frecuencia de corte y la atenuación a la frecuencia
 de red. El resto de la curva no se relevó punto a punto. Para ese tramo se toma como referencia la respuesta
-teórica y simulada, y se verifica que los puntos medidos caigan sobre ella (figura~\ref{fig:campo-bode}).
+teórica y simulada, y se verifica que los puntos medidos caigan sobre ella (figura~\ref{fig:campo-medido-simulado}).
 
 \begin{figure}[!ht]
   \centering
@@ -379,8 +450,8 @@ teórica y simulada, y se verifica que los puntos medidos caigan sobre ella (fig
     \hline
     Parámetro & Teórico & Simulado & Medido \\
     \hline
-    $f_c$ ($\SI{-3}{\decibel}$) & $\SI{9.70}{\hertz}$ & $\SI{9.7}{\hertz}$ & $\SI{10.83}{\hertz}$ \\
-    $|H|$ a $\SI{50}{\hertz}$ & $\SI{-28.5}{\decibel}$ & $\SI{-28.6}{\decibel}$ & $\SI{-27.8}{\decibel}$ \\
+    $f_c$ ($\SI{-3}{\decibel}$) & $\SI{9.70}{\hertz}$ & $\SI{9.70}{\hertz}$ & $\SI{10.83}{\hertz}$ \\
+    $|H|$ a $\SI{50}{\hertz}$ & $\SI{-28.5}{\decibel}$ & $\SI{-28.5}{\decibel}$ & $\SI{-27.8}{\decibel}$ \\
     \hline
   \end{tabular}
   \caption{Respuesta en frecuencia: valores teóricos, simulados y medidos.}
@@ -389,9 +460,10 @@ teórica y simulada, y se verifica que los puntos medidos caigan sobre ella (fig
 
 \begin{figure}[!ht]
   \centering
-  \input{figures/campo-bode.tex}
-  \caption{Módulo de la respuesta en frecuencia teórica del filtro y puntos medidos.}
-  \label{fig:campo-bode}
+  \includegraphics[width=0.92\textwidth]{images/fig_campo_medido_vs_simulado}
+  \caption{Módulo de la respuesta en frecuencia del filtro de señal de campo: teórica, simulada en LTspice
+    (circuito completo, $V_{ctrl} = \SI{3}{\volt}$) y puntos medidos.}
+  \label{fig:campo-medido-simulado}
 \end{figure}
 
 El análisis de estos resultados y su comparación con los valores de diseño se presentan en el
