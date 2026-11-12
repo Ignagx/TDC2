@@ -1,0 +1,26 @@
+(version 1)
+
+# Reglas para placa simple faz hecha por planchado (TP2 TC2).
+# Están en este archivo y no en las clases de red porque KiCad reescribe el .kicad_pro al cerrar.
+
+(rule "Pistas y separacion para planchado"
+  (constraint track_width (min 0.8mm) (opt 1.0mm))
+  (constraint clearance (min 0.6mm)))
+
+(rule "Alimentacion +24V y GND"
+  (condition "A.NetName == '+24V' || A.NetName == 'GND'")
+  (constraint track_width (min 1.2mm) (opt 1.5mm)))
+
+# Zonas de mordida de los cocodrilos (áreas MORDIDA_Hx en B.Cu): ahí solo puede pasar la red del pad,
+# para que el diente del cocodrilo que apoya del lado del cobre no toque otra pista.
+(rule "Mordida H1: solo GND"
+  (condition "A.intersectsArea('MORDIDA_H1') && A.NetName != 'GND'")
+  (constraint disallow track via))
+
+(rule "Mordida H2: solo +24V"
+  (condition "A.intersectsArea('MORDIDA_H2') && A.NetName != '+24V'")
+  (constraint disallow track via))
+
+(rule "Mordida H3: solo VCTRL"
+  (condition "A.intersectsArea('MORDIDA_H3') && A.NetName != 'Net-(H3-Pad1)'")
+  (constraint disallow track via))
