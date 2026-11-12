@@ -211,12 +211,57 @@ respuesta teórica junto con los puntos medidos de la sección~\ref{subsec:campo
 \section{Implementación}
 \label{sec:campo-implementacion}
 
-El módulo se armó en una placa simple faz hecha por planchado, con los dos LM324 sobre zócalo, transistores BC547B,
-resistencias de película metálica al $\SI{1}{\percent}$ y capacitores de desacople de $\SI{100}{\nano\farad}$
-pegados al pin 4 de cada integrado. Cada valor de $\SI{250}{\ohm}$ se formó con una de $\SI{100}{\ohm}$ y una de
-$\SI{150}{\ohm}$ en serie. La placa tiene seis puntos de prueba (TP1 a TP6) y tres pads para cocodrilo: GND (H1),
-$+\SI{24}{\volt}$ (H2) y la entrada de control (H3). La tabla~\ref{tab:campo-referencias} relaciona los nombres de
-los esquemas de este capítulo con las referencias de la placa.
+\subsection{Diseño de la placa}
+\label{subsec:campo-pcb}
+
+El módulo se armó en una placa de circuito impreso diseñada en KiCad (figura~\ref{fig:campo-pcb}). Es una placa
+simple faz de FR4 de $\SI{114}{\milli\metre} \times \SI{64}{\milli\metre}$, fabricada por transferencia de tóner
+(planchado) y ataque con percloruro férrico. Todo el cobre está en la capa inferior y los componentes son de
+montaje pasante: los dos LM324 sobre zócalo, transistores BC547B, resistencias de película metálica al
+$\SI{1}{\percent}$ y capacitores de poliéster para el filtro. Cada valor de $\SI{250}{\ohm}$ se formó con una
+resistencia de $\SI{100}{\ohm}$ y una de $\SI{150}{\ohm}$ en serie, porque $\SI{250}{\ohm}$ no es un valor de la
+serie E24.
+
+Las reglas de diseño se eligieron para que el planchado y el ataque químico no corten ni unan pistas:
+\begin{itemize}
+  \item Pistas de señal de $\SI{1}{\milli\metre}$ (mínimo $\SI{0.8}{\milli\metre}$) y pistas de alimentación y masa
+    de $\SI{1.5}{\milli\metre}$.
+  \item Separación mínima de $\SI{0.6}{\milli\metre}$ entre cobre de distintas redes.
+  \item Plano de masa en toda la superficie libre, con alivios térmicos de $\SI{0.8}{\milli\metre}$ para que los
+    pads de masa se puedan soldar y para que el percloruro no corte las uniones.
+  \item Agujeros de $\SI{0.8}{\milli\metre}$ para casi todos los componentes, de $\SI{1}{\milli\metre}$ para los pads
+    de cocodrilo y los puntos de prueba, y de $\SI{1.2}{\milli\metre}$ para C1 del filtro.
+\end{itemize}
+Como la placa tiene una sola capa, no hay vías. Los cruces se resolvieron pasando pistas por debajo del cuerpo de
+las resistencias y por el canal entre las dos filas de pines de los integrados.
+
+Los componentes se ubicaron siguiendo el recorrido de la señal, de izquierda a derecha. A la izquierda está la
+fuente de corriente de prueba (preset, Q2, $R_s$ y el shunt de entrada), en el centro U1 con el restador, y a la
+derecha U2 con el filtro y el conversor V $\rightarrow$ I, con Q1 y la carga junto al borde. Así las pistas de cada
+etapa quedan cortas y la salida de una etapa llega directo a la entrada de la siguiente. Los capacitores de
+desacople de $\SI{100}{\nano\farad}$ van pegados al pin 4 de cada integrado, con un retorno corto al pin 11 por el
+plano de masa. Las secciones sin uso de U2 se conectaron como seguidores con la entrada no inversora a masa, para
+que no queden con las entradas flotando.
+
+Para las conexiones externas se usaron tres pads rectangulares de cobre de
+$\SI{6}{\milli\metre} \times \SI{8}{\milli\metre}$ en el borde de la placa, donde se conecta directamente un
+cocodrilo: GND (H1), $+\SI{24}{\volt}$ (H2) y la entrada de control (H3). Alrededor de cada pad se dejó una zona de
+unos $\SI{3}{\milli\metre}$ por la que solo pasa la red del pad, para que el diente del cocodrilo, que apoya del lado
+del cobre, no toque otra pista. La entrada del generador (H3) está separada del pad de $+\SI{24}{\volt}$, para que
+un roce no lleve la alimentación al instrumento. Los seis puntos de prueba (TP1 a TP6) son un alambre en U soldado
+entre dos agujeros, donde se engancha la punta del osciloscopio o un cocodrilo.
+
+Antes de imprimir la placa se verificó con el control de reglas de diseño (DRC) de KiCad, con el plano rellenado y
+contra el esquemático: no quedaron conexiones sin hacer ni islas de masa aisladas. La
+tabla~\ref{tab:campo-referencias} relaciona los nombres de los esquemas de este capítulo con las referencias de la
+placa.
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\textwidth]{images/fig_campo_pcb.png}
+  \caption{Placa del módulo vista desde el lado de los componentes: cobre de la capa inferior y serigrafía.}
+  \label{fig:campo-pcb}
+\end{figure}
 
 \begin{table}[!ht]
   \centering
@@ -239,6 +284,9 @@ los esquemas de este capítulo con las referencias de la placa.
   \label{tab:campo-referencias}
 \end{table}
 
+\subsection{Generación de la corriente de lazo}
+\label{subsec:campo-fuente-prueba}
+
 La corriente de lazo se genera en la misma placa con una fuente de corriente de prueba: U1B fuerza la tensión de
 Lazo $(-)$ a ser igual a la tensión de control $V_{ctrl}$ aplicada en H3, y Q2 entrega la corriente desde
 $+\SI{24}{\volt}$ a través del shunt de entrada y de $R_s = R_6 + R_{11} = \SI{250}{\ohm}$ a masa, de modo que
@@ -248,8 +296,26 @@ $+\SI{24}{\volt}$ a través del shunt de entrada y de $R_s = R_6 + R_{11} = \SI{
 \end{equation}
 Para la caracterización estática, $V_{ctrl}$ se toma del cursor de un preset multivuelta conectado entre
 $+\SI{24}{\volt}$ y masa en serie con R2 ($\SI{22}{\kilo\ohm}$) y R1 ($\SI{1}{\kilo\ohm}$), y llega a H3 a través
-de R3 ($\SI{10}{\kilo\ohm}$). Con el preset de $\SI{10}{\kilo\ohm}$ montado, $V_{ctrl}$ puede variar entre
-$\SI{0.73}{\volt}$ y $\SI{8}{\volt}$, rango que cubre los $\SI{4}{\milli\ampere}$ a $\SI{20}{\milli\ampere}$.
+de R3 ($\SI{10}{\kilo\ohm}$). Como por R3 no circula corriente, el divisor no está cargado y
+\begin{equation}
+  V_{ctrl,min} = \SI{24}{\volt} \, \frac{R_1}{R_1 + R_{V1} + R_2} \qquad
+  V_{ctrl,max} = \SI{24}{\volt} \, \frac{R_1 + R_{V1}}{R_1 + R_{V1} + R_2}
+  \label{eq:campo-vctrl}
+\end{equation}
+
+El divisor se diseñó para un preset de $\SI{5}{\kilo\ohm}$, con el que $V_{ctrl}$ queda entre $\SI{0.86}{\volt}$ y
+$\SI{5.14}{\volt}$ ($\SI{3.4}{\milli\ampere}$ a $\SI{20.6}{\milli\ampere}$), apenas por fuera del rango del lazo
+en ambos extremos. En la placa se montó finalmente un preset de $\SI{10}{\kilo\ohm}$. Con él, $V_{ctrl}$ puede variar entre $\SI{0.73}{\volt}$ y $\SI{8}{\volt}$ ($\SI{2.9}{\milli\ampere}$ a
+$\SI{32}{\milli\ampere}$). El rango de $\SI{4}{\milli\ampere}$ a $\SI{20}{\milli\ampere}$ sigue cubierto, pero se
+puede superar el máximo del lazo, así que el preset se ajusta midiendo la tensión de control para no pasar de
+$\SI{5}{\volt}$.
+Igualmente, a $\SI{32}{\milli\ampere}$ ningún componente supera su límite: Q2 disipa
+$(\SI{24}{\volt} - \SI{16}{\volt}) \cdot \SI{32}{\milli\ampere} \approx \SI{0.26}{\watt}$, cada resistencia de
+$\SI{150}{\ohm}$ disipa $\SI{0.15}{\watt}$ y Lazo $(+)$ llega a $\SI{16}{\volt}$, dentro del rango de modo común del
+LM324. Si se quisiera limitar el ajuste al rango del lazo con el preset de $\SI{10}{\kilo\ohm}$, bastaría con
+cambiar R2 por una de $\SI{39}{\kilo\ohm}$, con la que $V_{ctrl}$ quedaría entre $\SI{0.48}{\volt}$ y
+$\SI{5.28}{\volt}$.
+
 Para la caracterización dinámica, el generador de funciones se conecta directamente en H3; como su impedancia de
 salida es mucho menor que R3, impone la tensión de control.
 
