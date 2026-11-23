@@ -272,53 +272,19 @@ $\SI{4}{\milli\ampere}$ y $\SI{-0.26}{\percent}$ a $\SI{20}{\milli\ampere}$.
 \section{Implementación}
 \label{sec:campo-implementacion}
 
-\subsection{Diseño de la placa}
+\subsection{Implementación en circuito impreso}
 \label{subsec:campo-pcb}
 
-El módulo se armó en una placa de circuito impreso diseñada en KiCad, cuyo esquemático, ruteo y vista 3D se
-presentan en el anexo~\ref{chap:anexo-pcb-campo} (figuras~\ref{crkt:anexo-campo-esquematico},
-\ref{fig:anexo-campo-pcb-ruteo} y~\ref{fig:anexo-campo-3d}), junto con las fotografías de la placa construida
-(figura~\ref{fig:anexo-campo-fotos}). Es una placa simple faz de FR4 de
-$\SI{114}{\milli\metre} \times \SI{64}{\milli\metre}$, fabricada por transferencia de tóner (planchado) y ataque
-con percloruro férrico. Todo el cobre está en la capa inferior y los componentes son de
-montaje pasante: los dos LM324 sobre zócalo, transistores BC547B, resistencias de película metálica al
-$\SI{1}{\percent}$ y capacitores de poliéster para el filtro. Cada valor de $\SI{250}{\ohm}$ se formó con una
-resistencia de $\SI{100}{\ohm}$ y una de $\SI{150}{\ohm}$ en serie, porque $\SI{250}{\ohm}$ no es un valor de la
-serie E24.
-
-Las reglas de diseño se eligieron para que el planchado y el ataque químico no corten ni unan pistas:
-\begin{itemize}
-  \item Pistas de señal de $\SI{1}{\milli\metre}$ (mínimo $\SI{0.8}{\milli\metre}$) y pistas de alimentación y masa
-    de $\SI{1.5}{\milli\metre}$.
-  \item Separación mínima de $\SI{0.6}{\milli\metre}$ entre cobre de distintas redes.
-  \item Plano de masa en toda la superficie libre, con alivios térmicos de $\SI{0.8}{\milli\metre}$ para que los
-    pads de masa se puedan soldar y para que el percloruro no corte las uniones.
-  \item Agujeros de $\SI{0.8}{\milli\metre}$ para casi todos los componentes, de $\SI{1}{\milli\metre}$ para los pads
-    de cocodrilo y los puntos de prueba, y de $\SI{1.2}{\milli\metre}$ para C1 del filtro.
-\end{itemize}
-Como la placa tiene una sola capa, no hay vías. Los cruces se resolvieron pasando pistas por debajo del cuerpo de
-las resistencias y por el canal entre las dos filas de pines de los integrados.
-
-Los componentes se ubicaron siguiendo el recorrido de la señal, de izquierda a derecha. A la izquierda está la
-fuente de corriente de prueba (preset, Q2, $R_s$ y el shunt de entrada), en el centro U1 con el restador, y a la
-derecha U2 con el filtro y el conversor V $\rightarrow$ I, con Q1 y la carga junto al borde. Así las pistas de cada
-etapa quedan cortas y la salida de una etapa llega directo a la entrada de la siguiente. Los capacitores de
-desacople de $\SI{100}{\nano\farad}$ van pegados al pin 4 de cada integrado, con un retorno corto al pin 11 por el
-plano de masa. Las secciones sin uso de U2 se conectaron como seguidores con la entrada no inversora a masa, para
-que no queden con las entradas flotando.
-
-Para las conexiones externas se usaron tres pads rectangulares de cobre de
-$\SI{6}{\milli\metre} \times \SI{8}{\milli\metre}$ en el borde de la placa, donde se conecta directamente un
-cocodrilo: GND (H1), $+\SI{24}{\volt}$ (H2) y la entrada de control (H3). Alrededor de cada pad se dejó una zona de
-unos $\SI{3}{\milli\metre}$ por la que solo pasa la red del pad, para que el diente del cocodrilo, que apoya del lado
-del cobre, no toque otra pista. La entrada del generador (H3) está separada del pad de $+\SI{24}{\volt}$, para que
-un roce no lleve la alimentación al instrumento. Los seis puntos de prueba (TP1 a TP6) son un alambre en U soldado
-entre dos agujeros, donde se engancha la punta del osciloscopio o un cocodrilo.
-
-Antes de imprimir la placa se verificó con el control de reglas de diseño (DRC) de KiCad, con el plano rellenado y
-contra el esquemático: no quedaron conexiones sin hacer ni islas de masa aisladas. La
-tabla~\ref{tab:campo-referencias}, en el anexo~\ref{chap:anexo-pcb-campo}, relaciona los nombres de los esquemas
-de este capítulo con las referencias de la placa.
+El módulo se implementó en una placa de circuito impreso diseñada en KiCad, que incluye además la fuente de
+corriente de prueba descripta en la sección~\ref{subsec:campo-fuente-prueba}. Cada valor de $\SI{250}{\ohm}$ se
+formó con una resistencia de $\SI{100}{\ohm}$ y una de $\SI{150}{\ohm}$ en serie, porque $\SI{250}{\ohm}$ no es un
+valor de la serie E24. Las conexiones externas son tres pads para cocodrilo: GND (H1), $+\SI{24}{\volt}$ (H2) y la
+entrada de control (H3), y la placa dispone de seis puntos de prueba (TP1 a TP6) a lo largo del recorrido de la
+señal. El esquemático completo se presenta en la figura~\ref{crkt:anexo-campo-esquematico}, el ruteo del cobre en
+la figura~\ref{fig:anexo-campo-pcb-ruteo}, la vista 3D de la placa en la figura~\ref{fig:anexo-campo-3d} y las
+fotografías de la placa construida en la figura~\ref{fig:anexo-campo-fotos}, todas en el
+anexo~\ref{chap:anexo-pcb-campo}. La correspondencia entre la designación de los componentes en este informe y en el
+esquemático de KiCad se resume en la tabla~\ref{tab:campo-referencias}.
 
 \subsection{Generación de la corriente de lazo}
 \label{subsec:campo-fuente-prueba}
