@@ -1,0 +1,5 @@
+\section{Conclusiones}
+
+El filtro de la Blue Pill cumple la especificación de la Etapa~2: es un pasa bajos de orden~2 con ganancia de continua \nm{\resGanDC}, corte en \val{\resFTres}{\hertz} y una respuesta que coincide con el Butterworth de \SI{10}{\hertz} discretizado por bilineal con predistorsión. Frente al Sallen-Key del TP2 tiene la ventaja de no depender de tolerancias de componentes, pero responde igual a cualquier señal que, al muestrearse, caiga en su banda de paso. Por eso no puede reemplazar al Sallen-Key sin un filtro analógico antialias delante del ADC.
+
+En el Ejercicio~2, la bilineal con predistorsión en $f_0$ fija la frecuencia central del pasa banda, pero angosta su banda y no alcanza la tolerancia de \SI{0,1}{\dB} en los bordes. Predistorsionando los dos bordes, con un pequeño margen, el filtro cumple a $f_s = \SI{\ejFs}{\kilo\hertz}$ con coeficientes de \ejMinBits{} bits, y sus polos quedan lejos del círculo unitario.

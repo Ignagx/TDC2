@@ -1,0 +1,128 @@
+\section{Ejercicio 1: filtro de la señal de 4--20 mA}
+
+\subsection{Montaje y método}
+El generador se conectó directamente a PA0, sin la resistencia de protección de \SI{1}{\kilo\ohm}, que no altera la medición mientras la tensión se mantenga entre 0 y \SI{3,3}{\volt}. Como no se dispuso de osciloscopio ni multímetro, los niveles se verificaron con la propia lectura del ADC, acercándose a cada valor desde abajo para no superar ese rango. Con el \texttt{graficador.py} provisto se perdía cerca de un tercio de cada bloque y casi siempre la línea final \texttt{\#FIN}, porque leía el puerto de a un byte y no lo vaciaba al ritmo de las ráfagas de la placa. Se lo corrigió para que lea en bloques, desde un proceso separado de la interfaz gráfica, y acepte solo bloques completos. Además se le agregó la medición en vivo de ganancia y fase por ajuste senoidal de mínimos cuadrados sobre las 2048 muestras~\cite{ieee1057}, y una tecla que registra cada punto de un barrido en un archivo CSV. Los niveles de continua se toman como el valor medio del bloque.
+
+\subsection{Caracterización estática}
+La Tabla~\ref{tab:estatica} muestra la entrada y la salida medias para los cinco niveles aplicados, cercanos a 4, 8, 12, 16 y \SI{20}{\milli\ampere} y fijados con un generador digital en continua. $I_i$ e $I_o$ son las corrientes equivalentes, y el error es $I_o - I_i = (V_o - V_i)/(\SI{0,15}{\volt\per\milli\ampere})$. La recta de ajuste de $V_o$ en función de $V_i$ tiene pendiente (ganancia de continua) \nm{\resGanDC} y ordenada \val{\resOrdDC}{\milli\volt}, y el error máximo es de \val{\resErrMax}{\micro\ampere}. Es decir, la ganancia de continua es unitaria, como pide la especificación, y el error queda muy por debajo del escalón del ADC (\SI{0,8}{\milli\volt}, unos \SI{5}{\micro\ampere}).
+
+\begin{table}[!htb]
+\centering
+\caption{Caracterización estática.}
+\label{tab:estatica}
+\begin{tabular}{ccccc}
+\toprule
+$I_i$ (mA) & $V_i$ (V) & $V_o$ (V) & $I_o$ (mA) & Error (\si{\micro\ampere}) \\
+\midrule
+\input{datos/tabla_estatica.tex}
+\end{tabular}
+\end{table}
+
+\subsection{Respuesta al escalón}
+Se aplicó una onda cuadrada de \SI{0,5}{\hertz} entre \val{\resEscBajo}{\volt} y \val{\resEscAlto}{\volt} (Fig.~\ref{fig:escalon}). Se midió un sobrepico $M_p = \val{\resMp}{\percent}$, un tiempo de pico $t_p = \val{\resTp}{\milli\second}$ y un tiempo de establecimiento al \SI{2}{\percent} de $t_s = \val{\resTs}{\milli\second}$, con la resolución de \SI{1}{\milli\second} que da el muestreo. Para un sistema de segundo orden,
+\begin{equation}
+\zeta = \frac{-\ln M_p}{\sqrt{\pi^2 + \ln^2 M_p}}, \qquad \omega_n = \frac{\pi}{t_p\sqrt{1 - \zeta^2}},
+\label{eq:zetawn}
+\end{equation}
+lo que da $\zeta = \nm{\resZeta}$ y $\omega_n = \val{\resWn}{\radian\per\second}$ ($f_n = \val{\resFn}{\hertz}$). La función de transferencia propuesta es entonces
+\begin{equation}
+H(s) = \frac{\omega_n^2}{s^2 + 2\zeta\omega_n s + \omega_n^2}.
+\label{eq:hs}
+\end{equation}
+El Butterworth nominal ($\zeta = 0{,}707$, \SI{10}{\hertz}) discretizado da $M_p = \SI{\resMpSim}{\percent}$, $t_p = \SI{\resTpSim}{\milli\second}$ y $t_s = \SI{\resTsSim}{\milli\second}$, prácticamente lo mismo que se midió. El $\zeta$ medido es el de Butterworth. La diferencia de $f_n$ con \SI{10}{\hertz} se debe a la resolución de $t_p$: el valor teórico es \SI{70,7}{\milli\second}, pero solo puede medirse en múltiplos de \SI{1}{\milli\second}.
+
+\begin{figure}[!htb]
+\centering
+\begin{tikzpicture}
+\begin{axis}[width=\columnwidth, height=4.2cm, xmin=-50, xmax=400, ymin=0.3, ymax=3.4,
+    xlabel={$t$ (ms)}, ylabel={Tensión (V)},
+    grid=both, grid style={line width=0.1pt, draw=gray!30}, major grid style={line width=0.2pt, draw=gray!50},
+    tick label style={font=\footnotesize}, label style={font=\footnotesize},
+    legend style={font=\scriptsize, cells={anchor=west}, at={(0.98,0.05)}, anchor=south east},
+    /pgf/number format/use comma, unbounded coords=jump]
+\addplot[gray, thin] table[x=t, y=x] {datos/escalon.dat};
+\addlegendentry{Entrada}
+\addplot[only marks, mark=*, mark size=0.6pt, blue] table[x=t, y=y] {datos/escalon.dat};
+\addlegendentry{Salida medida}
+\addplot[red, thin] table[x=t, y=sim] {datos/escalon.dat};
+\addlegendentry{$H(z)$ nominal}
+\end{axis}
+\end{tikzpicture}
+\caption{Respuesta al escalón de \protect\val{\resEscBajo}{\volt} a \protect\val{\resEscAlto}{\volt}, medida y simulada con el Butterworth nominal discretizado.}
+\label{fig:escalon}
+\end{figure}
+
+\subsection{Respuesta en frecuencia}
+Se barrió de 1 a \SI{100}{\hertz} con una senoidal de \val{\resVinPP}{\volt} pico a pico montada sobre \val{\resOffsetBarrido}{\volt} de continua (Tabla~\ref{tab:barrido} y Fig.~\ref{fig:bode}). Como el filtro es lineal, el nivel de continua no modifica la ganancia ni la fase. El corrimiento temporal entre entrada y salida es $\Delta t = -\varphi/(360^\circ f)$: por ejemplo, a \SI{10}{\hertz} la salida se atrasa \val{\resDtDiez}{\milli\second}. La ganancia cae \SI{3}{\dB} en \val{\resFTres}{\hertz}, la atenuación a \SI{50}{\hertz} es de \val{\resDbCincuenta}{\dB}, y entre 50 y \SI{100}{\hertz} la pendiente es de \val{\resPend}{\dB} por década, la de un filtro de orden~2. Ajustando $f_c$, $Q$ y $K$ del modelo discretizado a todos los puntos, salvo dos tomados mientras se cambiaba la frecuencia ($^{*}$), resulta $f_c = \val{\resFcFit \pm \resSFcFit}{\hertz}$, $Q = \nm{\resQFit \pm \resSQFit}$ y $K = \nm{\resKFit \pm \resSKFit}$. Respecto del Butterworth nominal discretizado, el error máximo es de \val{\resMaxEdb}{\dB} y \val{\resMaxEfa}{\degree}: el filtro cumple la especificación.
+
+\begin{table}[!htb]
+\centering
+\caption{Barrido en frecuencia y diferencia con el Butterworth nominal discretizado.}
+\label{tab:barrido}
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{rrrrrr}
+\toprule
+$f$ (Hz) & $|H|$ (dB) & $\varphi$ (°) & $\Delta t$ (ms) & Dif. (dB) & Dif. (°) \\
+\midrule
+\input{datos/tabla_barrido.tex}
+\end{tabular}
+\end{table}
+
+\subsection{Función de transferencia discreta}
+Con la $H(s)$ de~\eqref{eq:hs}, la transformación bilineal $s = k(1 - z^{-1})/(1 + z^{-1})$ con predistorsión en $f_c$, $k = 2\pi f_c/\tan(\pi f_c/f_s)$~\cite{oppenheim}, da
+\begin{equation}
+H(z) = \frac{b_0 (1 + 2z^{-1} + z^{-2})}{1 + a_1 z^{-1} + a_2 z^{-2}},
+\label{eq:hz}
+\end{equation}
+con $b_0 = \num{\resBcero}$, $a_1 = \num{\resAuno}$ y $a_2 = \num{\resAdos}$ (para $f_c = \SI{\resFcId}{\hertz}$, $Q = \num{\resQId}$). La Fig.~\ref{fig:bode} superpone $|H(e^{j\omega})|$ con los puntos medidos.
+
+\begin{figure}[!htb]
+\centering
+\begin{tikzpicture}
+\begin{groupplot}[
+    group style={group size=1 by 2, vertical sep=3mm, xticklabels at=edge bottom},
+    width=\columnwidth, height=4.0cm, xmode=log, xmin=0.8, xmax=130,
+    grid=both, grid style={line width=0.1pt, draw=gray!30}, major grid style={line width=0.2pt, draw=gray!50},
+    tick label style={font=\footnotesize}, label style={font=\footnotesize},
+    legend style={font=\scriptsize, cells={anchor=west}}, /pgf/number format/use comma]
+\nextgroupplot[ylabel={$|H|$ (dB)}, ymin=-45, ymax=3, ytick={-40,-30,-20,-10,0}, legend pos=south west]
+\addplot[gray, dashed, thick] table[x=f, y=dbsk] {datos/bode_modelo.dat};
+\addlegendentry{Sallen-Key TP2 (comercial)}
+\addplot[only marks, mark=square*, mark size=1.8pt, orange] table[x=f, y=db] {datos/tp2_medido.dat};
+\addlegendentry{Sallen-Key TP2 (medido)}
+\addplot[black, thin] table[x=f, y=db] {datos/bode_modelo.dat};
+\addlegendentry{$H(z)$ identificada}
+\addplot[only marks, mark=*, mark size=1.4pt, blue] table[x=f, y=db] {datos/medido_ok.dat};
+\addlegendentry{Medido}
+\addplot[only marks, mark=x, mark size=2.4pt, red, thick] table[x=f, y=db] {datos/medido_sosp.dat};
+\nextgroupplot[ylabel={Fase (°)}, xlabel={$f$ (Hz)}, ymin=-185, ymax=5, ytick={-180,-135,-90,-45,0}]
+\addplot[gray, dashed, thick] table[x=f, y=fasesk] {datos/bode_modelo.dat};
+\addplot[black, thin] table[x=f, y=fase] {datos/bode_modelo.dat};
+\addplot[only marks, mark=*, mark size=1.4pt, blue] table[x=f, y=fase] {datos/medido_ok.dat};
+\addplot[only marks, mark=x, mark size=2.4pt, red, thick] table[x=f, y=fase] {datos/medido_sosp.dat};
+\end{groupplot}
+\end{tikzpicture}
+\caption{Respuesta en frecuencia medida, $H(z)$ identificada y filtro Sallen-Key del TP2.}
+\label{fig:bode}
+\end{figure}
+
+\subsection{Comparación con el Sallen-Key del TP2}
+Con los valores comerciales ($R_1 = \SI{8,2}{\kilo\ohm}$, $R_2 = \SI{15}{\kilo\ohm}$, $C_1 = \SI{2,2}{\micro\farad}$, $C_2 = \SI{1}{\micro\farad}$), el Sallen-Key tiene $f_0 = \SI{\resFoSK}{\hertz}$ y $Q = \num{\resQSK}$, de modo que su corte queda en \SI{\resFtresSK}{\hertz} y atenúa \SI{\resDbCincuentaSK}{\dB} a \SI{50}{\hertz}. En el TP2 se midieron \SI{\resTPdosFc}{\hertz} y \SI{\resTPdosDb}{\dB}~\cite{tp2}. El filtro digital, en cambio, tiene el corte en \SI{10}{\hertz}. En el analógico, $f_c$ depende del redondeo a la serie E24 y de la tolerancia de los capacitores (\SI{10}{\percent}), que explica la diferencia de un \SI{12}{\percent} medida en el TP2. En el digital depende solo de coeficientes exactos y del cristal de la placa. En la banda de interés las dos curvas son casi iguales (Fig.~\ref{fig:bode}). Más arriba difieren por la bilineal: el digital atenúa más a medida que se acerca a $f_s/2 = \SI{500}{\hertz}$, donde tiene un cero, y su respuesta es periódica en $f_s$. El Sallen-Key, en cambio, sigue cayendo a \SI{-40}{\dB} por década a cualquier frecuencia, y eso es lo que el digital no puede reproducir (Sección~\ref{sec:aliasing}).
+
+\subsection{Aliasing}
+\label{sec:aliasing}
+Se aplicaron senoidales de 950, 990 y \SI{1010}{\hertz} (Tabla~\ref{tab:aliasing}). Al muestrear a \SI{1}{\kilo\hertz}, una senoidal de frecuencia $f$ da las mismas muestras que una de $|f - k f_s|$: las tres aparecen en la entrada y en la salida a 50, 10 y \SI{10}{\hertz}. Las pequeñas diferencias (por ejemplo, \SI{50,14}{\hertz}) se deben a que la frecuencia del generador difiere en unos \SI{150}{ppm} del reloj de la placa, como en el barrido. Como el filtro solo ve esas muestras, las trata como señales de 50 y \SI{10}{\hertz}: la de \SI{950}{\hertz} sale atenuada lo mismo que una de \SI{50}{\hertz} (\SI{-28}{\dB}), y las de 990 y \SI{1010}{\hertz} solo unos \SI{3}{\dB}, aunque un pasa bajos de \SI{10}{\hertz} debería eliminarlas. En los tres casos, la ganancia medida coincide dentro de \SI{0,01}{\dB} con $|H|$ en la frecuencia de alias. A esta cadena le falta un filtro analógico antialias antes del ADC, que atenúe todo lo que esté por encima de $f_s/2$. El módulo real sí lo tendría: el propio Sallen-Key, u otro pasa bajos analógico, delante del conversor.
+
+\begin{table}[!htb]
+\centering
+\caption{Señales por encima de $f_s/2$: frecuencia de alias y ganancia.}
+\label{tab:aliasing}
+\begin{tabular}{ccccc}
+\toprule
+$f_\mathrm{gen}$ & $|f - f_s|$ & $f$ medida & $|H|$ medido & $|H(f_\mathrm{alias})|$ \\
+(Hz) & (Hz) & (Hz) & (dB) & (dB) \\
+\midrule
+\input{datos/tabla_aliasing.tex}
+\end{tabular}
+\end{table}

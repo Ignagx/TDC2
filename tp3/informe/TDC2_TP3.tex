@@ -1,0 +1,72 @@
+\documentclass{plantilla}
+
+\usepackage{siunitx}
+\usepackage{array}
+\usepackage{ifthen}
+% Ningun flotante puede quedar antes del lugar donde se lo declara
+\usepackage{flafter}
+\usepgfplotslibrary{groupplots}
+\usetikzlibrary{positioning, arrows.meta, fit, calc}
+
+% Mas espacio para flotantes en cada columna
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\bottomfraction}{0.7}
+\renewcommand{\textfraction}{0.1}
+\renewcommand{\floatpagefraction}{0.85}
+\renewcommand{\dbltopfraction}{0.9}
+\setcounter{topnumber}{3}
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{5}
+
+\sisetup{
+    output-decimal-marker = {,},
+    group-digits = none,
+    exponent-product = \cdot,
+    uncertainty-mode = separate,
+    per-mode = symbol
+}
+
+% Numeros de las mediciones y de la simulacion (generados por generar_datos.py y generar_ej2.py)
+\input{datos/resultados.tex}
+\input{datos/resultados_ej2.tex}
+% \val{numero}{unidad} y \nm{numero}: como \SI y \num, pero muestran ?? si el dato falta
+\newcommand{\val}[2]{\ifthenelse{\equal{#1}{??}}{\textbf{??}\,\si{#2}}{\SI{#1}{#2}}}
+\newcommand{\nm}[1]{\ifthenelse{\equal{#1}{??}}{\textbf{??}}{\num{#1}}}
+
+\materia{Teoría de Circuitos II}
+\comision{4R2}
+\titulo{Trabajo Práctico N\textsuperscript{o} 3: Filtros Digitales}
+\autores{Grupo 2: Ernst Pedro (400624), Rao Valentino (402308), Gil Ignacio (401891)}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+En el Ejercicio~1 se identifica el filtro IIR grabado en una Blue Pill (STM32F103C8), que debe reemplazar al Sallen-Key del módulo de \SIrange{4}{20}{\milli\ampere} del TP2: pasa bajos Butterworth de segundo orden, $f_c = \SI{10}{\hertz}$ y ganancia unitaria. A partir de la caracterización estática, la respuesta al escalón y la respuesta en frecuencia se obtienen $H(s)$ y $H(z)$, se las compara con el Sallen-Key y se muestra el efecto del aliasing. En el Ejercicio~2 se diseña, por transformación bilineal con predistorsión, el equivalente digital del pasa banda del TP2 ($f_0 = \SI{28}{\kilo\hertz}$, $BW = \SI{1,7}{\kilo\hertz}$, $K = 9$) a $f_s = \SI{200}{\kilo\hertz}$. Para cumplir la especificación hay que predistorsionar los bordes de banda, y los coeficientes necesitan al menos \ejMinBits{} bits.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Filtro digital IIR, transformación bilineal, predistorsión, aliasing, cuantización, STM32.
+\end{IEEEkeywords}
+
+\input{capitulos/1_introduccion.tex}
+\input{capitulos/2_ejercicio1.tex}
+\input{capitulos/3_ejercicio2.tex}
+\input{capitulos/4_conclusiones.tex}
+
+\begin{thebibliography}{99}
+\bibitem{oppenheim}
+A. V. Oppenheim y R. W. Schafer, \emph{Discrete-Time Signal Processing}, 3.ª ed. Upper Saddle River, NJ, EE.~UU.: Pearson, 2010, cap.~7.
+
+\bibitem{ieee1057}
+\emph{IEEE Standard for Digitizing Waveform Recorders}, IEEE Std 1057-2017, 2018.
+
+\bibitem{tp2}
+P. Ernst, V. Rao e I. Gil, \emph{Trabajo Práctico N.º 2: Diseño de filtros activos}, Teoría de Circuitos II, UTN FRC, 2026.
+
+\bibitem{ds}
+STMicroelectronics, \emph{STM32F103x8, STM32F103xB: Medium-density performance line Arm-based 32-bit MCU}, hoja de datos DS5319.
+\end{thebibliography}
+
+\end{document}

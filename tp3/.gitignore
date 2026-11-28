@@ -1,0 +1,5 @@
+# Las mediciones del TP3 son CSV (el .gitignore de la raiz ignora *.csv por KiCad)
+!*.csv
+# Salida que escribe ej2_filtro_digital.py en la carpeta donde se lo ejecuta
+salida_filtro.csv
+__pycache__/

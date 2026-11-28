@@ -1,0 +1,145 @@
+\section{Ejercicio 2: pasa banda digital}
+
+\subsection{Especificación, $H(s)$ y frecuencia de muestreo}
+El filtro del TP2 que no se implementó es el pasa banda Butterworth de orden~2: $f_0 = \SI{28}{\kilo\hertz}$, $BW = f_{p2} - f_{p1} = \SI{1,7}{\kilo\hertz}$ ($f_{p1} = \SI{\ejFpuno}{\hertz}$, $f_{p2} = \SI{\ejFpdos}{\hertz}$), $A_\mathrm{max} = \SI{0,1}{\dB}$ y ganancia $K = 9$ (\SI{\ejGdb}{\dB}). En el TP2 se lo obtuvo de un prototipo de orden~1 con $\varepsilon = \sqrt{10^{A_\mathrm{max}/10} - 1} = \num{\ejEps}$, como una sola celda
+\begin{equation}
+H(s) = \frac{K\,(\omega_0/Q)\,s}{s^2 + (\omega_0/Q)\,s + \omega_0^2}, \qquad Q = \varepsilon\frac{f_0}{BW} = \num{\ejQ}.
+\label{eq:hspba}
+\end{equation}
+Se eligió $f_s = \SI{\ejFs}{\kilo\hertz}$. Así, la banda de paso y el tono de rechazo de \SI{56}{\kilo\hertz} de la señal de prueba quedan por debajo de $f_s/2 = \SI{100}{\kilo\hertz}$, con unas 7 muestras por período en $f_0$. El ADC del STM32 llega a 1~Msps y el graficador captura hasta \SI{500}{\kilo\hertz}, pero filtrar en tiempo real a \SI{200}{\kilo\hertz} deja \ejCiclos{} ciclos de \SI{72}{\mega\hertz} por muestra. La rutina del Ejercicio~1 usa 932, lo que limitaría $f_s$ a unos \SI{\ejFsMaxPlaca}{\kilo\hertz}, por lo que un sistema real necesitaría aritmética de punto fijo.
+
+\subsection{Transformación bilineal con predistorsión}
+Reemplazando $s = k(1 - z^{-1})/(1 + z^{-1})$, con $k = 2\pi f_0/\tan(\pi f_0/f_s) = \num{\ejKbil}\,\si{\radian\per\second}$, en una sección $(c_2 s^2 + c_1 s + c_0)$ y multiplicando por $(1 + z^{-1})^2$, se obtienen los coeficientes
+\begin{equation}
+C_0 = c_2 k^2 + c_1 k + c_0, \;\; C_1 = 2(c_0 - c_2 k^2), \;\; C_2 = c_2 k^2 - c_1 k + c_0,
+\end{equation}
+que \texttt{bilineal\_prewarp()} normaliza por el $A_0$ del denominador. El resultado coincide con el de SciPy, y es
+\begin{equation}
+H(z) = \frac{b_0\,(1 - z^{-2})}{1 + a_1 z^{-1} + a_2 z^{-2}},
+\label{eq:hzpba}
+\end{equation}
+con $b_0 = \num{\ejBfo}$, $a_1 = \num{\ejAfo}$ y $a_2 = \num{\ejAdfo}$.
+
+\subsection{Cumplimiento de la especificación}
+La Tabla~\ref{tab:cumple} muestra que~\eqref{eq:hzpba} no cumple: tiene la ganancia correcta en $f_0$, pero los bordes caen unos \SI{0,13}{\dB}. Cerca de $f_0$ la bilineal comprime la escala de frecuencias en un factor $2\theta/\sin 2\theta$, con $\theta = \pi f_0/f_s$, por lo que la banda digital resulta un \SI{\ejFactor}{\percent} más angosta que la analógica. Subir $f_s$ solo achica el problema: a \SI{500}{\kilo\hertz} los bordes siguen en \SI{-0,104}{\dB}. La corrección adoptada (opción \texttt{--bordes} del script) es predistorsionar los dos bordes: se diseña el pasa banda analógico con bordes en $\Omega_i = k\tan(\pi f_{pi}/f_s)$, $\omega_0 = \sqrt{\Omega_1\Omega_2}$ y $Q = \varepsilon\,\omega_0/(\Omega_2 - \Omega_1)$. Se usa el $\varepsilon$ de \SI{0,09}{\dB}, para dejar \SI{0,01}{\dB} de margen a la cuantización. Así los bordes digitales quedan en $f_{p1}$ y $f_{p2}$ exactos, y la ganancia en $f_0$ sigue siendo \SI{\ejDbCentroB}{\dB}.
+
+\begin{table}[!htb]
+\centering
+\caption{Ganancia en los bordes respecto de $K$ (especificación: $\geq \SI{-0,1}{\dB}$).}
+\label{tab:cumple}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{lcccccc}
+\toprule
+Diseño & $f_0$ (Hz) & $Q$ & $b_0$ & $f_{p1}$ (dB) & $f_{p2}$ (dB) & Cumple \\
+\midrule
+$H(s)$ TP2 & 28000 & \num{\ejQ} & -- & \num{\ejDbSUno} & \num{\ejDbSDos} & Sí \\
+Pred.\ $f_0$ & 28000 & \num{\ejQ} & \num{\ejBfo} & \num{\ejDbFoUno} & \num{\ejDbFoDos} & No \\
+Pred.\ bordes & \ejFoB & \num{\ejQB} & \num{\ejBb} & \num{\ejDbBUno} & \num{\ejDbBDos} & Sí \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Diagrama de Bode}
+En la Fig.~\ref{fig:bodepba}, $H(s)$ y $H(z)$ coinciden cerca de $f_0$, pero se separan a medida que $f$ se acerca a $f_s/2$. $H(z)$ tiene un cero en $z = -1$, así que su módulo se anula en \SI{100}{\kilo\hertz}: a \SI{90}{\kilo\hertz} vale \SI{\ejDbNoventaZ}{\dB}, contra \SI{\ejDbNoventaS}{\dB} de $H(s)$. Por la misma compresión de frecuencias, la banda a \SI{-3}{\dB} pasa de \SIrange{\ejTresSuno}{\ejTresSdos}{\kilo\hertz} en $H(s)$ a \SIrange{\ejTresFouno}{\ejTresFodos}{\kilo\hertz} en $H(z)$, y la corrección la lleva a \SIrange{\ejTresBuno}{\ejTresBdos}{\kilo\hertz}. La fase sigue el mismo patrón.
+
+\begin{figure}[!htb]
+\centering
+\begin{tikzpicture}
+\begin{groupplot}[
+    group style={group size=1 by 3, vertical sep=9mm},
+    width=\columnwidth, height=3.7cm,
+    grid=both, grid style={line width=0.1pt, draw=gray!30}, major grid style={line width=0.2pt, draw=gray!50},
+    tick label style={font=\footnotesize}, label style={font=\footnotesize},
+    legend style={font=\scriptsize, cells={anchor=west}}, /pgf/number format/use comma]
+\nextgroupplot[xmode=log, xmin=1, xmax=100, ymin=-25, ymax=22, ylabel={$|H|$ (dB)}, xlabel={$f$ (kHz)},
+    legend pos=south west]
+\addplot[gray, dashed, thick] table[x=f, y=hs] {datos/ej2_bode.dat};
+\addlegendentry{$H(s)$ TP2}
+\addplot[blue, thin] table[x=f, y=hz] {datos/ej2_bode.dat};
+\addlegendentry{$H(z)$, pred.\ $f_0$}
+\addplot[red, thin] table[x=f, y=hb] {datos/ej2_bode.dat};
+\addlegendentry{$H(z)$, pred.\ bordes}
+\nextgroupplot[xmin=25, xmax=31, ymin=18.5, ymax=19.2, ylabel={$|H|$ (dB)}, xlabel={$f$ (kHz)},
+    yticklabel style={/pgf/number format/fixed, /pgf/number format/precision=1}]
+\addplot[gray, dashed, thick] table[x=f, y=hs] {datos/ej2_bode_zoom.dat};
+\addplot[blue, thin] table[x=f, y=hz] {datos/ej2_bode_zoom.dat};
+\addplot[red, thin] table[x=f, y=hb] {datos/ej2_bode_zoom.dat};
+\addplot[black, dotted] coordinates {(25,18.985) (31,18.985)};
+\addplot[black, dotted] coordinates {(27.163,18.5) (27.163,19.2)};
+\addplot[black, dotted] coordinates {(28.863,18.5) (28.863,19.2)};
+\nextgroupplot[xmode=log, xmin=1, xmax=100, ymin=-100, ymax=100, ytick={-90,-45,0,45,90},
+    ylabel={Fase (°)}, xlabel={$f$ (kHz)}]
+\addplot[gray, dashed, thick] table[x=f, y=fs] {datos/ej2_bode.dat};
+\addplot[blue, thin] table[x=f, y=fz] {datos/ej2_bode.dat};
+\addplot[red, thin] table[x=f, y=fb] {datos/ej2_bode.dat};
+\end{groupplot}
+\end{tikzpicture}
+\caption{Bode de $H(s)$ y de las dos $H(z)$, con el detalle de la banda de paso: las líneas punteadas marcan $f_{p1}$, $f_{p2}$ y el límite de \SI{-0,1}{\dB}.}
+\label{fig:bodepba}
+\end{figure}
+
+\subsection{Polos y ceros}
+Los ceros están en $z = 1$ y $z = -1$, es decir, en continua y en $f_s/2$. Los polos complejos conjugados están en $|p| = \num{\ejRFo}$ (en el diseño corregido, \num{\ejRB}, a $\pm\num{\ejAngB}^\circ$), dentro del círculo unitario, así que el filtro es estable (Fig.~\ref{fig:pbatiempo}). Para la bilineal con predistorsión en $f_0$, el radio cumple
+\begin{equation}
+|p|^2 = \frac{1 - x}{1 + x}, \qquad x = \frac{\sin(2\pi f_0/f_s)}{2Q},
+\end{equation}
+que para $Q = \num{\ejQ}$ da \num{\ejRFormula}, igual al calculado. Cuanto mayor es $Q$, menor es $x$ y más se acercan los polos al círculo. Con $Q \approx 2{,}5$ quedan lejos, lo que hace al filtro poco sensible a la cuantización.
+
+\begin{figure*}[!t]
+\centering
+\begin{tikzpicture}
+\begin{groupplot}[
+    group style={group size=3 by 1, horizontal sep=14mm},
+    height=4.6cm,
+    grid=both, grid style={line width=0.1pt, draw=gray!30}, major grid style={line width=0.2pt, draw=gray!50},
+    tick label style={font=\footnotesize}, label style={font=\footnotesize},
+    legend style={font=\scriptsize, cells={anchor=west}}, /pgf/number format/use comma]
+\nextgroupplot[width=5.2cm, axis equal image, xmin=-1.3, xmax=1.3, ymin=-1.3, ymax=1.3,
+    xlabel={Re$(z)$}, ylabel={Im$(z)$}, xtick={-1,0,1}, ytick={-1,0,1}, title={\footnotesize Plano $z$}]
+\draw[gray] (axis cs:0,0) circle[radius=1];
+\addplot[only marks, mark=x, mark size=3pt, blue, thick] table[x=re, y=im, restrict expr to domain={\thisrow{tipo}}{0:0}] {datos/ej2_pz.dat};
+\addplot[only marks, mark=x, mark size=3pt, red, thick] table[x=re, y=im, restrict expr to domain={\thisrow{tipo}}{1:1}] {datos/ej2_pz.dat};
+\addplot[only marks, mark=o, mark size=3pt, black, thick] table[x=re, y=im, restrict expr to domain={\thisrow{tipo}}{2:2}] {datos/ej2_pz.dat};
+\nextgroupplot[width=6.3cm, xmin=0, xmax=60, xlabel={$n$}, ylabel={Amplitud}, title={\footnotesize Impulso y escalón (corregido)},
+    legend pos=north east]
+\addplot[red, mark=*, mark size=0.8pt, thin] table[x=n, y=imp] {datos/ej2_tiempo.dat};
+\addlegendentry{$h[n]$}
+\addplot[black, mark=o, mark size=0.8pt, thin] table[x=n, y=esc] {datos/ej2_tiempo.dat};
+\addlegendentry{escalón}
+\nextgroupplot[width=6.3cm, xmin=0, xmax=100, ymin=-90, ymax=20, xlabel={$f$ (kHz)}, ylabel={dBV pico},
+    title={\footnotesize Señal de prueba}, legend pos=south west]
+\addplot[gray, thin] table[x=f, y=ex] {datos/ej2_espectro.dat};
+\addlegendentry{entrada}
+\addplot[red, thin] table[x=f, y=ey] {datos/ej2_espectro.dat};
+\addlegendentry{salida}
+\end{groupplot}
+\end{tikzpicture}
+\caption{Ejercicio 2. Izquierda: polos del diseño con predistorsión en $f_0$ (azul) y corregido (rojo), y ceros en $z = \pm 1$. Centro: respuesta al impulso y al escalón del diseño corregido. Derecha: espectro de la señal de prueba (tonos de 14, 28 y \SI{56}{\kilo\hertz} más ruido) a la entrada y a la salida.}
+\label{fig:pbatiempo}
+\end{figure*}
+
+\subsection{Respuesta temporal}
+La respuesta al impulso arranca en $h[0] = b_0 = \num{\ejHcero}$ y oscila a $f_0$ (unas 7 muestras por período) dentro de una envolvente $|p|^n$, que cae al \SI{1}{\percent} en \ejNuno{} muestras (\SI{\ejTUno}{\micro\second}). La respuesta al escalón salta a $b_0$ y oscila hasta anularse, porque el cero en $z = 1$ bloquea la continua.
+
+\subsection{Señal de prueba}
+El script filtra tres tonos de \SI{0,3}{\volt} más ruido. Medidas en el espectro (Fig.~\ref{fig:pbatiempo}), las ganancias son \SI{\ejTonoUnoMed}{\dB} a \SI{\ejTonoUno}{\kilo\hertz}, \SI{\ejTonoDosMed}{\dB} a \SI{\ejTonoDos}{\kilo\hertz} y \SI{\ejTonoTresMed}{\dB} a \SI{\ejTonoTres}{\kilo\hertz}, iguales al centésimo a $|H(e^{j\omega})|$ en esas frecuencias (\SI{\ejTonoUnoTeo}{\dB}, \SI{\ejTonoDosTeo}{\dB} y \SI{\ejTonoTresTeo}{\dB}). Respecto del tono central, los de fuera de banda se atenúan unos \SIrange{11}{13}{\dB}, lo que corresponde a las asíntotas de \SI{\pm 20}{\dB} por década de un pasa banda de orden~2.
+
+\subsection{Cuantización de los coeficientes}
+La Tabla~\ref{tab:bits} cuantiza los coeficientes en punto fijo con los bits enteros necesarios (Q2.14 con 16 bits). El diseño con predistorsión en $f_0$ no cumple con ninguna cantidad de bits. El corregido cumple con 16, 14 y 12 bits y deja de cumplir con 11. La menor cantidad que mantiene la especificación es entonces de \textbf{\ejMinBits{} bits}. La estabilidad se mantiene incluso con 4 bits, porque los polos están lejos del círculo unitario: lo que limita es la tolerancia de \SI{0,1}{\dB} de la banda de paso.
+
+\begin{table}[!htb]
+\centering
+\caption{Cuantización: radio de los polos, peor borde y máximo respecto de $K$ (dB).}
+\label{tab:bits}
+\footnotesize
+\setlength{\tabcolsep}{2.6pt}
+\begin{tabular}{ccccccccc}
+\toprule
+& \multicolumn{4}{c}{Predistorsión en $f_0$} & \multicolumn{4}{c}{Predistorsión en bordes} \\
+\cmidrule(lr){2-5}\cmidrule(lr){6-9}
+Bits & $|p|$ & Borde & Máx. & Cumple & $|p|$ & Borde & Máx. & Cumple \\
+\midrule
+\input{datos/ej2_tabla_bits.tex}
+\end{tabular}
+\end{table}
